@@ -1,0 +1,33 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Notanote单曲Rank计算{% endblock %}
+
+{% block header %}Notanote单曲Rank计算{% endblock %}
+
+      {% block content %}
+
+        <p><b>填写时准确率不带百分号。</b></p>
+
+        {% if rank %}
+
+          <form action="{% url 'pages:nanrankcalc' %}" method="post">
+            {% csrf_token %}
+            <p>定数：{{ form.difficulty }}</p>
+            <p>准确率：{{ form.acc }}</p>
+            <button name="submit">计算</button>
+          </form>
+
+          <p>单曲Rank：{{ rank }}</p>
+
+        {% else %}
+
+          <form action="{% url 'pages:nanrankcalc' %}" method="post">
+            {% csrf_token %}
+            <p>定数：{{ form.difficulty }}</p>
+            <p>准确率：{{ form.acc }}</p>
+            <button name="submit" style="margin-bottom: 20px;">计算</button>
+          </form>
+
+        {% endif %}
+  
+      {% endblock %}

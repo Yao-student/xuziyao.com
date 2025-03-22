@@ -1,0 +1,54 @@
+﻿{% extends "pages/base.html" %}
+
+{% block title %}PhiZone B19查询{% endblock %}
+
+{% block header %}PhiZone B19查询{% endblock %}
+
+      {% block content %}
+
+        <form action="{% url 'pages:pzbest' %}" method='post'>
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button name="submit">查询</button>
+        </form>
+
+        <p>注：用户ID即用户页面链接最后的那串数字，比如<a href="https://www.phizone.cn/users/26830">大松_Dason</a>（网站作者本人）的用户ID就是26830。</p>
+
+        {% if b19 %}
+
+          <p><b>RKS：</b>{{ rks }}</p>
+
+          <h2>B19：</h2>
+          <div style="margin-bottom: 20px;border-radius: 5px;overflow-y: auto;background-color: steelblue;">
+
+            {% if b0 %}
+              <div style="margin: 10px;padding: 10px;float: left;min-width: 25%;border-radius: 5px;background-color: lemonchiffon;">
+                <p style="margin: 0;">#{{ b0.index }}</p>
+                <h3 style="margin: 0;"><a href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ b0.song }}</a></h3>
+                <p style="margin: 0;"><b>{{ b0.difficulty }}</b></p>
+                <p style="margin: 0;font-size: large;"><b>{{ b0.score }}</b></p>
+                <p style="margin: 0;">{{ b0.acc }}% → <b>{{ b0.rks }}</b></p>
+                <p style="margin: 0;">PERFECT: {{ b0.perfect }}, GOOD: {{ b0.good }} (EARLY:{{ b0.early }}, LATE:{{ b0.late }}), BAD:{{ b0.bad }}, MISS:{{ b0.miss }}</td>
+              </div>
+            {% endif %}
+
+            {% for record in b19 %}
+              <div style="margin: 10px;padding: 10px;float: left;min-width: 25%;border-radius: 5px;background-color: lightblue;">
+                <p style="margin: 0;">#{{ record.index }}</p>
+                <h3 style="margin: 0;"><a href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ record.song }}</a></h3>
+                <p style="margin: 0;"><b>{{ record.difficulty }}</b></p>
+                <p style="margin: 0;font-size: large;"><b>{{ record.score }}</b></p>
+                <p style="margin: 0;">{{ record.acc }}% → <b>{{ record.rks }}</b></p>
+                <p style="margin: 0;">PERFECT: {{ record.perfect }}, GOOD: {{ record.good }} (EARLY:{{ record.early }}, LATE:{{ record.late }}), BAD:{{ record.bad }}, MISS:{{ record.miss }}</td>
+              </div>
+            {% endfor %}
+
+          </div>
+
+        {% endif %}
+
+        {% if error %}
+          <p style="color: red;">{{ error }}</p>
+        {% endif %}
+
+      {% endblock %}

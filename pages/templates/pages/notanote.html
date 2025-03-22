@@ -1,0 +1,12 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Notanote工具{% endblock %}
+
+{% block header %}Notanote工具{% endblock %}
+
+      {% block content %}
+        <ul>
+          <li><a href="{% url 'pages:nanbest' %}">Notanote B21计算</a></li>
+          <li><a href="{% url 'pages:nanrankcalc' %}">Notanote单曲Rank计算</a></li>
+        </ul>
+      {% endblock %}

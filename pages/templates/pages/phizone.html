@@ -1,0 +1,13 @@
+{% extends "pages/base.html" %}
+
+{% block title %}PhiZone工具{% endblock %}
+
+{% block header %}PhiZone工具{% endblock %}
+
+      {% block content %}
+        <ul>
+          <li><a href="{% url 'pages:pzranking' %}">PhiZone谱面评分排名</a></li>
+          <li><a href="{% url 'pages:pzvote' %}">PhiZone谱面投票信息</a></li>
+          <li><a href="{% url 'pages:pzbest' %}">PhiZone B19查询</a></li>
+        </ul>
+      {% endblock %}
