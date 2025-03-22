@@ -1,0 +1,15 @@
+{% extends "pages/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block header %}编程{% endblock %}
+
+      {% block content %}
+
+        <p><a href="{% url 'pages:programming_index' %}">返回编程导航页</a></p>
+
+        <p style="text-align: center;">日期：{{ date }}</p>
+
+        {% block article %}{% endblock %}
+
+      {% endblock %}

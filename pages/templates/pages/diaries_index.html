@@ -1,0 +1,18 @@
+{% extends "pages/base.html" %}
+
+{% block title %}日记{% endblock %}
+
+{% block header %}日记{% endblock %}
+
+      {% block content %}
+
+        <p style="font-size: x-large;text-align: center;"><b>随便写点日记</b></h2>
+
+        {% for diary in diaries %}
+          <div style="margin: 20px 0;padding: 10px;background-color: lightgrey;border-radius: 20px;">
+            <h2><a href="{% url 'pages:diaries' id=diary.id %}">{{ diary.title }}</a></h2>
+            <p>{{ diary.date }}</p>
+          </div>
+        {% endfor %}
+
+      {% endblock %}

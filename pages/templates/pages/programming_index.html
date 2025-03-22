@@ -1,0 +1,18 @@
+{% extends "pages/base.html" %}
+
+{% block title %}编程{% endblock %}
+
+{% block header %}编程{% endblock %}
+
+      {% block content %}
+
+        <p style="font-size: x-large;text-align: center;"><b>用心写好每一篇教程</b></h2>
+
+        {% for article in articles %}
+          <div style="margin: 20px 0;padding: 10px;background-color: lightgrey;border-radius: 20px;">
+            <h2><a href="{% url 'pages:programming' id=article.id %}">{{ article.title }}</a></h2>
+            <p>{{ article.date }}</p>
+          </div>
+        {% endfor %}
+
+      {% endblock %}

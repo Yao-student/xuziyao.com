@@ -1,0 +1,60 @@
+﻿{% extends "pages/base.html" %}
+
+{% block title %}首页{% endblock %}
+
+{% block header %}尧尧的网站{% endblock %}
+
+      {% block content %}
+
+        <h2 style="text-align: center;">欢迎来到我的个人网站，这是我的<a href="{% url 'pages:introduction' %}">自我介绍</a>。</h2>
+
+        <p id="ad" style="color: gray;"><b>宣传</b>：由zzzProject制作的<b>完全免费的</b>新音游Notanote将于2025年3月29日上线移动端，并更新2.0版本。欢迎各位来<a href="https://ifdian.net/a/zzzProject">爱发电赞助通道</a>赞助，详细内容见<a href="https://www.bilibili.com/opus/970372595543179267/">官方动态</a>。Notanote已于2024年2月14日上线Steam，移动端已在TapTap上开放预约（<a href="https://www.taptap.cn/app/559514">安卓</a> / <a href="https://www.taptap.cn/app/559514?os=ios">iOS</a>），游戏收录了Chronomia、《Ж》、Random、ENERGY SYNERGY MATRIX、Sense等知名曲目，有UXN、Soul Notes、Milthm、Orzmic、Berry Melody联动，请各位多多支持哦，详细内容见<a href="https://www.bilibili.com/video/BV1krRpY1En8/">官方的v2.0前瞻</a>。反馈渠道与QQ群请看<a href="https://www.bilibili.com/opus/861624646376620053">官方动态</a>。</p>
+
+        <h2>工具与文章</h2>
+
+        <div class="res">
+
+          <h3>音游</h3>
+
+          <ul>
+            <li><a href="{% url 'pages:index' %}">开字母<b>（开发中）</b></a></li>
+            <li><a href="{% url 'pages:phira' %}">Phira工具</a></li>
+            <li><a href="{% url 'pages:phizone' %}">PhiZone工具</a></li>
+            <li><a href="{% url 'pages:notanote' %}">Notanote工具</a></li>
+          </ul>
+
+        </div>
+
+        <div class="res">
+
+          <h3>学习</h3>
+
+          <ul>
+            <li><a href="{% url 'pages:programming_index' %}">编程</a></li>
+          </ul>
+
+        </div>
+
+        <div class="res">
+
+          <h3>其他</h3>
+
+          <ul>
+            <li><a href="{% url 'pages:diaries_index' %}">日记</a></li>
+            <li><a href="{% url 'pages:randomnum' %}">随机数生成</a></li>
+          </ul>
+
+        </div>
+
+        <h2>文章推荐</h2>
+
+        <div>
+
+          <div style="margin: 20px 0;padding: 10px;background-color: lightgrey;border-radius: 20px;">
+            <h2><a href="{% url 'pages:programming' id=1 %}">Python bezier库超详细教程</a></h2>
+            <p>2024年10月2日</p>
+          </div>
+
+        </div>
+
+      {% endblock %}

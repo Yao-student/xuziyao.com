@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-Hans">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=0.7, maximum-scale=0.7, minimum-scale=0.7">
+    <meta name="description" content="尧尧的个人网站">
+
+    {% load static %}
+
+    <link rel="shortcut icon" href="{% static 'pages/favicon.ico' %}" />
+
+    <title>{% block title %}{% endblock %} - 尧尧的个人网站</title>
+
+    <style>
+
+      a {
+        color: inherit;
+      }
+
+      table{
+        border-collapse: collapse;
+
+      }
+      table th{
+        border: 1px solid;
+        border-spacing: 0;
+        text-align: center;
+      }
+
+      table td{
+        border: 1px solid;
+        border-spacing: 0;
+        text-align: center;
+      }
+
+      .nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: royalblue;
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      .nav li {
+        float: left;
+      }
+
+      .nav a {
+        text-align: center;
+        display: block;
+        text-decoration: none;
+        padding: 15px 15px;
+        color: white;
+      }
+
+      .nav a:hover {
+          color: white;
+          background-color: navy;
+      }
+
+      .res {
+        margin-bottom: 20px;
+        clear: both
+      }
+
+      .res ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .res li {
+        float: left;
+        margin: 5px;
+        border-radius: 5px;
+        background-color: steelblue;
+      }
+
+      .res a {
+        padding: 10px;
+        display: block;
+        text-decoration: none;
+        color: white;
+      }
+
+      .res a:hover {
+        border-radius: 5px;
+        color: white;
+        background-color: #295D8A;
+      }
+
+      .contents ul{
+        list-style: none;
+        float: left;
+        margin: 0;
+        padding: 0 20px;
+        overflow: hidden;
+        background-color: lightskyblue;
+      }
+
+      .contents li {
+        margin: 5px 0;
+      }
+
+      .contents a {
+        padding: 10px;
+        display: block;
+        text-decoration: none;
+        color: white
+      }
+
+      .contents a:hover {
+        color: white;
+        background-color: skyblue;
+      }
+
+      .anchor_contents{
+        padding: 15px;
+        background-color: lightblue;
+        border-radius: 10px;
+        width: fit-content;
+      }
+
+      .anchor_contents li{
+        font-size: medium;
+      }
+
+      .item{
+        padding: 5px;
+        width: fit-content;
+        background-color: lightblue;
+        border-left: 5px solid steelblue;
+      }
+
+      .code{
+        padding: 10px;
+        font-family: 'Consolas', 'Menlo', 'Ubuntu Mono';
+        color: black;
+        background-color: lightgray;
+        border-radius: 10px;
+        overflow-x: auto;
+      }
+
+    </style>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  </head>
+
+  <body style="background-color: lightblue;">
+
+    <div id="container" style="margin: 50px;">
+
+      <div id="header" style="padding: 20px;border-top-left-radius: 20px;border-top-right-radius: 20px;color: white;background-color: navy;">
+        <h1 style="text-align: center">{% block header %}{% endblock %}</h1>
+      </div>
+
+      <div id="nav" class="nav ul">
+        <ul style="font-size: medium;">
+          <li><a href="{% url 'pages:index' %}">首页</a></li>
+          <li><a href="{% url 'pages:phira' %}">Phira工具</a></li>
+          <li><a href="{% url 'pages:phizone' %}">PhiZone工具</a></li>
+          <li><a href="{% url 'pages:notanote' %}">Notanote工具</a></li>
+          <li><a href="{% url 'pages:randomnum' %}">随机数生成</a></li>
+          <li><a href="{% url 'pages:diaries_index' %}">日记</a></li>
+          <li><a href="{% url 'pages:programming_index' %}">编程</a></li>
+          <li><b><a href="{% url 'pages:introduction' %}">联系&反馈</a></b></li>
+        </ul>
+      </div>
+
+      <div id="content" style="font-size: medium;padding: 0 20px;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px;background-color: whitesmoke;overflow: hidden;">
+        {% block content %}{% endblock %}
+      </div>
+
+    </div>
+
+  </body>
+
+</html>

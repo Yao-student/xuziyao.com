@@ -1,0 +1,79 @@
+﻿{% extends "pages/base.html" %}
+
+{% block title %}Notanote B21计算{% endblock %}
+
+{% block header %}Notanote B21计算{% endblock %}
+
+      {% block content %}
+
+        <p><a href="{% url 'pages:nanrankcalc' %}">Notanote单曲Rank计算</a></p>
+        <p>对应版本：v1.10.0</p>
+
+        <h2>信息填写框：</h2>
+        <p>输入格式：曲名,,,等级,,,定数,,,准确率（准确率不带百分号）</p>
+        <p>例：《Ж》,,,SY,,,10.5,,,100</p>
+        <p style="color: red;"><b>查分前请在您的设备上保存好填写的数据，此工具暂不支持用Cookie保留填写数据。</b></p>
+
+        <form action="{% url 'pages:nanbest' %}" method='post' style="overflow-x: auto;">
+          {% csrf_token %}
+          {{ form.as_p }}
+          {% if b21 %} 
+            <button name="submit">查分</button>
+          {% else %}
+            <button name="submit" style="margin-bottom: 20px;">查分</button>
+          {% endif %}
+        </form>
+
+        {% if b21 %}
+
+          {% if overflow %}
+
+            <h2>B21：</h2>
+            <div style="border-radius: 5px;overflow-y: auto;background-image: url({% static 'pages/notanote/nanbest_bg.png' %});background-size: cover;">
+              {% for rank in b21 %}
+                <div style="margin: 10px;padding: 10px;float: left;min-width: 25%;border-radius: 5px;background-color: pink;">
+                  <p style="margin: 0;">#{{ rank.index }}</p>
+                  <h3 style="margin: 0;">{{ rank.song }}</h3>
+                  <p style="margin: 0;"><b>{{ rank.level }} {{ rank.difficulty }}</b></p>
+                  <p style="margin: 0;">{{ rank.acc }}% → <b>{{ rank.rank }}</b></p>
+                </div>
+              {% endfor %}
+            </div>
+
+            <h2>溢出部分：</h2>
+            <div style="margin-bottom: 20px;padding: 0;border-radius: 5px;overflow-y: auto;background-image: url({% static 'pages/notanote/nanbest_bg.png' %});background-size: cover;">
+              {% for rank in overflow %}
+                <div style="margin: 10px;padding: 10px;float: left;min-width: 25%;border-radius: 5px;background-color: pink;">
+                  <p style="margin: 0;">#{{ rank.index }}</p>
+                  <h3 style="margin: 0;">{{ rank.song }}</h3>
+                  <p style="margin: 0;"><b>{{ rank.level }} {{ rank.difficulty }}</b></p>
+                  <p style="margin: 0;">{{ rank.acc }}% → <b>{{ rank.rank }}</b></p>
+                </div>
+              {% endfor %}
+            </div>
+
+          {% else %}
+
+            <h2>B21：</h2>
+            <div style="margin-bottom: 20px;border-radius: 5px;overflow-y: auto;background-image: url({% static 'pages/notanote/nanbest_bg.png' %});background-size: cover;">
+              {% for rank in b21 %}
+                <div style="margin: 10px;padding: 10px;float: left;min-width: 25%;border-radius: 5px;background-color: pink;">
+                  <p style="margin: 0;">#{{ rank.index }}</p>
+                  <h3 style="margin: 0;">{{ rank.song }}</h3>
+                  <p style="margin: 0;"><b>{{ rank.level }} {{ rank.difficulty }}</b></p>
+                  <p style="margin: 0;">{{ rank.acc }}% → <b>{{ rank.rank }}</b></p>
+                </div>
+              {% endfor %}
+            </div>
+
+          {% endif %}
+
+        {% endif %}
+
+        {% if errors %}
+          {% for error in errors %}
+            <p style="color: red;">{{ error }}</p>
+          {% endfor %}
+        {% endif %}
+
+      {% endblock %}

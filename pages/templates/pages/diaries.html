@@ -1,0 +1,15 @@
+{% extends "pages/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block header %}日记{% endblock %}
+
+      {% block content %}
+
+        <p><a href="{% url 'pages:diaries_index' %}">返回日记导航页</a></p>
+
+        <p style="text-align: center;"><b>日期</b>：{% block date %}{{ date }}{% endblock %}</p>
+
+        {% block diaries %}{% endblock %}
+
+      {% endblock %}

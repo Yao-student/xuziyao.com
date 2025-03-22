@@ -1,0 +1,12 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Phira工具{% endblock %}
+
+{% block header %}Phira工具{% endblock %}
+
+      {% block content %}
+        <ul>
+          <li><a href="{% url 'pages:prranking' %}">Phira谱面评分排名</a></li>
+          <li><a href="{% url 'pages:prgetfile' %}">Phira谱面文件获取</a></li>
+        </ul>
+      {% endblock %}
