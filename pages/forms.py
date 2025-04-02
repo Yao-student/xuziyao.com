@@ -1,4 +1,4 @@
-﻿from django import forms
+from django import forms
 import re, json
 
 # Command input
@@ -9,11 +9,32 @@ class CommandForm(forms.Form):
 class IdForm(forms.Form):
     id = forms.CharField(label='ID', required=False)
 
-# Notanote B21 calculator
+# Notanote B26 calculator
 class NanBestForm(forms.Form):
-    with open('static/pages/notanote/nan_chart_info.json', encoding='utf-8') as file:
-        chart_list = json.loads(file.read())
-        initial = ''.join([f'{chart['song']},,,{chart['class']},,,{chart['difficulty']},,,0\r\n' for chart in chart_list]).rstrip()
+    with open('static/pages/notanote/notanote_chart_info.json', encoding='utf-8') as file:
+        data = json.loads(file.read())
+        initial = ''
+        for item in list(data.items()):
+            song = item[0]
+            for chart in list(item[1].items()):
+                level = chart[0]
+                difficulty = chart[1]
+                initial += f'{song},,,{level},,,-,,,0\r\n'
+        intial = initial.rstrip()
+    ranks = forms.CharField(widget=forms.Textarea(attrs={'rows': 30, 'cols': 50}), label='', initial=initial, required=False)
+
+# Notanote B21 calculator (v1.7.0)
+class NanBestForm_v1_7_0(forms.Form):
+    with open('static/pages/notanote/notanote_chart_info_v1.7.0.json', encoding='utf-8') as file:
+        data = json.loads(file.read())
+        initial = ''
+        for item in list(data.items()):
+            song = item[0]
+            for chart in list(item[1].items()):
+                level = chart[0]
+                difficulty = chart[1]
+                initial += f'{song},,,{level},,,-,,,0\r\n'
+        intial = initial.rstrip()
     ranks = forms.CharField(widget=forms.Textarea(attrs={'rows': 30, 'cols': 50}), label='', initial=initial, required=False)
 
 # Notanote single rank calculator

@@ -1,0 +1,27 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Phigros自制谱{% endblock %}
+
+{% block header %}Phigros自制谱{% endblock %}
+
+{% block breadcrumb %}
+  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > <a href="{% url 'pages:fmcharts' %}">自制谱</a> > Phigros自制谱</p>
+  <hr />
+{% endblock %}
+
+{% block content %}
+  <div class="chart_link">
+    {% for chart in charts %}
+      <img style="border-radius: 20px;" src="{% static 'pages/fanmade_charts/phigros/'|add:chart.illustration %}" alt="{{ chart.title }}曲绘" />
+      <h2><a href="{% url 'pages:fmcharts_download' category='phigros' id=chart.id %}">{{ chart.title }}</a></h2>
+      <p><b>{{ chart.difficulty }}</b></p>
+      <p><b>日期</b>：{{ chart.date }}</p>
+      <p><b>曲师</b>：{{ chart.composer }}</p>
+      <p><b>曲绘画师</b>：{{ chart.illustrator }}</p>
+      <p><b>谱师</b>：{{ chart.charter }}</p>
+      <p><b>BPM</b>：{{ chart.bpm }}</p>
+      <p><b>偏移</b>：{{ chart.offset }}</p>
+      <p><b>物量</b>：{{ chart.notenum }}</p>
+    {% endfor %}
+  </div>
+{% endblock %}

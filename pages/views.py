@@ -1,19 +1,19 @@
-﻿from django.shortcuts import render
+from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
 from .forms import *
 
 import re
 import requests
+import decimal
 from decimal import Decimal
 from io import BytesIO
 import base64
 from matplotlib import pyplot as plt
-from datetime import datetime
-from PIL import Image
-import random
-
 plt.switch_backend('agg')
+from datetime import datetime
+import math
+import random
 
 # Calculate a expression with decimal numbers accurately with module 'decimal'
 def decimalize(expr):
@@ -26,6 +26,26 @@ def index(request):
 # Self-introduction
 def introduction(request):
     return render(request, 'pages/introduction.html')
+
+# Fanmade charts
+def fmcharts(request):
+    return render(request, 'pages/fmcharts.html')
+
+# Phigros fanmade charts
+def fmchartsphi(request):
+    charts = PhigrosFanmadeChart.objects.all()
+    context = {'charts': charts}
+    return render(request, 'pages/fmchartsphi.html', context)
+
+# Phigros fanmade charts download
+def fmcharts_download(request, category, id):
+    file = requests.get(f'http://xuziyao.com/static/fanmade_charts/{category}/{id}')
+    ext_dict = {'phigros': 'pez'}
+    ext = ext_dict[category]
+    response = HttpResponse(content_type='application/octet-stream')
+    response['Content-Disposition'] = f'attachment; filename="{id}.{ext}"'
+    response.write(file)
+    return response
 
 # Phira tools index page
 def phira(request):
@@ -130,7 +150,7 @@ def prgetfile(request):
             if req.status_code != 400 and req.json() != {'error': 'Not found'}:
                 file = requests.get(req.json()['file'], headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'})
                 response = HttpResponse(content_type='application/octet-stream')
-                response['Content-Disposition'] = f'attachment; filename="{chart_id}.zip"'
+                response['Content-Disposition'] = f'attachment; filename="{chart_id}.pez"'
                 response.write(file)
                 return response
             else:
@@ -176,6 +196,13 @@ def pzranking(request):
                 elif re.match(r'^7pj nl', command):
                     api_url = 'https://api.phizone.cn/events/divisions/c7bd5d87-bbef-4ca4-b31e-fb6bb8e7e718/entries/charts'
                     title = ' 7thPecJam NL赛道'
+                else:
+                    error = '指令错误'
+            elif re.match(r'^\dfdc', command):
+                if re.match(r'^2fdc', command):
+                    # api_url = 'https://api.phizone.cn/events/divisions/9eec834a-0594-4e6d-876d-c93ba73950f6/entries/charts'
+                    # title = ' 2ndFDC-TH'
+                    error = '比赛尚未结束，暂时无法查询'
                 else:
                     error = '指令错误'
             else:
@@ -357,79 +384,213 @@ def pzbest(request):
 def notanote(request):
     return render(request, 'pages/notanote.html')
 
-# Notanote B21 calculator
+# Notanote B26 calculator
 def nanbest(request):
     # Notanote rank class
-    class Rank():
-        def __init__(self, index, song, level, difficulty, acc, rank):
+    class Record():
+        def __init__(self, index, song, level, difficulty, score, acc, rank):
             self.index = index
             self.song = song
             self.level = level
             self.difficulty = difficulty
+            self.score = score
             self.acc = acc
             self.rank = rank
+            self.level_class_name = 'EZ_Plus' if self.level == 'EZ+' else self.level
     
-    b21 = []
+    b26 = []
     overflow = []
     nrk = None
     errors = []
     if request.method == 'POST':
         form = NanBestForm(request.POST)
         if form.is_valid():
-            info = request.POST.get('ranks').strip().split('\r\n')
-            rank_list = []
-            try:
-                for chart in info:
-                    song, level, difficulty, acc = chart.split(',,,')
+            info = request.POST.get('ranks').strip().split('\r\n')    
+            records = []
+            with open('static/pages/notanote/notanote_chart_info.json', encoding='utf-8') as file:
+                data = json.loads(file.read())
+            for chart in info:
+                # Check and get song, level, score, acc info
+                try:
+                    song, level, score, acc = chart.split(',,,')
+                except ValueError:
+                    errors.append(f'{chart}信息格式错误')
+                else:
+                    # Check the song name and get the difficulty
                     try:
-                        difficulty, acc = float(difficulty), float(acc)
-                    except ValueError:
-                       errors.append(f'{song} {level}的准确率不是数字。')
+                        difficulty = data[song][level]
+                    except KeyError:
+                        errors.append(f'曲目{song}不存在或名字有误')
                     finally:
                         pass
-                    # Calculate ranks of every songs
-                    if 0 < acc <= 100:
-                        rank = decimalize(f'({acc} / 100) ** 1.75 / (2 - {acc} / 100) * ({difficulty} + 5)')
-                        rank_list.append(Rank(0, song, level, difficulty, acc, rank.quantize(Decimal('0.000'))))
-                    elif acc == 0:
+                    # Check the score of every song
+                    if score != '-':
+                        if not score.isdigit():
+                            errors.append(f'{song} {level}的分数不是整数')
+                        elif (int(score) < 0) or (int(score) > 1000000):
+                            errors.append(f'{song} {level}的分数不在0~1000000之间')
+                    # Check the acc
+                    try:
+                        acc = float(acc)
+                    except ValueError:
+                        errors.append(f'{song} {level}的准确率不是数字')
+                    finally:
                         pass
-                    else:
-                        errors.append(f'{song} {level}的准确率不在0~100之间。')
+                    # Check and calculate the rank of every song
+                    if not errors:
+                        if 0 < acc <= 100:
+                            rank = decimalize(f'({math.e} ** (2 * {acc} / 100) - 1) / ({math.e} ** 2 - 1) * ({difficulty} + 5)')
+                            records.append(Record(0, song, level, difficulty, score, acc, rank.quantize(Decimal('0.000'), decimal.ROUND_HALF_UP)))
+                        elif acc == 0:
+                            pass
+                        else:
+                            errors.append(f'{song} {level}的准确率不在0~100之间')
+                finally:
+                    pass
+            if (not errors) and records:
+                # Sort the B26 and overflow
+                sorted_records = sorted(records, key=lambda record: record.rank, reverse=True)
+                b26 = sorted_records[:26]
+                for index, record in enumerate(b26):
+                    record.index = index + 1
+                overflow = sorted_records[26:36]
+                for index, record in enumerate(overflow):
+                    record.index = index + 27
+                # Calculate the Nrk
+                ranks = list(map(lambda record: record.rank, b26))
+                rank_m_weight_sum = 0
+                for i, rank in enumerate(ranks):
+                    rank_m_weight_sum = decimalize(f'{rank_m_weight_sum} + {rank} * (1 - 0.02 * {i})')
+                weight_sum = 0
+                for i, rank in enumerate(ranks):
+                    weight_sum = decimalize(f'{weight_sum} + (1 - 0.02 * {i})')
+                nrk = decimalize(f'{rank_m_weight_sum} / {weight_sum}').quantize(Decimal('0.000'), decimal.ROUND_HALF_UP)
+            elif not records:
+                errors.append('准确率不能全部为0')
+    else:
+        form = NanBestForm()
+    context = {'form': form, 'b26': b26, 'overflow': overflow, 'nrk': nrk, 'errors': errors}
+    return render(request, 'pages/nanbest.html', context)
+
+# Notanote B21 calculator (v1.7.0)
+def nanbest_v1_7_0(request):
+    # Notanote rank class
+    class Record():
+        def __init__(self, index, song, level, difficulty, score, acc, rank):
+            self.index = index
+            self.song = song
+            self.level = level
+            self.difficulty = difficulty
+            self.score = score
+            self.acc = acc
+            self.rank = rank
+            if self.level == 'EZ+':
+                self.level_class_name = 'EZ_Plus'
+            elif self.level == 'EX':
+                self.level_class_name = 'TL'
+            else:
+                self.level_class_name = self.level
+    
+    b21 = []
+    overflow = []
+    nrk = None
+    errors = []
+    if request.method == 'POST':
+        form = NanBestForm_v1_7_0(request.POST)
+        if form.is_valid():
+            try:
+                info = request.POST.get('ranks').strip().split('\r\n')    
+                records = []
+                with open('static/pages/notanote/notanote_chart_info_v1.7.0.json', encoding='utf-8') as file:
+                    data = json.loads(file.read())
+                for chart in info:
+                    song, level, score, acc = chart.split(',,,')
+                    # Check the song name and get the difficulty
+                    try:
+                        difficulty = data[song][level]
+                    except KeyError:
+                        errors.append(f'曲目{song}不存在或名字有误')
+                    finally:
+                        pass
+                    # Check the score of every song
+                    if score != '-':
+                        if not score.isdigit():
+                            errors.append(f'{song} {level}的分数不是整数')
+                        elif (int(score) < 0) or (int(score) > 1000000):
+                            errors.append(f'{song} {level}的分数不在0~1000000之间')
+                    # Check the acc
+                    try:
+                        acc = float(acc)
+                    except ValueError:
+                        errors.append(f'{song} {level}的准确率不是数字')
+                    finally:
+                        pass
+                    # Check and calculate the rank of every song
+                    if not errors:
+                        if 0 < acc <= 100:
+                            rank = decimalize(f'({acc} / 100) ** 1.75 / (2 - {acc} / 100) * ({difficulty} + 5)')
+                            records.append(Record(0, song, level, difficulty, score, acc, rank.quantize(Decimal('0.000'), decimal.ROUND_HALF_UP)))
+                        elif acc == 0:
+                            pass
+                        else:
+                            errors.append(f'{song} {level}的准确率不在0~100之间')
             except:
-                errors.append('信息错误。')
+                errors.append('信息错误')
             else:
                 if not errors:
-                    # Calculate the Nrk
-                    sorted_ranks = sorted(rank_list, key=lambda rank: rank.rank, reverse=True)
-                    b21 = sorted_ranks[:21]
-                    for index, rank in enumerate(b21):
-                        rank.index = index + 1
-                    overflow = sorted_ranks[21:31]
-                    for index, rank in enumerate(overflow):
-                        rank.index = index + 22
+                    # Sort the B21 and overflow
+                    sorted_records = sorted(records, key=lambda record: record.rank, reverse=True)
+                    b21 = sorted_records[:21]
+                    for index, record in enumerate(b21):
+                        record.index = index + 1
+                    overflow = sorted_records[21:31]
+                    for index, record in enumerate(overflow):
+                        record.index = index + 22
+                    # Calculate Nrk (Calculating by the formula will get a wrong result, therfore it's useless now)
+                    '''
                     # Get the sum of several ranks
                     def get_rank_sum(start, end):
                         if start >= len(b21):
                             return 0
                         if end > len(b21):
                             end = -1
-                        addends = list(map(lambda rank: rank.rank, b21[start:end]))
+                        ranks = list(map(lambda record: record.rank, b21[start:end]))
                         sum = 0
-                        for addend in addends:
-                            sum += Decimal(str(addend))
+                        for rank in ranks:
+                            sum  = decimalize(f'{sum} + {rank}')
                         return sum
-                    nrk = decimalize(f'0.1 * {b21[0].rank} + 0.08 * {get_rank_sum(1, 5)} + 0.07 * {get_rank_sum(5, 9)} + 0.05 * {get_rank_sum(9, 13)} + 0.03 * {get_rank_sum(13, 17)} + 0.02 * {get_rank_sum(17, 21)}').quantize(Decimal('0.000'))
+                    
+                    # nrk = decimalize(f'0.1 * {b21[0].rank} + 0.08 * {get_rank_sum(1, 5)} + 0.07 * {get_rank_sum(5, 9)} + 0.05 * {get_rank_sum(9, 13)} + 0.03 * {get_rank_sum(13, 17)} + 0.02 * {get_rank_sum(17, 21)}').quantize(Decimal('0.000'), decimal.ROUND_HALF_UP)
+                    '''
             finally:
                 pass
     else:
-        form = NanBestForm()
+        form = NanBestForm_v1_7_0()
     context = {'form': form, 'b21': b21, 'overflow': overflow, 'nrk': nrk, 'errors': errors}
-    return render(request, 'pages/nanbest.html', context)
+    return render(request, 'pages/nanbest_v1.7.0.html', context)
 
 # Notanote single rank calculator
 def nanrankcalc(request):
     rank = []
-    errors = []
+    error = []
+    if request.method == 'POST':
+        form = NanRankCalcForm(request.POST)
+        if form.is_valid():
+            difficulty = float(request.POST.get('difficulty'))
+            acc = float(request.POST.get('acc'))
+            if 0 <= acc <= 100:
+                rank = decimalize(f'({math.e} ** (2 * {acc} / 100) - 1) / ({math.e} ** 2 - 1) * ({difficulty} + 5)').quantize(Decimal('0.000'), decimal.ROUND_HALF_UP)
+            else:
+                error = '准确率不在0~100之间'
+    else:
+        form = NanRankCalcForm()
+    context = {'form': form, 'rank': rank, 'error': error}
+    return render(request, 'pages/nanrankcalc.html', context)
+
+# Notanote single rank calculator (v1.7.0)
+def nanrankcalc_v1_7_0(request):
+    rank = []
+    error = []
     if request.method == 'POST':
         form = NanRankCalcForm(request.POST)
         if form.is_valid():
@@ -438,18 +599,29 @@ def nanrankcalc(request):
             if 0 <= acc <= 100:
                 rank = decimalize(f'({acc} / 100) ** 1.75 / (2 - {acc} / 100) * ({difficulty} + 5)').quantize(Decimal('0.000'))
             else:
-                errors.append('准确率不在0~100之间。')
+                error = '准确率不在0~100之间'
     else:
         form = NanRankCalcForm()
-    context = {'form': form, 'rank': rank, 'errors': errors}
-    return render(request, 'pages/nanrankcalc.html', context)
+    context = {'form': form, 'rank': rank, 'error': error}
+    return render(request, 'pages/nanrankcalc_v1.7.0.html', context)
 
-# Notanote chart constants
-def nanconstants(request):
-    return render(request, 'pages/nanconstants.html')
+# Programming index page
+def programming_index(request):
+    articles = Programming.objects.all()
+    context = {'articles': articles}
+    return render(request, 'pages/programming_index.html', context)
+
+# Programming
+def programming(request, id):
+    article = Programming.objects.get(id=id)
+    id = article.id
+    title = article.title
+    date = article.date
+    context = {id: 'id', 'title': title, 'date': date}
+    return render(request, f'pages/programming/{id}.html', context)
 
 # Random number generator
-def random_num(request):
+def randomnum(request):
     random_num = None
     errors = []
     if request.method == 'POST':
@@ -461,7 +633,7 @@ def random_num(request):
             if min < max:
                 random_num = Decimal(f'{random.uniform(min, max)}').quantize(Decimal(f'{10 ** -decimal_places}'))
             else:
-                errors.append('最小值必须小于最大值。')
+                errors.append('最小值必须小于最大值')
     else:
         form = RandomNumForm()
     context = {'form': form, 'errors': errors,'random_num': random_num}
@@ -482,20 +654,19 @@ def diaries(request, id):
     context = {id: 'id', 'title': title, 'date': date}
     return render(request, f'pages/diaries/{id}.html', context)
 
-# Programming index page
-def programming_index(request):
-    articles = Programming.objects.all()
-    context = {'articles': articles}
-    return render(request, 'pages/programming_index.html', context)
+def bookshelf_index(request):
+    books = Book.objects.all()
+    context = {'books': books}
+    return render(request, 'pages/bookshelf_index.html', context)
 
-# Programming
-def programming(request, id):
-    article = Programming.objects.get(id=id)
-    id = article.id
-    title = article.title
-    date = article.date
+# Diary
+def diaries(request, id):
+    diary = Diary.objects.get(id=id)
+    id = diary.id
+    title = diary.title
+    date = diary.date
     context = {id: 'id', 'title': title, 'date': date}
-    return render(request, f'pages/programming/{id}.html', context)
+    return render(request, f'pages/diaries/{id}.html', context)
 
 # The 400 page
 def bad_request(request):
