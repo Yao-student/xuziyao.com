@@ -1,11 +1,4 @@
-# xuziyao.com
+# Languages
 
-我的个人网站。
-
-My personal website.
-
-## 更新日志 / Update log
-
-### v1.0.0 (2025.03.15)
-
-- 上线网站 / Launch the website
+- [简体中文](README/README_zh-Hans.md)
+- [English](README/README_en.md)

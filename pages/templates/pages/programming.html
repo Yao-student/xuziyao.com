@@ -4,12 +4,15 @@
 
 {% block header %}编程{% endblock %}
 
-      {% block content %}
+{% block breadcrumb %}
+  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > <a href="{% url 'pages:programming_index' %}">编程</a> > {{ title }}</p>
+  <hr />
+{% endblock %}
 
-        <p><a href="{% url 'pages:programming_index' %}">返回编程导航页</a></p>
+{% block content %}
 
-        <p style="text-align: center;">日期：{{ date }}</p>
+  <p style="text-align: center;">日期：{{ date }}</p>
 
-        {% block article %}{% endblock %}
+  {% block article %}{% endblock %}
 
-      {% endblock %}
+{% endblock %}

@@ -4,15 +4,33 @@
 
 {% block header %}编程{% endblock %}
 
-      {% block content %}
+{% block breadcrumb %}
+  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > 编程</p>
+  <hr />
+{% endblock %}
 
-        <p style="font-size: x-large;text-align: center;"><b>用心写好每一篇教程</b></h2>
+{% block content %}
 
-        {% for article in articles %}
-          <div style="margin: 20px 0;padding: 10px;background-color: lightgrey;border-radius: 20px;">
-            <h2><a href="{% url 'pages:programming' id=article.id %}">{{ article.title }}</a></h2>
-            <p>{{ article.date }}</p>
-          </div>
-        {% endfor %}
+  <p style="font-size: x-large;text-align: center;"><b>用心写好每一篇教程</b></h2>
 
-      {% endblock %}
+  <div id="pinned">
+    <h2>置顶文章</h2>
+    <div class="article_link">
+      <h2><a href="{% url 'pages:programming' id=1 %}">Python bezier库超详细教程</a></h2>
+      <p>2024年10月2日</p>
+    </div>
+  </div>
+
+  <hr />
+
+  <div id="all">
+    <h2>所有日记</h2>
+    {% for article in articles %}
+      <div class="article_link">
+        <h2><a href="{% url 'pages:programming' id=article.id %}">{{ article.title }}</a></h2>
+        <p>{{ article.date }}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

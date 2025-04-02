@@ -1,0 +1,16 @@
+{% extends "pages/base.html" %}
+
+{% block title %}自制谱{% endblock %}
+
+{% block header %}自制谱{% endblock %}
+
+{% block breadcrumb %}
+  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > 自制谱</p>
+  <hr />
+{% endblock %}
+
+{% block content %}
+  <ul>
+    <li><a href="{% url 'pages:fmchartsphi' %}">Phigros自制谱</a></li>
+  </ul>
+{% endblock %}

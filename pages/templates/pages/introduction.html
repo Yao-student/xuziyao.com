@@ -4,33 +4,41 @@
 
 {% block header %}自我介绍{% endblock %}
 
-      {% block content %}
-        <ul>
-          <li><b>姓</b>：徐</li>
-          <li><b>小名</b>：尧尧</li>
-          <li><b>网名</b>：大松_Dason</li>
-          <li><b>性别</b>：男</li>
-          <li><b>生日</b>：2010年9月18日</li>
-          <li><b>家乡</b>：上海</li>
-          <li><b>爱好</b>：
-            <ul>
-              <li>音游（Arcaea、Milthm、Notanote、Orzmic、Phigros、Rotaeno、RYCEAM、Simple）</li>
-              <li>编程（Python、Scratch）</li>
-              <li>Furry（偏向于Transfur）</li>
-              <li>地理</li>
-              <li>波兰球</li>
-              <li>后室</li>
-              <li>魔方</li>
-              <li>语言学</li>
-              <li>……</li>
-            </ul>
-          </li>
-          <li><b>联系方式</b>：
-            <ul>
-              <li>电子邮箱：genius_tiger@outlook.com、2296655624@qq.com</li>
-              <li><a href="https://space.bilibili.com/17116186">哔哩哔哩</a></li>
-              <li><a href="https://x.com/Dason2074137">X</a></li>
-            </ul>
-          </li>
-        </ul>
-      {% endblock %}
+{% block breadcrumb %}
+  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > 自我介绍</p>
+  <hr />
+{% endblock %}
+
+{% block content %}
+
+  <ul>
+    <li><b>姓</b>：徐</li>
+    <li><b>小名</b>：尧尧</li>
+    <li><b>网名</b>：大松_Dason</li>
+    <li><b>性别</b>：男</li>
+    <li><b>生日</b>：2010年9月18日</li>
+    <li><b>家乡</b>：上海</li>
+    <li><b>爱好</b>：
+      <ul>
+        <li>音游（Arcaea、Milthm、Notanote、Orzmic、Phigros、Rotaeno、RYCEAM、Simple）</li>
+        <li>编程（Python、前端、Scratch）</li>
+        <li>Furry</li>
+        <li>地理</li>
+        <li>波兰球</li>
+        <li>后室</li>
+        <li>魔方</li>
+        <li>语言学</li>
+        <li>……</li>
+      </ul>
+    </li>
+    <li><b>联系方式</b>：
+      <ul>
+        <li>电子邮箱：genius_tiger@outlook.com、2296655624@qq.com</li>
+        <li><a href="https://space.bilibili.com/17116186">哔哩哔哩</a></li>
+        <li><a href="https://x.com/Dason2074137">X</a></li>
+        <li><a href="https://github.com/Yao-student">Github</a></li>
+      </ul>
+    </li>
+  </ul>
+
+{% endblock %}

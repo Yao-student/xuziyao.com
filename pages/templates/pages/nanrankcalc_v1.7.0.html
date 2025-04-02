@@ -1,0 +1,42 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Notanote单曲Rank计算（v1.7.0）{% endblock %}
+
+{% block header %}Notanote单曲Rank计算（v1.7.0）{% endblock %}
+
+{% block breadcrumb %}
+  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > <a href="{% url 'pages:notanote' %}">Notanote工具</a> > <a href="{% url 'pages:nanrankcalc' %}">Notanote单曲Rank计算</a> > Notanote单曲Rank计算（v1.7.0）</p>
+  <hr />
+{% endblock %}
+
+{% block content %}
+
+  <p><a href="{% url 'pages:nanbest_v1.7.0' %}">Notanote B21计算（v1.7.0）</a></p>
+
+  <hr />
+
+  <p>适用版本：v1.7.0至v1.10.0</p>
+  <p style="color: red"><strong>此为使用旧版本公式的单曲Rank计算工具，若想前往使用最新版本公式的单曲Rank计算工具请去<a href="{% url 'pages:nanrankcalc' %}">Notanote单曲Rank计算</a></strong>。</p>
+
+  <p><strong>准确率不带百分号。</strong></p>
+
+  <form action="{% url 'pages:nanrankcalc_v1.7.0' %}" method="post">
+    {% csrf_token %}
+    <p>定数：{{ form.difficulty }}</p>
+    <p>准确率：{{ form.acc }}</p>
+    {% if rank or error %}
+      <button name="submit">计算</button>
+    {% else %}
+      <button name="submit" style="margin-bottom: 20px;">计算</button>
+    {% endif %}
+  </form>
+
+  {% if rank %}
+    <p>单曲Rank：{{ rank }}</p>
+  {% endif %}
+
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+
+{% endblock %}

@@ -4,34 +4,40 @@
 
 {% block header %}Phira谱面评分排名{% endblock %}
 
-      {% block content %}
+{% block breadcrumb %}
+  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > <a href="{% url 'pages:phira' %}">Phira工具</a> > Phira谱面评分排名</p>
+  <hr />
+{% endblock %}
 
-        <p>如果指定的谱面数过多，图表会容不下数据。<br>获取谱面信息可能需要较长时间，请耐心等待。</p>
+{% block content %}
 
-        <p>指令列表（圆括号内为必填，方括号内为选填）：</p>
-        <ul style="margin-bottom: 20px;">
-          <li>所有谱面：all [<i>最低评分</i>-<i>最高评分</i>] (<i>最高排名</i>,<i>最低排名</i>)</li>
-          <li>上架谱面：stable [<i>最低评分</i>-<i>最高评分</i>] (<i>最高排名</i>,<i>最低排名</i>)</li>
-          <li>计分谱面：ranked [<i>最低评分</i>-<i>最高评分</i>] (<i>最高排名</i>,<i>最低排名</i>)</li>
-          <li>不计分谱面：unranked [<i>最低评分</i>-<i>最高评分</i>] (<i>最高排名</i>,<i>最低排名</i>)</li>
-          <li>6thPecJam谱面：6pj [<i>最低评分</i>-<i>最高评分</i>] (<i>最高排名</i>,<i>最低排名</i>)</li>
-        </ul>
-        <p>例：6pj 3.0-5.0 1,10</p>
+  <p>如果指定的谱面数过多，图表会容不下数据。获取谱面信息可能需要较长时间，请耐心等待。</p>
 
-        <form action="{% url 'pages:prranking' %}" method='post'>
-          {% csrf_token %}
-          {{ form.as_p }}
-          {% if figure %}
-            <button name="submit">查询</button>
-          {% else %}
-            <button name="submit" style="margin-bottom: 20px;">查询</button>
-          {% endif %}
-        </form>
+  <p><b>指令列表</b></p>
+  <p><strong>斜体字为需填写内容，圆括号内为必填，方括号内为选填，输入指令时不带上括号。</strong></p>
+  <ul style="margin-bottom: 20px;">
+    <li>所有谱面：all [<i>最低评分</i>-<i>最高评分</i>] (<i>最高排名</i>,<i>最低排名</i>)</li>
+    <li>上架谱面：stable [<i>最低评分</i>-<i>最高评分</i>] (<i>最高排名</i>,<i>最低排名</i>)</li>
+    <li>计分谱面：ranked [<i>最低评分</i>-<i>最高评分</i>] (<i>最高排名</i>,<i>最低排名</i>)</li>
+    <li>不计分谱面：unranked [<i>最低评分</i>-<i>最高评分</i>] (<i>最高排名</i>,<i>最低排名</i>)</li>
+    <li>6thPecJam谱面：6pj [<i>最低评分</i>-<i>最高评分</i>] (<i>最高排名</i>,<i>最低排名</i>)</li>
+  </ul>
+  <p>例：6pj 3.0-5.0 1,10</p>
 
-        {{ figure|safe }}
+  <form action="{% url 'pages:prranking' %}" method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if figure %}
+      <button name="submit">查询</button>
+    {% else %}
+      <button name="submit" style="margin-bottom: 20px;">查询</button>
+    {% endif %}
+  </form>
 
-        {% if error %}
-          <p style="color: red;">{{ error }}</p>
-        {% endif %}
+  {{ figure|safe }}
 
-      {% endblock %}
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+
+{% endblock %}

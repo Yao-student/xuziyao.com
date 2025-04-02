@@ -4,30 +4,41 @@
 
 {% block header %}Notanote单曲Rank计算{% endblock %}
 
-      {% block content %}
+{% block breadcrumb %}
+  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > <a href="{% url 'pages:notanote' %}">Notanote工具</a> > Notanote单曲Rank计算</p>
+  <hr />
+{% endblock %}
 
-        <p><b>填写时准确率不带百分号。</b></p>
+{% block content %}
 
-        {% if rank %}
+  <p><a href="{% url 'pages:nanbest' %}">Notanote B26计算</a></p>
 
-          <form action="{% url 'pages:nanrankcalc' %}" method="post">
-            {% csrf_token %}
-            <p>定数：{{ form.difficulty }}</p>
-            <p>准确率：{{ form.acc }}</p>
-            <button name="submit">计算</button>
-          </form>
+  <p><b>过往版本</b></p>
+  <p><a href="{% url 'pages:nanrankcalc_v1.7.0' %}">Notanote单曲Rank计算（v1.7.0版本）</a></p>
 
-          <p>单曲Rank：{{ rank }}</p>
+  <hr />
 
-        {% else %}
+  <p>适用版本：v2.0.0及以上</p>
 
-          <form action="{% url 'pages:nanrankcalc' %}" method="post">
-            {% csrf_token %}
-            <p>定数：{{ form.difficulty }}</p>
-            <p>准确率：{{ form.acc }}</p>
-            <button name="submit" style="margin-bottom: 20px;">计算</button>
-          </form>
+  <p><strong>准确率不带百分号。</strong></p>
 
-        {% endif %}
-  
-      {% endblock %}
+  <form action="{% url 'pages:nanrankcalc' %}" method="post">
+    {% csrf_token %}
+    <p>定数：{{ form.difficulty }}</p>
+    <p>准确率：{{ form.acc }}</p>
+    {% if rank or error %}
+      <button name="submit">计算</button>
+    {% else %}
+      <button name="submit" style="margin-bottom: 20px;">计算</button>
+    {% endif %}
+  </form>
+
+  {% if rank %}
+    <p>单曲Rank：{{ rank }}</p>
+  {% endif %}
+
+  {% if error %}
+  <p style="color: red;">{{ error }}</p>
+  {% endif %}
+
+{% endblock %}

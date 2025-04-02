@@ -4,12 +4,15 @@
 
 {% block header %}日记{% endblock %}
 
-      {% block content %}
+{% block breadcrumb %}
+  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > <a href="{% url 'pages:diaries_index' %}">日记</a> > {{ title }}</p>
+  <hr />
+{% endblock %}
 
-        <p><a href="{% url 'pages:diaries_index' %}">返回日记导航页</a></p>
+{% block content %}
 
-        <p style="text-align: center;"><b>日期</b>：{% block date %}{{ date }}{% endblock %}</p>
+  <p style="text-align: center;"><b>日期</b>：{% block date %}{{ date }}{% endblock %}</p>
 
-        {% block diaries %}{% endblock %}
+  {% block diaries %}{% endblock %}
 
-      {% endblock %}
+{% endblock %}
