@@ -198,15 +198,6 @@ def pzranking(request):
                     title = ' 7thPecJam NL赛道'
                 else:
                     error = '指令错误'
-            elif re.match(r'^\dfdc', command):
-                if re.match(r'^2fdc', command):
-                    # api_url = 'https://api.phizone.cn/events/divisions/9eec834a-0594-4e6d-876d-c93ba73950f6/entries/charts'
-                    # title = ' 2ndFDC-TH'
-                    error = '比赛尚未结束，暂时无法查询'
-                else:
-                    error = '指令错误'
-            else:
-                error = '指令错误'
             # Position limited
             if re.match(r'^(all|\dpj (rg|nl)) \d+,\d+$', command):
                 start, end = re.search(r'\d+,\d+$', command).group().split(',')
@@ -456,15 +447,13 @@ def nanbest(request):
                 overflow = sorted_records[26:36]
                 for index, record in enumerate(overflow):
                     record.index = index + 27
-                # Calculate the Nrk
-                ranks = list(map(lambda record: record.rank, b26))
                 rank_m_weight_sum = 0
-                for i, rank in enumerate(ranks):
+                i = 0
+                while i < len(b26):
+                    rank = b26[i].rank
                     rank_m_weight_sum = decimalize(f'{rank_m_weight_sum} + {rank} * (1 - 0.02 * {i})')
-                weight_sum = 0
-                for i, rank in enumerate(ranks):
-                    weight_sum = decimalize(f'{weight_sum} + (1 - 0.02 * {i})')
-                nrk = decimalize(f'{rank_m_weight_sum} / {weight_sum}').quantize(Decimal('0.000'), decimal.ROUND_HALF_UP)
+                    i += 1
+                nrk = decimalize(f'{rank_m_weight_sum} / 19.5').quantize(Decimal('0.000'), decimal.ROUND_HALF_UP)
             elif not records:
                 errors.append('准确率不能全部为0')
     else:

@@ -24,7 +24,7 @@
   <hr />
 
   <div id="all">
-    <h2>所有日记</h2>
+    <h2>所有文章</h2>
     {% for article in articles %}
       <div class="article_link">
         <h2><a href="{% url 'pages:programming' id=article.id %}">{{ article.title }}</a></h2>
