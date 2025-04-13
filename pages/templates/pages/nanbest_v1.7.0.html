@@ -42,7 +42,7 @@
         {% for record in b21 %}
           <div class="notanote_best_record_{{ record.level_class_name }}">
             <p style="margin: 0;">#{{ record.index }}</p>
-            <h3 style="margin: 0;">{{ record.song }}</h3>
+            <p style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
             <p style="margin: 0;"><b>{{ record.level }} {{ record.difficulty }}</b></p>
             <p style="margin: 0;"><b>{{ record.score }}</b></p>
             <p style="margin: 0;">{{ record.acc }}% > <b>{{ record.rank }}</b></p>
@@ -55,7 +55,7 @@
         {% for record in overflow %}
           <div class="notanote_best_record_{{ record.level_class_name }}">
             <p style="margin: 0;">#{{ record.index }}</p>
-            <h3 style="margin: 0;">{{ record.song }}</h3>
+            <p style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
             <p style="margin: 0;"><b>{{ record.level }} {{ record.difficulty }}</b></p>
             <p style="margin: 0;"><b>{{ record.score }}</b></p>
             <p style="margin: 0;">{{ record.acc }}% > <b>{{ record.rank }}</b></p>
@@ -70,7 +70,7 @@
         {% for record in b21 %}
           <div class="notanote_best_record_{{ record.level_class_name }}">
             <p style="margin: 0;">#{{ record.index }}</p>
-            <h3 style="margin: 0;">{{ record.song }}</h3>
+            <p style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
             <p style="margin: 0;"><b>{{ record.level }} {{ record.difficulty }}</b></p>
             <p style="margin: 0;"><b>{{ record.score }}</b></p>
             <p style="margin: 0;">{{ record.acc }}% > <b>{{ record.rank }}</b></p>
