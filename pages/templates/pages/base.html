@@ -98,7 +98,7 @@
       }
 
       .chart_link {
-        margin: 20px 0;
+        margin: 10px;
         padding: 10px;
         float: left;
         max-width: 25%;
@@ -204,7 +204,7 @@
       </div>
 
       <div id="nav" class="nav ul">
-        <ul style="font-size: medium;">
+        <ul>
           <li><a href="{% url 'pages:index' %}">首页</a></li>
           <li><a href="{% url 'pages:fmcharts' %}">自制谱</a></li>
           <li><a href="{% url 'pages:phira' %}">Phira工具</a></li>
@@ -217,7 +217,13 @@
         </ul>
       </div>
 
-      <div id="content" style="font-size: medium;padding: 0 20px;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px;background-color: whitesmoke;overflow: hidden;">
+      <div id="pinned" style="padding: 20px;background-color: lightgrey;text-align: center;font-size: large;">
+        <p style="margin: 0;"><a href="https://qm.qq.com/q/s03NyJX1x6">加入QQ交流群</a></p>
+        <p style="margin: 0;">喜欢本站？<a href="https://afdian.com/a/dason">打赏作者</a></p>
+        <p id="ad" style="color: grey;font-size: smaller;"><b>宣传</b>：由zzzProject制作的<strong>完全免费的</strong>新音游Notanote已上线移动端，并更新2.0版本。欢迎各位来<a href="https://ifdian.net/a/zzzProject">爱发电赞助通道</a>赞助，详细内容见<a href="https://www.bilibili.com/opus/970372595543179267/">官方动态</a>。Notanote于2024年2月14日上线Steam，安卓上在TapTap上下载，iOS上在App Store下载。游戏收录了Chronomia、《Ж》、Random、ENERGY SYNERGY MATRIX、Sense、Lapis、愛を探して等知名曲目，有UXN、Soul Notes、Milthm、Orzmic、Berry Melody联动，请各位多多支持哦，详细内容见<a href="https://www.bilibili.com/video/BV1krRpY1En8/">官方的v2.0前瞻</a>。反馈渠道与QQ群请看<a href="https://www.bilibili.com/opus/861624646376620053">官方动态</a>。</p>
+      </div>
+
+      <div id="content" style="padding: 0 20px;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px;background-color: whitesmoke;overflow: hidden;">
         {% block breadcrumb %}{% endblock %}
         {% block content %}{% endblock %}
       </div>

@@ -6,6 +6,12 @@ My personal website. Developed with [Django](https://www.djangoproject.com/) web
 
 ## Changelog
 
+### v1.1.2 (2025.04.20)
+
+- Minor UI changes
+- [Phigros Fanmade Charts](http://xuziyao.com/fanmade_charts/phigros/) section update
+- Other minor changes
+
 ### v1.1.1 (2025.04.12)
 
 - Fixed the problem that the Nrk was wrong if the B26 was not full
