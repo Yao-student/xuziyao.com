@@ -1,0 +1,13 @@
+{% extends "pages/posts.html" %}
+
+{% block post %}
+
+  <h1 id="title" style="text-align: center;">这个网站的第一篇帖子</h1>
+
+  <p>做网站的想法开始于我之前用 Python 做出来的一点小工具，就是现在网站上的 <a href="{% url 'pages:phizone' %}">PhiZone工具</a> 和 <a href="{% url 'pages:nanbest' %}">Notanote B21计算</a>。可是没有服务器和网站不方便别人及时收到更新，而且 iOS 用户越狱装 IPA 很麻烦，就想着做个个人网站把工具放上去。</p>
+
+  <p>正好之前我看上了我爸很久前买的闲置的 Python 书，里面有讲如何用 Django 开发网站，就开始自学，一点一点敲代码。途中，我还想到在网站上放了点编程教学文章，补充简中网络上缺少的内容。这个网站我从 2024 年 8 月开始做，到 2025 年 3 月 15 日终于上线。</p>
+
+  <p>最后，感谢我爸提供的技术支持与为我解答过问题的各位程序员。</p>
+
+{% endblock %}

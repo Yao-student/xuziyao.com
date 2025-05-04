@@ -1,83 +1,83 @@
 {% extends "pages/base.html" %}
 
-{% block title %}Notanote B21计算（v1.7.0）{% endblock %}
+{% block title %}Notanote B21 计算（v1.7.0）{% endblock %}
 
-{% block header %}Notanote B21计算（v1.7.0）{% endblock %}
+{% block header %}Notanote B21 计算（v1.7.0）{% endblock %}
 
 {% block breadcrumb %}
-  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > <a href="{% url 'pages:notanote' %}">Notanote工具</a> > <a href="{% url 'pages:nanbest' %}">Notanote B26计算</a> > Notanote B21计算（v1.7.0）</p>
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:nanbest' %}">Notanote B26 计算</a></li>
+      <li class="breadcrumb-item active">Notanote B21 计算（v1.7.0）</li>
+    </ol>
+  </nav>
+
   <hr />
+
 {% endblock %}
 
 {% block content %}
 
-  <p><a href="{% url 'pages:nanrankcalc_v1.7.0' %}">Notanote单曲Rank计算（v1.7.0）</a></p>
+  <p><a href="{% url 'pages:nanrankcalc_v1.7.0' %}">Notanote 单曲 Rank 计算（v1.7.0）</a></p>
 
   <hr />
 
-  <p>对应版本：v1.7.0至v1.10.0</p>
-  <p style="color: red"><strong>此为使用旧版本公式的查分器，若想前往使用最新版本公式的查分器请去<a href="{% url 'pages:nanbest' %}">Notanote B26计算</a></strong>。</p>
+  <p>对应版本：v1.7.0 至 v1.10.0</p>
+  <p style="color: red"><strong>此为使用旧版本公式的查分器，若想前往使用最新版本公式的查分器请去 <a href="{% url 'pages:nanbest' %}">Notanote B26 计算</a></strong>。</p>
 
   <p>输入格式：曲名,,,难度,,,分数,,,准确率<strong>（分数选填，准确率不带百分号）</strong></p>
   <p>例：《Ж》,,,SY,,,1000000,,,100</p>
 
-  <p style="color: red;"><strong>请在您的设备上保存好填写的数据，此工具暂不支持用Cookie保留填写数据。</strong></p>
+  <p style="color: red;"><strong>请在您的设备上保存好填写的数据，此工具暂不能在退出网页后保留填写数据。</strong></p>
 
   <form action="{% url 'pages:nanbest_v1.7.0' %}" method='post' style="overflow-x: auto;">
     {% csrf_token %}
     {{ form.as_p }}
-    {% if b21 or errors %} 
-      <button name="submit">查分</button>
-    {% else %}
-      <button name="submit" style="margin-bottom: 20px;">查分</button>
-    {% endif %}
+    <button name="submit">查分</button>
   </form>
 
-  {% if b21 %}
+  {% if b26 %}
+
+    <h2>Nrk</h2>
+    <p><b>{{ nrk }}</b></p>
+
+    <h2>B26：</h2>
+      <div class="card notanote_best_bg">
+        <div class="card-body" style="padding: 5px !important;">
+          {% for record in b26 %}
+            <div class="card notanote_best_record_{{ record.level_id }}">
+              <div class="card-body" style="padding: 10px !important;">
+                <p class="card-text" style="margin: 0;font-size: medium;">#{{ record.index }}</p>
+                <p class="h3 card-title" style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
+                <p class="card-text" style="margin: 0;font-size: medium;"><b>{{ record.level }} {{ record.difficulty }}</b></p>
+                <p class="card-text" style="margin: 0;font-size: large;"><b>{{ record.score }}</b></p>
+                <p class="card-text" style="margin: 0;font-size: medium;">{{ record.acc }}% > <b>{{ record.rank }}</b></p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
 
     {% if overflow %}
-
-      <h2>B21</h2>
-      <div class="notanote_best_bg">
-        {% for record in b21 %}
-          <div class="notanote_best_record_{{ record.level_class_name }}">
-            <p style="margin: 0;">#{{ record.index }}</p>
-            <p style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
-            <p style="margin: 0;"><b>{{ record.level }} {{ record.difficulty }}</b></p>
-            <p style="margin: 0;"><b>{{ record.score }}</b></p>
-            <p style="margin: 0;">{{ record.acc }}% > <b>{{ record.rank }}</b></p>
-          </div>
-        {% endfor %}
-      </div>
-
       <h2>溢出部分</h2>
-      <div class="notanote_best_bg" style="margin-bottom: 20px;">
-        {% for record in overflow %}
-          <div class="notanote_best_record_{{ record.level_class_name }}">
-            <p style="margin: 0;">#{{ record.index }}</p>
-            <p style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
-            <p style="margin: 0;"><b>{{ record.level }} {{ record.difficulty }}</b></p>
-            <p style="margin: 0;"><b>{{ record.score }}</b></p>
-            <p style="margin: 0;">{{ record.acc }}% > <b>{{ record.rank }}</b></p>
-          </div>
-        {% endfor %}
+      <div class="card notanote_best_bg">
+          <div class="card-body" style="padding: 5px !important;">
+          {% for record in overflow %}
+            <div class="card notanote_best_record_{{ record.level_id }}">
+              <div class="card-body" style="padding: 10px !important;">
+                <p class="card-text" style="margin: 0;font-size: medium;">#{{ record.index }}</p>
+                <p class="h3 card-title" style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
+                <p class="card-text" style="margin: 0;font-size: medium;"><b>{{ record.level }} {{ record.difficulty }}</b></p>
+                <p class="card-text" style="margin: 0;font-size: large;"><b>{{ record.score }}</b></p>
+                <p class="card-text" style="margin: 0;font-size: medium;">{{ record.acc }}% > <b>{{ record.rank }}</b></p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
       </div>
-
-    {% else %}
-
-      <h2>B21：</h2>
-      <div class="notanote_best_bg" style="margin-bottom: 20px;">
-        {% for record in b21 %}
-          <div class="notanote_best_record_{{ record.level_class_name }}">
-            <p style="margin: 0;">#{{ record.index }}</p>
-            <p style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
-            <p style="margin: 0;"><b>{{ record.level }} {{ record.difficulty }}</b></p>
-            <p style="margin: 0;"><b>{{ record.score }}</b></p>
-            <p style="margin: 0;">{{ record.acc }}% > <b>{{ record.rank }}</b></p>
-          </div>
-        {% endfor %}
-      </div>
-
     {% endif %}
 
   {% endif %}

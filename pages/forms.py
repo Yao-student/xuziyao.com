@@ -3,11 +3,11 @@ import re, json
 
 # Command input
 class CommandForm(forms.Form):
-    command = forms.CharField(label='指令', required=False)
+    command = forms.CharField(label='指令', required=True)
 
 # ID input
 class IdForm(forms.Form):
-    id = forms.CharField(label='ID', required=False)
+    id = forms.CharField(label='ID', required=True)
 
 # Notanote B26 calculator
 class NanBestForm(forms.Form):
@@ -21,7 +21,7 @@ class NanBestForm(forms.Form):
                 difficulty = chart[1]
                 initial += f'{song},,,{level},,,-,,,0\r\n'
         intial = initial.rstrip()
-    ranks = forms.CharField(widget=forms.Textarea(attrs={'rows': 30, 'cols': 50}), label='', initial=initial, required=False)
+    ranks = forms.CharField(widget=forms.Textarea(attrs={'rows': 30, 'cols': 50}), label='', initial=initial, required=True)
 
 # Notanote B21 calculator (v1.7.0)
 class NanBestForm_v1_7_0(forms.Form):
@@ -35,15 +35,15 @@ class NanBestForm_v1_7_0(forms.Form):
                 difficulty = chart[1]
                 initial += f'{song},,,{level},,,-,,,0\r\n'
         intial = initial.rstrip()
-    ranks = forms.CharField(widget=forms.Textarea(attrs={'rows': 30, 'cols': 50}), label='', initial=initial, required=False)
+    ranks = forms.CharField(widget=forms.Textarea(attrs={'rows': 30, 'cols': 50}), label='', initial=initial, required=True)
 
 # Notanote single rank calculator
 class NanRankCalcForm(forms.Form):
-    difficulty = forms.FloatField(label='', required=False)
-    acc = forms.FloatField(label='', required=False)
+    difficulty = forms.FloatField(label='', required=True)
+    acc = forms.FloatField(label='', required=True)
 
 # Random number
 class RandomNumForm(forms.Form):
-    min = forms.FloatField(label='', initial=0, required=False)
-    max = forms.FloatField(label='', initial=10, required=False)
-    decimal_places = forms.IntegerField(label='', initial=1, required=False)
+    min = forms.FloatField(label='', initial=0, required=True)
+    max = forms.FloatField(label='', initial=10, required=True)
+    decimal_places = forms.IntegerField(label='', initial=1, required=True)

@@ -1,18 +1,26 @@
 {% extends "pages/base.html" %}
 
-{% block title %}PhiZone工具{% endblock %}
+{% block title %}PhiZone 工具{% endblock %}
 
-{% block header %}PhiZone工具{% endblock %}
+{% block header %}PhiZone 工具{% endblock %}
 
 {% block breadcrumb %}
-  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > PhiZone工具</p>
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item active">PhiZone 工具</li>
+    </ol>
+  </nav>
+
   <hr />
+
 {% endblock %}
 
 {% block content %}
   <ul>
-    <li><a href="{% url 'pages:pzranking' %}">PhiZone谱面评分排名</a></li>
-    <li><a href="{% url 'pages:pzvote' %}">PhiZone谱面投票信息</a></li>
-    <li><a href="{% url 'pages:pzbest' %}">PhiZone B19查询</a></li>
+    <li><a href="{% url 'pages:pzranking' %}">PhiZone 谱面评分排名</a></li>
+    <li><a href="{% url 'pages:pzvote' %}">PhiZone 谱面投票信息</a></li>
+    <li><a href="{% url 'pages:pzbest' %}">PhiZone B19 查询</a></li>
   </ul>
 {% endblock %}

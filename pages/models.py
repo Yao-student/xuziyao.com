@@ -16,19 +16,16 @@ class PhigrosFanmadeChart(models.Model):
     def __str__(self):
         return f'{self.title} [{self.difficulty}]'
 
-# Dairies
-class Diary(models.Model):
+# Programming
+class Programming(models.Model):
     title = models.CharField(max_length=80)
     date = models.DateField()
-
-    class Meta:
-        verbose_name_plural = "Diaries"
 
     def __str__(self):
         return self.title
 
-# Programming
-class Programming(models.Model):
+# Posts
+class Post(models.Model):
     title = models.CharField(max_length=80)
     date = models.DateField()
 

@@ -33,8 +33,6 @@ urlpatterns = [
     path('programming/', views.programming_index, name='programming_index'),
     re_path(r'^programming/(?P<id>\d+)/$', views.programming, name='programming'),
     path('randomnum/', views.randomnum, name='randomnum'),
-    path('diaries/', views.diaries_index, name='diaries_index'),
-    re_path(r'^diaries/(?P<id>\d+)/$', views.diaries, name='diaries'),
-    #path('bookshelf/', views.bookshelf_index, name='bookshelf_index'),
-    #re_path(r'^bookshelf/(?P<id>\d+)/$', views.bookshelf, name='bookshelf')
+    path('posts/', views.posts_index, name='posts_index'),
+    re_path(r'^posts/(?P<id>\d+)/$', views.posts, name='posts'),
 ]

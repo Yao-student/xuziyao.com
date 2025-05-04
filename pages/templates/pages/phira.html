@@ -1,17 +1,24 @@
 {% extends "pages/base.html" %}
 
-{% block title %}Phira工具{% endblock %}
+{% block title %}Phira 工具{% endblock %}
 
-{% block header %}Phira工具{% endblock %}
+{% block header %}Phira 工具{% endblock %}
 
 {% block breadcrumb %}
-  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > Phira工具</p>
+
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item active">Phira 工具</li>
+    </ol>
+
   <hr />
+
 {% endblock %}
 
 {% block content %}
   <ul>
-    <li><a href="{% url 'pages:prranking' %}">Phira谱面评分排名</a></li>
-    <li><a href="{% url 'pages:prgetfile' %}">Phira谱面文件获取</a></li>
+    <li><a href="{% url 'pages:prranking' %}">Phira 谱面评分排名</a></li>
+    <li><a href="{% url 'pages:prgetfile' %}">Phira 谱面文件获取</a></li>
   </ul>
 {% endblock %}

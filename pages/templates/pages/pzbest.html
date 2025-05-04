@@ -5,22 +5,27 @@
 {% block header %}PhiZone B19查询{% endblock %}
 
 {% block breadcrumb %}
-  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > <a href="{% url 'pages:phizone' %}">PhiZone工具</a> > PhiZone B19查询</p>
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
+      <li class="breadcrumb-item active">PhiZone B19 查询</li>
+    </ol>
+  </nav>
+
   <hr />
+
 {% endblock %}
 
 {% block content %}
 
-  <p>注：用户ID即用户页面链接最后的那串数字，比如<a href="https://www.phizone.cn/users/26830">大松_Dason</a>（网站作者本人）的用户ID就是26830。</p>
+  <p>注：用户 ID 即用户页面链接最后的那串数字，比如 <a href="https://www.phizone.cn/users/26830">大松_Dason</a>（网站作者本人）的用户 ID 就是 26830。</p>
 
   <form action="{% url 'pages:pzbest' %}" method='post'>
     {% csrf_token %}
     {{ form.as_p }}
-    {% if b19 or error %}
-      <button name="submit">查询</button>
-    {% else %}
-      <button name="submit" style="margin-bottom: 20px;">查询</button>
-    {% endif %}
+    <button name="submit">查询</button>
   </form>
 
   {% if b19 %}
@@ -29,30 +34,37 @@
     <p>{{ rks }}</p>
 
     <h2>B19</h2>
-    <div style="margin-bottom: 20px;border-radius: 5px;overflow-y: auto;background-color: steelblue;">
 
-      {% if b0 %}
-        <div style="margin: 10px;padding: 10px;float: left;min-width: 25%;border-radius: 5px;background-color: lemonchiffon;">
-          <p style="margin: 0;">#{{ b0.index }}</p>
-          <p style="margin: 0;font-size: large;"><a href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ b0.song }}</a></p>
-          <p style="margin: 0;"><b>{{ b0.difficulty }}</b></p>
-          <p style="margin: 0;font-size: large;"><b>{{ b0.score }}</b></p>
-          <p style="margin: 0;">{{ b0.acc }}% > <b>{{ b0.rks }}</b></p>
-          <p style="margin: 0;">PERFECT: {{ b0.perfect }}, GOOD: {{ b0.good }} (EARLY:{{ b0.early }}, LATE:{{ b0.late }}), BAD:{{ b0.bad }}, MISS:{{ b0.miss }}</td>
-        </div>
-      {% endif %}
+    <div class="card phizone_best_bg">
+      <div class="card-body" style="padding: 5px !important;">
 
-      {% for record in b19 %}
-        <div style="margin: 10px;padding: 10px;float: left;min-width: 25%;border-radius: 5px;background-color: lightblue;">
-          <p style="margin: 0;">#{{ record.index }}</p>
-          <p style="margin: 0;font-size: large;"><a href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ record.song }}</a></p>
-          <p style="margin: 0;"><b>{{ record.difficulty }}</b></p>
-          <p style="margin: 0;font-size: large;"><b>{{ record.score }}</b></p>
-          <p style="margin: 0;">{{ record.acc }}% > <b>{{ record.rks }}</b></p>
-          <p style="margin: 0;">PERFECT: {{ record.perfect }}, GOOD: {{ record.good }} (EARLY:{{ record.early }}, LATE:{{ record.late }}), BAD:{{ record.bad }}, MISS:{{ record.miss }}</td>
-        </div>
-      {% endfor %}
+        {% if b0 %}
+          <div class="card phizone_best_record_{{ record.level_id }}">
+            <div class="card-body" style="padding: 5px !important;">
+              <p class="card-text" style="margin: 0;font-size: medium;">#0</p>
+              <p class="card-title" style="margin: 0;font-size: large;"><b><a class="link-dark" href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ b0.song }}</a></b></p>
+              <p class="card-text" style="margin: 0;font-size: medium;"><b>{{ b0.level }} {{ b0.difficulty }}</b></p>
+              <p class="card-text" style="margin: 0;font-size: large;"><b>{{ b0.score }}</b></p>
+              <p class="card-text" style="margin: 0;font-size: medium;">{{ b0.acc }}% > <b>{{ b0.rks }}</b></p>
+              <p class="card-text" style="margin: 0;font-size: medium;"><b>PGBM:</b> {{ b0.perfect }} - {{ b0.good }} ( {{ b0.early }} - {{ b0.late }} ) - {{ b0.bad }} - {{ b0.miss }}</p>
+            </div>
+          </div>
+        {% endif %}
 
+        {% for record in b19 %}
+          <div class="card phizone_best_record_{{ record.level_id }}">
+            <div class="card-body" style="padding: 5px !important;">
+              <p class="card-text" style="margin: 0;font-size: medium;">#{{ record.index }}</p>
+              <p class="card-title" style="margin: 0;font-size: large;"><b><a class="link-dark" href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ record.song }}</a></b></p>
+              <p class="card-text" style="margin: 0;font-size: medium;"><b>{{ record.level }} {{ record.difficulty }}</b></p>
+              <p class="card-text" style="margin: 0;font-size: large;"><b>{{ record.score }}</b></p>
+              <p class="card-text" style="margin: 0;font-size: medium;">{{ record.acc }}% > <b>{{ record.rks }}</b></p>
+              <p class="card-text" style="margin: 0;font-size: medium;"><b>PGBM:</b> {{ record.perfect }} - {{ record.good }} ( {{ record.early }} - {{ record.late }} ) - {{ record.bad }} - {{ record.miss }}</p>
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
     </div>
 
   {% endif %}

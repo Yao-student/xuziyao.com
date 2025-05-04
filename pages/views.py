@@ -319,9 +319,10 @@ def pzvote(request):
 def pzbest(request):
     # PhiZone B19 class
     class PzBest():
-        def __init__(self, index, song, difficulty, chart_id, score, acc, perfect, early, late, bad, miss, rks):
+        def __init__(self, index, song, level, difficulty, chart_id, score, acc, perfect, early, late, bad, miss, rks):
             self.index = index
             self.song = song
+            self.level = level
             self.difficulty = difficulty
             self.chart_id = chart_id
             self.score = score
@@ -333,10 +334,12 @@ def pzbest(request):
             self.bad = bad
             self.miss = miss
             self.rks = rks
+            self.level_id = 'other' if self.level not in ['AT', 'IN', 'HD', 'EZ'] else self.level
     
     def get_best_info(index, record):
         song = record['chart']['song']['title']
-        difficulty = f'{record['chart']['level']} {record['chart']['difficulty']}'
+        level = record['chart']['level']
+        difficulty = record['chart']['difficulty']
         chart_id = record['chart']['id']
         score = record['score']
         acc = decimalize(f'{record['accuracy']} * 100').quantize(Decimal('0.000'))
@@ -346,7 +349,7 @@ def pzbest(request):
         bad = record['bad']
         miss = record['miss']
         rks = decimalize(str(record['rks'])).quantize(Decimal('0.000'))
-        return PzBest(index, song, difficulty, chart_id, score, acc, perfect, early, late, bad, miss, rks)
+        return PzBest(index, song, level, difficulty, chart_id, score, acc, perfect, early, late, bad, miss, rks)
 
     rks = None
     b0 = None
@@ -387,7 +390,7 @@ def nanbest(request):
             self.score = score
             self.acc = acc
             self.rank = rank
-            self.level_class_name = 'EZ_Plus' if self.level == 'EZ+' else self.level
+            self.level_id = 'EZ_Plus' if self.level == 'EZ+' else self.level
     
     b26 = []
     overflow = []
@@ -458,7 +461,7 @@ def nanbest(request):
                 errors.append('准确率不能全部为0')
     else:
         form = NanBestForm()
-    context = {'form': form, 'b26': b26, 'overflow': overflow, 'nrk': nrk, 'errors': errors}
+    context = {'form': form, 'nrk': nrk, 'b26': b26, 'overflow': overflow, 'errors': errors}
     return render(request, 'pages/nanbest.html', context)
 
 # Notanote B21 calculator (v1.7.0)
@@ -474,11 +477,11 @@ def nanbest_v1_7_0(request):
             self.acc = acc
             self.rank = rank
             if self.level == 'EZ+':
-                self.level_class_name = 'EZ_Plus'
+                self.level_id = 'EZ_Plus'
             elif self.level == 'EX':
-                self.level_class_name = 'TL'
+                self.level_id = 'TL'
             else:
-                self.level_class_name = self.level
+                self.level_id = self.level
     
     b21 = []
     overflow = []
@@ -535,8 +538,6 @@ def nanbest_v1_7_0(request):
                     overflow = sorted_records[21:31]
                     for index, record in enumerate(overflow):
                         record.index = index + 22
-                    # Calculate Nrk (Calculating by the formula will get a wrong result, therfore it's useless now)
-                    '''
                     # Get the sum of several ranks
                     def get_rank_sum(start, end):
                         if start >= len(b21):
@@ -548,14 +549,12 @@ def nanbest_v1_7_0(request):
                         for rank in ranks:
                             sum  = decimalize(f'{sum} + {rank}')
                         return sum
-                    
-                    # nrk = decimalize(f'0.1 * {b21[0].rank} + 0.08 * {get_rank_sum(1, 5)} + 0.07 * {get_rank_sum(5, 9)} + 0.05 * {get_rank_sum(9, 13)} + 0.03 * {get_rank_sum(13, 17)} + 0.02 * {get_rank_sum(17, 21)}').quantize(Decimal('0.000'), decimal.ROUND_HALF_UP)
-                    '''
+                    nrk = decimalize(f'0.1 * {b21[0].rank} + 0.08 * {get_rank_sum(1, 5)} + 0.07 * {get_rank_sum(5, 9)} + 0.05 * {get_rank_sum(9, 13)} + 0.03 * {get_rank_sum(13, 17)} + 0.02 * {get_rank_sum(17, 21)}').quantize(Decimal('0.000'), decimal.ROUND_HALF_UP)
             finally:
                 pass
     else:
         form = NanBestForm_v1_7_0()
-    context = {'form': form, 'b21': b21, 'overflow': overflow, 'nrk': nrk, 'errors': errors}
+    context = {'form': form, 'nrk': nrk, 'b21': b21, 'overflow': overflow, 'errors': errors}
     return render(request, 'pages/nanbest_v1.7.0.html', context)
 
 # Notanote single rank calculator
@@ -629,33 +628,19 @@ def randomnum(request):
     return render(request, 'pages/randomnum.html', context)
 
 # Diary index page
-def diaries_index(request):
-    diaries = Diary.objects.all()
-    context = {'diaries': diaries}
-    return render(request, 'pages/diaries_index.html', context)
+def posts_index(request):
+    posts = Post.objects.all()
+    context = {'posts': posts}
+    return render(request, 'pages/posts_index.html', context)
 
 # Diary
-def diaries(request, id):
-    diary = Diary.objects.get(id=id)
-    id = diary.id
-    title = diary.title
-    date = diary.date
+def posts(request, id):
+    post = Post.objects.get(id=id)
+    id = post.id
+    title = post.title
+    date = post.date
     context = {id: 'id', 'title': title, 'date': date}
-    return render(request, f'pages/diaries/{id}.html', context)
-
-def bookshelf_index(request):
-    books = Book.objects.all()
-    context = {'books': books}
-    return render(request, 'pages/bookshelf_index.html', context)
-
-# Diary
-def diaries(request, id):
-    diary = Diary.objects.get(id=id)
-    id = diary.id
-    title = diary.title
-    date = diary.date
-    context = {id: 'id', 'title': title, 'date': date}
-    return render(request, f'pages/diaries/{id}.html', context)
+    return render(request, f'pages/posts/{id}.html', context)
 
 # The 400 page
 def bad_request(request):

@@ -5,8 +5,16 @@
 {% block header %}编程{% endblock %}
 
 {% block breadcrumb %}
-  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > 编程</p>
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item active">编程</li>
+    </ol>
+  </nav>
+
   <hr />
+
 {% endblock %}
 
 {% block content %}
@@ -15,9 +23,11 @@
 
   <div id="pinned">
     <h2>置顶文章</h2>
-    <div class="article_link">
-      <h2><a href="{% url 'pages:programming' id=1 %}">Python bezier库超详细教程</a></h2>
-      <p>2024年10月2日</p>
+    <div class="card article_link">
+      <div class="card-body">
+        <h3 class="card-title"><a class="link-dark" href="{% url 'pages:programming' id=1 %}">Python bezier 库超详细教程</a></h3>
+        <p class="card-text">2024年10月2日</p>
+      </div>
     </div>
   </div>
 
@@ -26,9 +36,11 @@
   <div id="all">
     <h2>所有文章</h2>
     {% for article in articles %}
-      <div class="article_link">
-        <h2><a href="{% url 'pages:programming' id=article.id %}">{{ article.title }}</a></h2>
-        <p>{{ article.date }}</p>
+      <div class="card article_link">
+        <div class="card-body">
+          <h3 class="card-title"><a class="link-dark" href="{% url 'pages:programming' id=article.id %}">{{ article.title }}</a></h3>
+          <p class="card-text">{{ article.date }}</p>
+        </div>
       </div>
     {% endfor %}
   </div>

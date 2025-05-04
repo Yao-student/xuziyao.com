@@ -1,0 +1,46 @@
+{% extends "pages/base.html" %}
+
+{% block title %}帖子{% endblock %}
+
+{% block header %}帖子{% endblock %}
+
+{% block breadcrumb %}
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item active">帖子</li>
+    </ol>
+  </nav>
+
+  <hr />
+
+{% endblock %}
+
+{% block content %}
+
+  <div id="pinned">
+    <h2>置顶帖子</h2>
+    <div class="card article_link">
+      <div class="card-body">
+        <h3 class="card-title"><a class="link-dark" href="{% url 'pages:posts' id=1 %}">这个网站的第一篇帖子</a></h3>
+        <p class="card-text">2025年3月15日</p>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <div id="all">
+    <h2>所有帖子</h2>
+    {% for post in posts %}
+      <div class="card article_link">
+        <div class="card-body">
+          <h3 class="card-title"><a class="link-dark" href="{% url 'pages:posts' id=post.id %}">{{ post.title }}</a></h3>
+          <p class="card-text">{{ post.date }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

@@ -40,6 +40,17 @@
     "Brand New Day": {
         "SY": 6.0
     },
+    "Flutter Echo": {
+        "SY": 7.4
+    },
+    "REVΘCATE": {
+        "SY": 8.4,
+        "EZ": 2.0
+    },
+    "Eschatology": {
+        "SY": 9.9,
+        "EZ": 4.5
+    },
     "烁雨": {
         "SY": 5.0
     },
@@ -113,7 +124,7 @@
         "TL": 2.0
     },
     "Velocity": {
-        "SY": 6.6,
+        "SY": 6.3,
         "EZ": 2.0
     },
     "What U Wanna Be (Radio Edit)": {
@@ -204,5 +215,8 @@
     "ENERGY SYNERGY MATRIX": {
         "SY": 6.9,
         "EZ": 2.5
+    },
+    "愛を探して": {
+        "SY": 6.9
     }
 }

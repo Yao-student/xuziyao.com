@@ -2,18 +2,17 @@
 
 {% block article %}
 
-<h1 id="title" style="text-align: center;">Python bezier库超详细教程</h1>
+<h1 id="title" style="text-align: center;">Python bezier 库超详细教程</h1>
 
-<p>bezier是Python的一个第三方库，可以让我们方便地处理、绘制贝塞尔曲线。使用前需要用pip安装。</p>
+<p>bezier 是 Python 的一个第三方库，可以让我们方便地处理、绘制贝塞尔曲线。使用前需要用 pip 安装。</p>
 
-<pre class="code">
-pip install bezier<b>（使用国外的默认源，在国内使用下载速度慢）</b>
+<pre><code class="language-bash">pip install bezier<b>（使用国外的默认源，在国内使用下载速度慢）</b>
 pip install bezier -i https://pypi.tuna.tsinghua.edu.cn/simple<b>（使用国内的清华镜像源，速度更快）</b>
-</pre>
+</code></pre>
 
 <p><a href="https://bezier.readthedocs.io/en/stable/index.html">官方文档链接</a></p>
 
-<p><strong>官方文档中给出的贝塞尔曲线公式中参数叫s，但大多数说明中都用的是t，本文中我选择直接称其“参数”。</strong></p>
+<p><strong>官方文档中给出的贝塞尔曲线公式中参数叫 s，但大多数说明中都用的是 t，本文中我选择直接称其“参数”。</strong></p>
 
 <div id="contents" class="anchor_contents">
 
@@ -23,21 +22,21 @@ pip install bezier -i https://pypi.tuna.tsinghua.edu.cn/simple<b>（使用国内
 
     <li><a href="#format">节点格式</li>
 
-    <li><a href="#curve">curve模块 - 贝塞尔曲线</a></li>
+    <li><a href="#curve">curve 模块 - 贝塞尔曲线</a></li>
     <ol>
       <li><a href="#curve_classes">类</a></li>
       <li><a href="#curve_methods">方法</a></li>
       <li><a href="#curve_properties">属性</a></li>
     </ol>
 
-    <li><a href="#curved_polygon">curved_polygon模块 - 贝塞尔曲线边多边形</a></li>
+    <li><a href="#curved_polygon">curved_polygon 模块 - 贝塞尔曲线边多边形</a></li>
     <ol>
       <li><a href="#curved_polygon_classes">类</a></li>
       <li><a href="#curved_polygon_methods">方法</a></li>
       <li><a href="#curved_polygon_properties">属性</a></li>
     </ol>
 
-    <li><a href="#triangle">triangle模块 - 贝塞尔曲线边三角形</a></li>
+    <li><a href="#triangle">triangle 模块 - 贝塞尔曲线边三角形</a></li>
     <ol>
       <li><a href="#triangle_classes">类</a></li>
       <li><a href="#triangle_methods">方法</a></li>
@@ -50,42 +49,40 @@ pip install bezier -i https://pypi.tuna.tsinghua.edu.cn/simple<b>（使用国内
 
 <h2 id="format">节点格式</h2>
 
-<p>bezier库中节点的排列格式都是<span style="font-family: 'Consolas', 'Menlo', 'Ubuntu Mono';">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>，这么做是为了贴合matplotlib库画线时用的格式，而很多地方都是用<span style="font-family: 'Consolas', 'Menlo', 'Ubuntu Mono';">[[x<sub>1</sub>, y<sub>1</sub>, z<sub>1</sub>], [x<sub>2</sub>, y<sub>2</sub>, z<sub>2</sub>], ..., [x<sub>n</sub>, y<sub>n</sub>, z<sub>n</sub>]]</span>这种格式，我们可以通过解压序列轻松完成转换。</p>
+<p>bezier 库中节点的排列格式都是 <span style="font-family: 'Consolas;">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>，这么做是为了贴合 matplotlib 库画线时用的格式，而很多地方都是用 <span style="font-family: 'Consolas;">[[x<sub>1</sub>, y<sub>1</sub>, z<sub>1</sub>], [x<sub>2</sub>, y<sub>2</sub>, z<sub>2</sub>], ..., [x<sub>n</sub>, y<sub>n</sub>, z<sub>n</sub>]]</span> 这种格式，我们可以通过解压序列轻松完成转换。</p>
 
-<pre class="code" class="python">
->>> # [[x, y]]转[[x], [y]]
+<pre><code class="language-python">>>> # [[x, y]] 转 [[x], [y]]
 >>> original = [[0.0, 0.0], [0.625, 0.5], [1.0, 0.5]]
 >>> new = list(zip(*original))
 >>> new
 [(0.0, 0.625, 1.0), (0.0, 0.5, 0.5)]
 
->>> # [[x], [y]]转[[x, y]]
+>>> # [[x], [y]] 转 [[x, y]]
 >>> original = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> new = list(zip(*original))
 >>> new
 [(0.0, 0.0), (0.625, 0.5), (1.0, 0.5)]
-</pre>
+</code></pre>
 
-<h2 id="curve">curve模块 - 贝塞尔曲线</h2>
+<h2 id="curve">curve 模块 - 贝塞尔曲线</h2>
 
-<p>curve模块包含用于处理贝塞尔曲线的常见基础功能。</p>
+<p>curve 模块包含用于处理贝塞尔曲线的常见基础功能。</p>
 
-<h3 id="curve_classes" style="font-size: large;">类</h3>
+<h3 id="curve_classes">类</h3>
 
-<p class="item"><b>Curve</b>(<i>nodes, degree, copy=True, verify=True</i>)</p>
+<p class="item"><b>Curve</b><i>(nodes, degree, copy=True, verify=True)</i></p>
 
 <p>代表一条贝塞尔曲线。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>nodes</b> (<i>Sequence Sequence numbers.Number</i>)：曲线控制点。参数为一个可以转化成多维NumPy数组的序列，格式为<span style="font-family: 'Consolas', 'Menlo', 'Ubuntu Mono';">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>，节点按从起点至终点排序。</li>
-  <li><b>degree</b> (<i>int</i>)：曲线维度。</li>
-  <li><b>copy</b> (<i>bool</i>)：<b>此为官方文档解释，作者暂不清楚实际作用</b>：存储曲线前是否复制节点，指定为True后调用者可能会在传参后自由改变节点。</li>
-  <li><b>verify</b> (<i>bool</i>)：是否根据节点数验证阶数是否正确。</li>
+  <li><b>nodes</b> <i>(Sequence Sequence numbers.Number)</i>：曲线控制点。参数为一个可以转化成多维 NumPy 数组的序列，格式为 <span style="font-family: 'Consolas;">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>，节点按从起点至终点排序。</li>
+  <li><b>degree</b> <i>(int)</i>：曲线维度。</li>
+  <li><b>copy</b> <i>(bool)</i>：<b>此为官方文档解释，作者暂不清楚实际作用</b>：存储曲线前是否复制节点，指定为 True 后调用者可能会在传参后自由改变节点。</li>
+  <li><b>verify</b> <i>(bool)</i>：是否根据节点数验证阶数是否正确。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 
 >>> # 二维贝塞尔曲线
 >>> nodes1 = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
@@ -93,7 +90,7 @@ pip install bezier -i https://pypi.tuna.tsinghua.edu.cn/simple<b>（使用国内
 >>> curve1
 &lt;Curve (degree=2, dimension=2)&gt;
 
->>> # 阶数错误，因为verify=False所以不报错
+>>> # 阶数错误，因为 verify=False 所以不报错
 >>> curve2 = bezier.Curve(nodes, 2, verify=False)
 >>> curve2
 &lt;Curve (degree=2, dimension=2)&gt;
@@ -103,36 +100,34 @@ pip install bezier -i https://pypi.tuna.tsinghua.edu.cn/simple<b>（使用国内
 >>> curve3 = bezier.Curve(nodes, 2)
 >>> curve3
 &lt;Curve (degree=2, dimension=2)&gt;
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve.png' %}" alt="Curve()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve.png' %}" alt="Curve() 代码示例配图" />
 
-<h3 id="curve_methods" style="font-size: large;">方法</h3>
+<h3 id="curve_methods">方法</h3>
 
-<p class="item"><b>Curve.from_nodes</b>(<i>nodes, copy=True</i>)</p>
+<p class="item"><b>Curve.from_nodes</b><i>(nodes, copy=True)</i></p>
 
 <p>通过节点创建一条贝塞尔曲线，无需指定阶数。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>nodes</b> (<i>Sequence Sequence numbers.Number</i>)：曲线控制点。参数为一个可以转化成多维NumPy数组的序列，格式为<span style="font-family: 'Consolas', 'Menlo', 'Ubuntu Mono';">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>，按从起点至终点排序。</li>
-  <li><b>copy</b> (<i>bool</i>)：<b>此为官方文档解释，作者暂不清楚实际作用</b>：存储曲线前是否复制节点，指定为True后调用者可能会在传参后自由改变节点。</li>
+  <li><b>nodes</b> <i>(Sequence Sequence numbers.Number)</i>：曲线控制点。参数为一个可以转化成多维 NumPy 数组的序列，格式为 <span style="font-family: 'Consolas;">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>，按从起点至终点排序。</li>
+  <li><b>copy</b> <i>(bool)</i>：<b>此为官方文档解释，作者暂不清楚实际作用</b>：存储曲线前是否复制节点，指定为 True 后调用者可能会在传参后自由改变节点。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve.from_nodes(nodes)
 >>> curve
 &lt;Curve (degree=2, dimension=2)&gt;
-</pre>
+</code></pre>
 
 <p class="item"><b>Curve.copy</b>() -> <i>Curve</i></p>
 
 <p>复制一条贝塞尔曲线。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve.from_nodes(nodes)
 >>> curve
@@ -140,42 +135,40 @@ pip install bezier -i https://pypi.tuna.tsinghua.edu.cn/simple<b>（使用国内
 >>> copy = curve.copy()
 >>> copy
 &lt;Curve (degree=2, dimension=2)&gt;
-</pre>
+</code></pre>
 
-<p class="item"><b>Curve.evaluate</b>(<i>s</i>) -> <i>numpy.ndarray</i></p>
+<p class="item"><b>Curve.evaluate</b><i>(s)</i> -> <i>numpy.ndarray</i></p>
 
-<p>求出曲线上参数为s的点的坐标。</p>
+<p>求出曲线上参数为 s 的点的坐标。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>s</b> (<i>float</i>)：曲线参数。</li>
+  <li><b>s</b> <i>(float)</i>：曲线参数。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve(nodes, 2)
 >>> point = curve.evaluate(0.5)
 >>> point
 array([[0.5625],
        [0.375 ]])
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_evaluate.png' %}" alt="Curve.evaluate()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_evaluate.png' %}" alt="Curve.evaluate() 代码示例配图" />
 
-<p class="item"><b>Curve.evaluate_multi</b>(<i>s_vals</i>) -> <i>numpy.ndarray</i></p>
+<p class="item"><b>Curve.evaluate_multi</b><i>(s_vals)</i> -> <i>numpy.ndarray</i></p>
 
-<p>求出曲线上的s_vals内多个参数的点的坐标，返回值格式为<span style="font-family: 'Consolas', 'Menlo', 'Ubuntu Mono';">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>。</p>
+<p>求出曲线上的 s_vals 内多个参数的点的坐标，返回值格式为 <span style="font-family: 'Consolas;">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>s_vals</b> (<i>numpy.ndarray</i>)：多个曲线参数。参数是一个一维NumPy浮点数数组。</li>
+  <li><b>s_vals</b> <i>(numpy.ndarray)</i>：多个曲线参数。参数是一个一维 NumPy 浮点数数组。</li>
 </ul>
 
-<img src="{% static 'pages/programming/1/Curve_evaluate_multi.png' %}" alt="Curve.evaluate_multi()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_evaluate_multi.png' %}" alt="Curve.evaluate_multi() 代码示例配图" />
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> import numpy as np
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve.from_nodes(nodes)
@@ -184,59 +177,59 @@ array([[0.5625],
 >>> points
 array([[0.      , 0.296875, 0.5625  , 0.796875, 1.      ],
        [0.      , 0.21875 , 0.375   , 0.46875 , 0.5     ]])
-</pre>
+</code></pre>
 
-<p class="item"><b>Curve.evaluate_hodograph</b>(<i>s</i>) -> <i>numpy.ndarray</i></p>
+<p class="item"><b>Curve.evaluate_hodograph</b><i>(s)</i> -> <i>numpy.ndarray</i></p>
 
-<p>求出曲线上参数为s的点的切向量，即\((x_{起点}-x_{终点},y_{起点}-y_{终点})\)。</p>
+<p>求出曲线上参数为s的点的切向量，即 \((x_{起点}-x_{终点},y_{起点}-y_{终点})\)。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>s</b> (<i>float</i>)：曲线参数。</li>
+  <li><b>s</b> <i>(float)</i>：曲线参数。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve(nodes, 2)
 >>> vector = curve.evaluate_hodograph(0.5)
 >>> vector
 array([[1. ],
        [0.5]])
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_hodograph.png' %}" alt="Curve.hodograph()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_hodograph.png' %}" alt="Curve.hodograph() 代码示例配图" />
 
-<p class="item"><b>Curve.plot</b>(<i>num_pts, color=None, alpha=None, ax=None</i>) -> <i>matplotlib.artist.Artist</i></p>
+<p class="item"><b>Curve.plot</b><i>(num_pts, color=None, alpha=None, ax=None)</i> -> <i>matplotlib.artist.Artist</i></p>
 
-<p>将曲线绘制到matplotlib图表上。曲线必须是二维，否则会触发NotImplementedError。</p>
+<p>将曲线绘制到 matplotlib 图表上。曲线必须是二维，否则会触发 NotImplementedError。</p>
 
-<p><b>此方法需要matplotlib库。</b></p>
+<p><b>此方法需要 matplotlib 库。</b></p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>num_pts</b> (<i>int</i>)：要绘制的点的数量。</li>
-  <li><b>color</b> (<i>tuple float, float, float / str</i>)：RGB格式的曲线颜色或matplotlib内置颜色名，\(0&lt;R,G,B&lt;1\)。</li>
-  <li><b>alpha</b> (<i>float</i>)：曲线透明度，\(alpha\in [0,1]\)。</li>
-  <li><b>ax</b> (<i>matplotlib.artist.Artist</i>)：把曲线绘制在哪个axes上。</li>
+  <li><b>num_pts</b> <i>(int)</i>：要绘制的点的数量。</li>
+  <li><b>color</b> <i>(tuple float, float, float / str)</i>：RGB 格式的曲线颜色或 matplotlib 内置颜色名，\(0&lt;R,G,B&lt;1\)。</li>
+  <li><b>alpha</b> <i>(float)</i>：曲线透明度，\(alpha\in [0,1]\)。</li>
+  <li><b>ax</b> <i>(matplotlib.artist.Artist)</i>：把曲线绘制在哪个 axes 上。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> import matplotlib.pyplot as plt
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve(nodes, 2)
 >>> x, y = curve.evaluate(0.5)
 
->>> # 直接用plt快速画一条曲线
+>>> # 直接用 plt 快速画一条曲线
 >>> curve.plot(100, color='red', alpha=0.5)
 &lt;Axes: &gt;
 >>> plt.plot(x, y, marker='o')
-[&lt;matplotlib.lines.LineD object at <i>(内存地址)</i>&gt;]
+[&lt;matplotlib.lines.LineD object at <i>( 内存地址 )</i>&gt;]
 >>> plt.show()
-<img src="{% static 'pages/programming/1/Curve_plot_1.png' %}" alt="Curve.plot()代码示例配图1" />
+</code></pre>
 
->>> # 单独操作axes，把多条曲线画在同一图表上
+<img src="{% static 'pages/programming/1/Curve_plot_1.png' %}" alt="Curve.plot() 代码示例配图1" />
+
+<pre><code class="language-python">>>> # 单独操作 axes，把多条曲线画在同一图表上
 >>> nodes1 = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve1 = bezier.Curve(nodes1, 2)
 >>> nodes2 = [[0.6, 0.7, 0.6], [0.0, 0.5, 1.0]]
@@ -247,39 +240,38 @@ array([[1. ],
 >>> curve2.plot(100, ax=ax)
 &lt;Axes: &gt;
 >>> ax.plot(x, y, marker='o')
-[&lt;matplotlib.lines.LineD object at <i>(内存地址)</i>&gt;]
+[&lt;matplotlib.lines.LineD object at <i>( 内存地址 )</i>&gt;]
 >>> plt.show()
-<img src="{% static 'pages/programming/1/Curve_plot_2.png' %}" alt="Curve.plot()代码示例配图2" />
-</pre>
+</code></pre>
+
+<img src="{% static 'pages/programming/1/Curve_plot_2.png' %}" alt="Curve.plot() 代码示例配图2" />
 
 <p class="item"><b>Curve.subdivide</b>() -> <i>tuple Curve</i></p>
 
 <p>将曲线从正中间分为两部分。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve(nodes, 2)
 >>> left, right = curve.subdivide()
 >>> left, right
 &lt;Curve (degree=2, dimension=2)&gt; &lt;Curve (degree=2, dimension=2)&gt;
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_subdivide.png' %}" alt="Curve.subdivide()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_subdivide.png' %}" alt="Curve.subdivide() 代码示例配图" />
 
-<p class="item"><b>Curve.intersect</b>(<i>other, strategy=IntersectionStrategy.GEOMETRIC, verify=True</i>) -> <i>numpy.ndarray</i></p>
+<p class="item"><b>Curve.intersect</b><i>(other, strategy=IntersectionStrategy.GEOMETRIC, verify=True)</i> -> <i>numpy.ndarray</i></p>
 
-<p>求出两条曲线的交点在两条曲线上的参数值，如果没有交点则返回值为空。当verify=True且两条线不都是二维曲线时，会触发NotImplementedError。</p>
+<p>求出两条曲线的交点在两条曲线上的参数值，如果没有交点则返回值为空。当 verify=True 且两条线不都是二维曲线时，会触发 NotImplementedError。</p>
 
 <p>参数：</p>
 <ul>
-  <li><b>other</b> (<i>Curve</i>)：与之相交的贝赛尔曲线。</li>
-  <li><b>stategy</b> (<i>bool</i>)：计算交点的算法，参数为IntersectionStrategy.GEOMETRIC或IntersectionStrategy.Algebra。</li>
-  <li><b>verify</b> (<i>bool</i>)：是否用额外的警告验证语句。当verify=True且两条线不都是二维曲线时，会触发NotImplementedError。</li>
+  <li><b>other</b> <i>(Curve)</i>：与之相交的贝赛尔曲线。</li>
+  <li><b>stategy</b> <i>(bool)</i>：计算交点的算法，参数为 IntersectionStrategy.GEOMETRIC 或 IntersectionStrategy.Algebra。</li>
+  <li><b>verify</b> <i>(bool)</i>：是否用额外的警告验证语句。当 verify=True 且两条线不都是二维曲线时，会触发 NotImplementedError。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> import numpy as np
 >>> nodes1 = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve1 = bezier.Curve(nodes1, 2)
@@ -293,22 +285,21 @@ array([[0.58799506],
 >>> intersections = list(zip(*curve1.evaluate_multi(s_vals)))
 >>> intersections
 [(np.float64(0.6485592796603902), np.float64(0.41512596570181837))]
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_intersect.png' %}" alt="Curve.intersect()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_intersect.png' %}" alt="Curve.intersect() 代码示例配图" />
 
-<p class="item"><b>Curve.self_intersections</b>(<i>strategy=IntersectionStrategy.GEOMETRIC, verify=True</i>) -> <i>numpy.ndarray</i></p>
+<p class="item"><b>Curve.self_intersections</b><i>(strategy=IntersectionStrategy.GEOMETRIC, verify=True)</i> -> <i>numpy.ndarray</i></p>
 
 <p>求出一条曲线的自我相交点在曲线上的参数值，如果没有自我相交点则返回值为空。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>stategy</b> (<i>bool</i>)：计算交点的算法，参数必须为IntersectionStrategy.GEOMETRIC，否则会触发NotImplementedError。</li>
-  <li><b>verify</b> (<i>bool</i>)：是否用额外的警告验证语句。当verify=True且曲线不是二维时，会触发NotImplementedError。</li>
+  <li><b>stategy</b> <i>(bool)</i>：计算交点的算法，参数必须为 IntersectionStrategy.GEOMETRIC，否则会触发 NotImplementedError。</li>
+  <li><b>verify</b> <i>(bool)</i>：是否用额外的警告验证语句。当 verify=True 且曲线不是二维时，会触发 NotImplementedError。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> import numpy as np
 >>> nodes = [[-300.0, 227.5, -730.0, 0.0, 730.0, -227.5, 300.0], [150.0, 953.75, -2848.0, 4404.75, -2848.0, 953.75, 150.0]]
 >>> curve = bezier.Curve(nodes, 6)
@@ -320,16 +311,15 @@ array([[0.16666667, 0.66666667],
 >>> intersections = list(zip(*curve.evaluate_multi(s_vals)))
 >>> intersections
 [(np.float64(-149.99999999999997), np.float64(74.99999999999989)), (np.float64(150.0), np.float64(74.99999999999991))]
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_self_intersections.png' %}" alt="Curve.self_intersections()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_self_intersections.png' %}" alt="Curve.self_intersections() 代码示例配图" />
 
 <p class="item"><b>Curve.elevate</b>() -> <i>Curve</i></p>
 
 <p>在保持曲线不变形的情况下将曲线升高一阶。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 1.5, 3.0], [0.0, 1.5, 0.0]]
 >>> curve = bezier.Curve(nodes, 2)
 >>> curve                     
@@ -337,16 +327,15 @@ array([[0.16666667, 0.66666667],
 >>> elevated = curve.elevate()
 >>> elevated
 &lt;Curve (degree=3, dimension=2)&gt;
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_elevate.png' %}" alt="Curve.elevate()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_elevate.png' %}" alt="Curve.elevate() 代码示例配图" />
 
 <p class="item"><b>Curve.reduce_</b>() -> <i>Curve</i></p>
 
 <p>将曲线降低一阶，不是所有曲线都能在降阶后保持不变形。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 
 >>> # 降阶后不变形
 >>> nodes = [[-3.0, 0.0, 1.0, 0.0], [3.0, 2.0, 3.0, 6.0]]
@@ -365,23 +354,22 @@ array([[0.16666667, 0.66666667],
 >>> reduced = curve.reduce_()
 >>> reduced
 &lt;Curve (degree=1, dimension=2)&gt;
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_reduce_not_deformed.png' %}" alt="Curve.reduce_()曲线不变形代码示例配图" />
-<img src="{% static 'pages/programming/1/Curve_reduce_deformed.png' %}" alt="Curve.reduce_()曲线变形代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_reduce_not_deformed.png' %}" alt="Curve.reduce_() 曲线不变形代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_reduce_deformed.png' %}" alt="Curve.reduce_() 曲线变形代码示例配图" />
 
-<p class="item"><b>Curve.specialize</b>(<i>start, end</i>) -> <i>Curve</i></p>
+<p class="item"><b>Curve.specialize</b><i>(start, end)</i> -> <i>Curve</i></p>
 
-<p>截取曲线上参数在start与end间的部分。</p>
+<p>截取曲线上参数在 start 与 end 间的部分。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>start</b> (<i>float</i>)：参数范围最小值。</li>
-  <li><b>end</b> (<i>float</i>)：曲线参数范围最大值。</li>
+  <li><b>start</b> <i>(float)</i>：参数范围最小值。</li>
+  <li><b>end</b> <i>(float)</i>：曲线参数范围最大值。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[-3.0, 0.0, 1.0, 0.0], [3.0, 2.0, 3.0, 6.0]]
 >>> curve = bezier.Curve(nodes, 3)
 >>> curve
@@ -389,21 +377,20 @@ array([[0.16666667, 0.66666667],
 >>> slice = curve.specialize(0.2, 0.7)
 >>> slice
 &lt;Curve (degree=3, dimension=2)&gt;
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_specialize.png' %}" alt="Curve.specialize()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_specialize.png' %}" alt="Curve.specialize() 代码示例配图" />
 
-<p class="item"><b>Curve.locate</b>(<i>point</i>) -> <i>Optional float</i></p>
+<p class="item"><b>Curve.locate</b><i>(point)</i> -> <i>Optional float</i></p>
 
 <p>求出曲线上某一点的参数，如果点不在曲线上则返回值为空。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>point</b> (<i>numpy.ndarray</i>)：点的坐标，格式为<span style="font-family: 'Consolas', 'Menlo', 'Ubuntu Mono';">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>。</li>
+  <li><b>point</b> <i>(numpy.ndarray)</i>：点的坐标，格式为 <span style="font-family: 'Consolas;">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> import numpy as np
 >>> nodes = [[-3.0, 0.0, 1.0, 0.0], [3.0, 2.0, 3.0, 6.0]]
 >>> curve = bezier.Curve(nodes, 3)
@@ -411,18 +398,17 @@ array([[0.16666667, 0.66666667],
 >>> s = curve.locate(point)
 >>> s # 计算结果会有浮点数误差
 0.29999999999992016
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_locate.png' %}" alt="Curve.locate()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_locate.png' %}" alt="Curve.locate() 代码示例配图" />
 
 <p class="item"><b>Curve.to_symbolic</b>() -> <i>sympy.Matrix</i></p>
 
-<p>求出曲线的参数方程，返回矩阵\(\begin{bmatrix} x\\y\end{bmatrix}\)。</p>
+<p>求出曲线的参数方程，返回矩阵 \(\begin{bmatrix} x\\y\end{bmatrix}\)。</p>
 
-<p><b>此方法需要SymPy库。</b></p>
+<p><b>此方法需要 SymPy 库。</b></p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> import sympy
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve(nodes, 2)
@@ -431,26 +417,25 @@ array([[0.16666667, 0.66666667],
 Matrix([
 [-s*(s - 5)/4],
 [-s*(s - 2)/2]])
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_to_symbolic.png' %}" alt="Curve.to_symbolic()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_to_symbolic.png' %}" alt="Curve.to_symbolic() 代码示例配图" />
 
 <p class="item"><b>Curve.implicitize</b>() -> <i>sympy.Expr</i></p>
 
-<p>求出表示曲线的函数。曲线必须是二维，否则会触发NotImplementedError。</p>
+<p>求出表示曲线的函数。曲线必须是二维，否则会触发 NotImplementedError。</p>
 
-<p><b>此方法需要SymPy库。</b></p>
+<p><b>此方法需要 SymPy 库。</b></p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[-3.0, 0.0, 1.0, 0.0], [3.0, 2.0, 3.0, 6.0]]
 >>> curve = bezier.Curve(nodes, 3)
 >>> f = curve.implicitize()
 >>> f
 36*(x**2 + 2*x*y - 3*x + y**2 - 9*y + 18)
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_implicitize.png' %}" alt="Curve.implicitize()代码示例配图" />
+<img src="{% static 'pages/programming/1/Curve_implicitize.png' %}" alt="Curve.implicitize() 代码示例配图" />
 
 <h3 id="curve_properties" style="font-size: large;">属性</h3>
 
@@ -458,77 +443,72 @@ Matrix([
 
 <p>曲线的长度。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve(nodes, 2)
 >>> length = curve.length
 >>> length
 1.1362104785667901
-</pre>
+</code></pre>
 
 <p class="item"><b>Curve.degree</b> -> <i>int</i></p>
 
 <p>曲线的阶数。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve(nodes, 2)
 >>> degree = curve.degree
 >>> degree
 2
-</pre>
+</code></pre>
 
 <p class="item"><b>Curve.dimension</b> -> <i>int</i></p>
 
 <p>曲线的维度。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve(nodes, 2)
 >>> dimension = curve.dimension
 >>> dimension
 2
-</pre>
+</code></pre>
 
 <p class="item"><b>Curve.nodes</b> -> <i>numpy.ndarray</i></p>
 
 <p>曲线的节点。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
 >>> curve = bezier.Curve(nodes, 2)
 >>> nodes = curve.nodes
 >>> nodes
 array([[0.   , 0.625, 1.   ],
        [0.   , 0.5  , 0.5  ]])
-</pre>
+</code></pre>
 
-<h2 id="curved_polygon">curved_polygon模块 - 贝塞尔曲线边多边形</h2>
+<h2 id="curved_polygon">curved_polygon 模块 - 贝塞尔曲线边多边形</h2>
 
-<p>curve_polygon模块可以帮我们处理边是贝塞尔曲线的多边形。</p>
+<p>curve_polygon 模块可以帮我们处理边是贝塞尔曲线的多边形。</p>
 
 <h3 id="curved_polygon_classes" style="font-size: large;">类</h3>
 
-<p class="item"><b>CurvedPolygon</b>(<i>*edges, **kwargs</i>)</p>
+<p class="item"><b>CurvedPolygon</b><i>(*edges, **kwargs)</i></p>
 
 <p>代表一条边是贝塞尔曲线的多边形。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>edges</b> (<i>tuple Curve</i>)：多边形的边。</li>
+  <li><b>edges</b> <i>(tuple Curve)</i>：多边形的边。</li>
   <li><b>kwargs</b>：此关键词接受两个参数：</li>
   <ul>
-    <li><b>metadata</b> (<i>Sequence</i>)：<b>此为官方文档解释，作者暂不清楚实际作用</b>：与此曲边多边形有关联的三元组序列，这是为了供已创建弯曲多边形作为两个贝塞尔三角形之间的交点的调用者使用。</li>
-    <li><b>verify</b> (<i>bool</i>)：是否验证边的两个末端是否为公共点。</li>
+    <li><b>metadata</b> <i>(Sequence)</i>：<b>此为官方文档解释，作者暂不清楚实际作用</b>：与此曲边多边形有关联的三元组序列，这是为了供已创建弯曲多边形作为两个贝塞尔三角形之间的交点的调用者使用。</li>
+    <li><b>verify</b> <i>(bool)</i>：是否验证边的两个末端是否为公共点。</li>
   </ul>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> edges = [
 ...     [[0.0, 1.0, 2.0], [0.0, -1.0, 0.0]],
 ...     [[2.0, 2.0], [0.0, 1.0]],
@@ -539,28 +519,27 @@ array([[0.   , 0.625, 1.   ],
 >>> polygon = bezier.CurvedPolygon(edge1, edge2, edge3, edge4)
 >>> polygon
 &lt;CurvedPolygon (num_sides=4)&gt;
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/CurvedPolygon.png' %}" alt="CurvedPolygon()代码示例配图" />
+<img src="{% static 'pages/programming/1/CurvedPolygon.png' %}" alt="CurvedPolygon() 代码示例配图" />
 
 <h3 id="curved_polygon_methods" style="font-size: large;">方法</h3>
 
-<p class="item"><b>CurvedPolygon.plot</b>(<i>pts_per_edge, color=None, ax=None, alpha=0.625</i>) -> <i>matplotlib.artist.Artist</i></p>
+<p class="item"><b>CurvedPolygon.plot</b><i>(pts_per_edge, color=None, ax=None, alpha=0.625)</i> -> <i>matplotlib.artist.Artist</i></p>
 
-<p>将多边形绘制到matplotlib图表上。多边形必须是二维，否则会触发NotImplementedError。</p>
+<p>将多边形绘制到 matplotlib 图表上。多边形必须是二维，否则会触发 NotImplementedError。</p>
 
-<p><b>此方法需要matplotlib库。</b></p>
+<p><b>此方法需要 matplotlib 库。</b></p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>pts_per_edge</b> (<i>int</i>)：多边形每条边要绘制的点的数量。</li>
-  <li><b>color</b> (<i>tuple float, float, float / str</i>)：RGB格式的多边形边框颜色或matplotlib内置颜色名，\(0&lt;R,G,B&lt;1\)。</li>
-  <li><b>ax</b> (<i>matplotlib.artist.Artist</i>)：把多边形绘制在哪个axes上。</li>
-  <li><b>alpha</b> (<i>float</i>)：多边形内部填充透明度，\(alpha\in [0,1]\)。</li>
+  <li><b>pts_per_edge</b> <i>(int)</i>：多边形每条边要绘制的点的数量。</li>
+  <li><b>color</b> <i>(tuple float, float, float / str)</i>：RGB 格式的多边形边框颜色或 matplotlib 内置颜色名，\(R,G,B\in [0,1]\)。</li>
+  <li><b>ax</b> <i>(matplotlib.artist.Artist)</i>：把多边形绘制在哪个 axes 上。</li>
+  <li><b>alpha</b> <i>(float)</i>：多边形内部填充透明度，\(alpha\in [0,1]\)。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> import matplotlib.pyplot as plt
 >>> edges1 = [
 ...     [[0.0, 1.0, 2.0], [0.0, -1.0, 0.0]],
@@ -584,8 +563,8 @@ array([[0.   , 0.625, 1.   ],
 >>> polygon2.plot(50, ax=ax)
 &lt;Axes: &gt;
 >>> plt.show()
-<img src="{% static 'pages/programming/1/CurvedPolygon_plot.png' %}" alt="CurvedPolygon.plot()代码示例配图" />
-</pre>
+<img src="{% static 'pages/programming/1/CurvedPolygon_plot.png' %}" alt="CurvedPolygon.plot() 代码示例配图" />
+</code></pre>
 
 <h3 id="curved_polygon_properties" style="font-size: large;">属性</h3>
 
@@ -593,8 +572,7 @@ array([[0.   , 0.625, 1.   ],
 
 <p>多边形的边数。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> edges = [
 ...     [[0.0, 1.0, 2.0], [0.0, -1.0, 0.0]],
 ...     [[2.0, 2.0], [0.0, 1.0]],
@@ -606,14 +584,13 @@ array([[0.   , 0.625, 1.   ],
 >>> num_sides = polygon.num_sides
 >>> num_sides
 4
-</pre>
+</code></pre>
 
 <p class="item"><b>CurvedPolygon.area</b> -> <i>float</i></p>
 
 <p>多边形的面积。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> edges = [
 ...     [[0.0, 1.0, 2.0], [0.0, -1.0, 0.0]],
 ...     [[2.0, 2.0], [0.0, 1.0]],
@@ -625,84 +602,81 @@ array([[0.   , 0.625, 1.   ],
 >>> area = polygon.area
 >>> area
 3.333333333333333
-</pre>
+</code></pre>
 
-<h2 id="triangle">triangle模块 - 贝塞尔曲线边三角形</h2>
+<h2 id="triangle">triangle 模块 - 贝塞尔曲线边三角形</h2>
 
-<p>triangle模块可以帮我们处理贝塞尔曲线边的三角形。</p>
+<p>triangle 模块可以帮我们处理贝塞尔曲线边的三角形。</p>
 
 <h3 id="triangle_classes" style="font-size: large;">类</h3>
 
-<p class="item"><b>Triangle</b>(<i>nodes, degree, copy=True, verify=True</i>)</p>
+<p class="item"><b>Triangle</b><i>(nodes, degree, copy=True, verify=True)</i></p>
 
-<p>代表一条贝塞尔曲线边三角形。设阶数为\(d\)，则节点为\(N_1,N_2,N_3,\cdots ,N_{3d}\)，其中\(N_1,N_{d+1},N_{2d+1}\)为三角形的角。</p>
+<p>代表一条贝塞尔曲线边三角形。设阶数为 \(d\)，则节点为 \(N_1,N_2,N_3,\cdots ,N_{3d}\)，其中 \(N_1,N_{d+1},N_{2d+1}\) 为三角形的角。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>nodes</b> (<i>Sequence Sequence numbers.Number</i>)：三角形曲线边控制点。参数为一个可以转化成多维NumPy数组的序列，格式为<span style="font-family: 'Consolas', 'Menlo', 'Ubuntu Mono';">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>，节点按从起点至终点排序。</li>
-  <li><b>degree</b> (<i>int</i>)：三角形每条边的维度。</li>
-  <li><b>copy</b> (<i>bool</i>)：<b>此为官方文档解释，作者暂不清楚实际作用</b>：存储三角形前是否复制节点，指定为True后调用者可能会在传参后自由改变节点。</li>
-  <li><b>verify</b> (<i>bool</i>)：是否根据节点数验证阶数是否正确。</li>
+  <li><b>nodes</b> <i>(Sequence Sequence numbers.Number)</i>：三角形曲线边控制点。参数为一个可以转化成多维 NumPy 数组的序列，格式为 <span style="font-family: 'Consolas;">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>，节点按从起点至终点排序。</li>
+  <li><b>degree</b> <i>(int)</i>：三角形每条边的维度。</li>
+  <li><b>copy</b> <i>(bool)</i>：<b>此为官方文档解释，作者暂不清楚实际作用</b>：存储三角形前是否复制节点，指定为 True 后调用者可能会在传参后自由改变节点。</li>
+  <li><b>verify</b> <i>(bool)</i>：是否根据节点数验证阶数是否正确。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.5, 1.0, 0.125, 0.375, 0.25], [0.0, 0.0, 0.25, 0.5, 0.375, 1.0]]
 >>> triangle = bezier.Triangle(nodes, 2)
 >>> triangle
 &lt;Triangle (degree=2, dimension=2)&gt;
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Triangle.png' %}" alt="Triangle()代码示例配图" />
+<img src="{% static 'pages/programming/1/Triangle.png' %}" alt="Triangle() 代码示例配图" />
 
 <h3 id="triangle_methods" style="font-size: large;">方法</h3>
 
-<p><b style="font-size: medium;">以下这几个方法已经超出我能看懂的范畴了，自己去<a href="https://bezier.readthedocs.io/en/stable/python/reference/bezier.triangle.html">官方文档</a>看吧：</b></p>
+<p><b style="font-size: medium;">以下这几个方法已经超出我能看懂的范畴了，自己去 <a href="https://bezier.readthedocs.io/en/stable/python/reference/bezier.triangle.html">官方文档</a> 看吧：</b></p>
 <ul>
-  <li><b>Triangle.evaluate_barycentric</b>(<i>lambda, lambda, lambda, verify=True</i>) -> <i>numpy.ndarray</i></li>
-  <li><b>Triangle.evaluate_barycentric_multi</b>(<i>param_vals, verify=True</i>) -> <i>numpy.ndarray</i></li>
-  <li><b>Triangle.evaluate_cartesian</b>(<i>s, t, verify=True</i>) -> <i>numpy.ndarray</i></li>
-  <li><b>Triangle.evaluate_cartesian_multi</b>(<i>param_vals, verify=True</i>) -> <i>numpy.ndarray</i></li>
-  <li><b>Triangle.locate</b>(<i>point, verify=True</i>) -> <i>Optional tuple float,float</i></li>
+  <li><b>Triangle.evaluate_barycentric</b><i>(lambda, lambda, lambda, verify=True)</i> -> <i>numpy.ndarray</i></li>
+  <li><b>Triangle.evaluate_barycentric_multi</b><i>(param_vals, verify=True)</i> -> <i>numpy.ndarray</i></li>
+  <li><b>Triangle.evaluate_cartesian</b><i>(s, t, verify=True)</i> -> <i>numpy.ndarray</i></li>
+  <li><b>Triangle.evaluate_cartesian_multi</b><i>(param_vals, verify=True)</i> -> <i>numpy.ndarray</i></li>
+  <li><b>Triangle.locate</b><i>(point, verify=True)</i> -> <i>Optional tuple float,float</i></li>
   <li><b>Triangle.to_symbolic</b>() -> <i>sympy.Matrix</i></li>
   <li><b>Triangle.implicitize</b>() -> <i>sympy.Expr</i></li>
 </ul>
 
-<p class="item"><b>Triangle.from_nodes</b>(<i>nodes, copy=True</i>)</p>
+<p class="item"><b>Triangle.from_nodes</b><i>(nodes, copy=True)</i></p>
 
 <p>通过节点创建一条贝塞尔曲线边三角形，无需指定阶数。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>nodes</b> (<i>Sequence Sequence numbers.Number</i>)：三角形控制点。参数为一个可以转化成多维NumPy数组的序列，格式为<span style="font-family: 'Consolas', 'Menlo', 'Ubuntu Mono';">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>，按从起点至终点排序。</li>
-  <li><b>copy</b> (<i>bool</i>)：<b>此为官方文档解释，作者暂不清楚实际作用</b>：存储三角形前是否复制节点，指定为True后调用者可能会在传参后自由改变节点。</li>
+  <li><b>nodes</b> <i>(Sequence Sequence numbers.Number)</i>：三角形控制点。参数为一个可以转化成多维 NumPy 数组的序列，格式为 <span style="font-family: 'Consolas;">[[x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>], [y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>n</sub>], [z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub>]]</span>，按从起点至终点排序。</li>
+  <li><b>copy</b> <i>(bool)</i>：<b>此为官方文档解释，作者暂不清楚实际作用</b>：存储三角形前是否复制节点，指定为 True 后调用者可能会在传参后自由改变节点。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.5, 1.0, 0.125, 0.375, 0.25], [0.0, 0.0, 0.25, 0.5, 0.375, 1.0]]
 >>> triangle = bezier.Triangle.from_nodes(nodes)
 >>> triangle
 &lt;Triangle (degree=2, dimension=2)&gt;
-</pre>
+</code></pre>
 
-<p class="item"><b>Triangle.plot</b>(<i>pts_per_edge, color=None, ax=None, with_nodes=False, alpha=0.625</i>) -> <i>matplotlib.artist.Artist</i></p>
+<p class="item"><b>Triangle.plot</b><i>(pts_per_edge, color=None, ax=None, with_nodes=False, alpha=0.625)</i> -> <i>matplotlib.artist.Artist</i></p>
 
-<p>将三角形绘制到matplotlib图表上。三角形必须是二维，否则会触发NotImplementedError。</p>
+<p>将三角形绘制到 matplotlib 图表上。三角形必须是二维，否则会触发 NotImplementedError。</p>
 
-<p><b>此方法需要matplotlib库。</b></p>
+<p><b>此方法需要 matplotlib 库。</b></p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>pts_per_edge</b> (<i>int</i>)：三角形每条边要绘制的点的数量。</li>
-  <li><b>color</b> (<i>tuple float, float, float / str</i>)：RGB格式的多边形边框颜色或matplotlib内置颜色名，\(&lt;R, G, B&lt;\)。</li>
-  <li><b>ax</b> (<i>matplotlib.artist.Artist</i>)：把三角形绘制在哪个axes上。</li>
-  <li><b>with_nodes</b> (<i>bool</i>)：是否绘制控制点。</li>
-  <li><b>alpha</b> (<i>float</i>)：三角形透明度，\(alpha\in [,]\)。</li>
+  <li><b>pts_per_edge</b> <i>(int)</i>：三角形每条边要绘制的点的数量。</li>
+  <li><b>color</b> <i>(tuple float, float, float / str)</i>：RGB 格式的多边形边框颜色或 matplotlib 内置颜色名，\(&lt;R, G, B&lt;\)。</li>
+  <li><b>ax</b> <i>(matplotlib.artist.Artist)</i>：把三角形绘制在哪个 axes 上。</li>
+  <li><b>with_nodes</b> <i>(bool)</i>：是否绘制控制点。</li>
+  <li><b>alpha</b> <i>(float)</i>：三角形透明度，\(alpha\in [0,1]\)。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> import matplotlib.pyplot as plt
 >>> nodes1 = [[0.0, 0.5, 1.0, 0.125, 0.375, 0.25], [0.0, 0.0, 0.25, 0.5, 0.375, 1.0]]
 >>> triangle1 = bezier.Triangle(nodes1, 2)
@@ -714,37 +688,35 @@ array([[0.   , 0.625, 1.   ],
 >>> triangle2.plot(50, ax=ax, with_nodes=True)
 &lt;Axes: &gt;
 >>> plt.show()
-<img src="{% static 'pages/programming/1/Triangle_plot.png' %}" alt="Triangle.plot()代码示例配图" />
-</pre>
+<img src="{% static 'pages/programming/1/Triangle_plot.png' %}" alt="Triangle.plot() 代码示例配图" />
+</code></pre>
 
 <p class="item"><b>Triangle.subdivide</b>() -> <i>tuple Triangle,Triangle,Triangle,Triangle</i></p>
 
-<p>将三角形分为四个小三角形。设三角形的三个节点是\(N_1,N_2,N_3\)，共三条曲线\(N_1N_2,N_2N_3,N_1N_3\)，三条曲线上参数为0.5的点分别为\(M_1,M_2,M_3\)，四个小三角形就是\(\triangle N_1M_1M_3,\triangle N_2M_1M_2,\triangle N_3M_2M_3,\triangle M_1M_2M_3\)。</p>
+<p>将三角形分为四个小三角形。设三角形的三个节点是 \(N_1,N_2,N_3\)，共三条曲线 \(N_1N_2,N_2N_3,N_1N_3\)，三条曲线上参数为 0.5 的点分别为 \(M_1,M_2,M_3\)，四个小三角形就是 \(\triangle N_1M_1M_3,\triangle N_2M_1M_2,\triangle N_3M_2M_3,\triangle M_1M_2M_3\)。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.5, 1.0, 0.125, 0.375, 0.25], [0.0, 0.0, 0.25, 0.5, 0.375, 1.0]]
 >>> triangle = bezier.Triangle(nodes, 2)
 >>> triangles = triangle.subdivide()
 >>> triangles
 (&lt;Triangle (degree=2, dimension=2)&gt;, &lt;Triangle (degree=2, dimension=2)&gt;, &lt;Triangle (degree=2, dimension=2)&gt;, &lt;Triangle (degree=2, dimension=2)&gt;)
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Triangle_subdivide.png' %}" alt="Triangle.subdivide()代码示例配图" />
+<img src="{% static 'pages/programming/1/Triangle_subdivide.png' %}" alt="Triangle.subdivide() 代码示例配图" />
 
-<p class="item"><b>Triangle.intersect</b>(<i>other, strategy=IntersectionStrategy.GEOMETRIC, verify=True</i>) -> <i>list Union CurvedPolygon,Triangle</i></p>
+<p class="item"><b>Triangle.intersect</b><i>(other, strategy=IntersectionStrategy.GEOMETRIC, verify=True)</i> -> <i>list Union CurvedPolygon,Triangle</i></p>
 
 <p>求出两个三角形的相交区域。</p>
 
 <p><b>参数：</b></p>
 <ul>
-  <li><b>other</b> (<i>Curve</i>)：与之相交的三角形。</li>
-  <li><b>stategy</b> (<i>bool</i>)：计算相交区域的算法，参数为IntersectionStrategy.GEOMETRIC或IntersectionStrategy.Algebra。</li>
-  <li><b>verify</b> (<i>bool</i>)：是否用额外的警告验证语句。当verify=True且两个三角形不都是二维三角形时，会触发NotImplementedError。</li>
+  <li><b>other</b> <i>(Curve)</i>：与之相交的三角形。</li>
+  <li><b>stategy</b> <i>(bool)</i>：计算相交区域的算法，参数为 IntersectionStrategy.GEOMETRIC 或 IntersectionStrategy.Algebra。</li>
+  <li><b>verify</b> <i>(bool)</i>：是否用额外的警告验证语句。当 verify=True 且两个三角形不都是二维三角形时，会触发 NotImplementedError。</li>
 </ul>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 
 >>> nodes = [[0.0, 0.5, 1.0, 0.125, 0.375, 0.25], [0.0, 0.0, 0.25, 0.5, 0.375, 1.0]]
 >>> triangle = bezier.Triangle(nodes, 2)
@@ -753,16 +725,15 @@ array([[0.   , 0.625, 1.   ],
 >>> intersection = triangle.intersect(triangle)  
 >>> intersection
 [&lt;CurvedPolygon (num_sides=3)&gt;]
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Triangle_intersect.png' %}" alt="Triangle.intersect()代码示例配图" />
+<img src="{% static 'pages/programming/1/Triangle_intersect.png' %}" alt="Triangle.intersect() 代码示例配图" />
 
 <p class="item"><b>Triangle.elevate</b>() -> <i>Triangle</i></p>
 
 <p>在保持三角形不变形的情况下将曲线的每条边升高一阶。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.5, 1.0, 0.125, 0.375, 0.25], [0.0, 0.0, 0.25, 0.5, 0.375, 1.0]]
 >>> triangle = bezier.Triangle(nodes, 2)
 >>> triangle
@@ -770,9 +741,9 @@ array([[0.   , 0.625, 1.   ],
 >>> elevated = triangle.elevate()
 >>> elevated
 &lt;Triangle (degree=3, dimension=2)&gt;
-</pre>
+</code></pre>
 
-<img src="{% static 'pages/programming/1/Triangle_elevate.png' %}" alt="Triangle.elevate()代码示例配图" />
+<img src="{% static 'pages/programming/1/Triangle_elevate.png' %}" alt="Triangle.elevate() 代码示例配图" />
 
 <h3 id="triangle_properties" style="font-size: large;">属性</h3>
 
@@ -780,70 +751,65 @@ array([[0.   , 0.625, 1.   ],
 
 <p>三角形的面积。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.5, 1.0, 0.125, 0.375, 0.25], [0.0, 0.0, 0.25, 0.5, 0.375, 1.0]]
 >>> triangle = bezier.Triangle(nodes, 2)
 >>> area = triangle.area
 >>> area
 0.3854166666666667
-</pre>
+</code></pre>
 
 <p class="item"><b>Triangle.edges</b> -> <i>tuple Curve,Curve,Curve</i></p>
 
 <p>三角形的三边。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.5, 1.0, 0.125, 0.375, 0.25], [0.0, 0.0, 0.25, 0.5, 0.375, 1.0]]
 >>> triangle = bezier.Triangle(nodes, 2)
 >>> edges = triangle.edges
 >>> edges
 (&lt;Curve (degree=2, dimension=2)&gt;, &lt;Curve (degree=2, dimension=2)&gt;, &lt;Curve (degree=2, dimension=2)&gt;)
-</pre>
+</code></pre>
 
 <p class="item"><b>Triangle.is_valid</b> -> <i>bool</i></p>
 
-<p>作者搞不懂，自己去<a href="https://bezier.readthedocs.io/en/stable/python/reference/bezier.triangle.html#bezier.triangle.Triangle.is_valid">官方文档</a>看吧。</p>
+<p>作者搞不懂，自己去 <a href="https://bezier.readthedocs.io/en/stable/python/reference/bezier.triangle.html#bezier.triangle.Triangle.is_valid">官方文档</a> 看吧。</p>
 
 <p class="item"><b>Curve.degree</b> -> <i>int</i></p>
 
 <p>三角形每边的阶数。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.5, 1.0, 0.125, 0.375, 0.25], [0.0, 0.0, 0.25, 0.5, 0.375, 1.0]]
 >>> triangle = bezier.Triangle(nodes, 2)
 >>> degree = triangle.degree
 >>> degree
 2
-</pre>
+</code></pre>
 
 <p class="item"><b>Curve.dimension</b> -> <i>int</i></p>
 
 <p>三角形的维度。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.5, 1.0, 0.125, 0.375, 0.25], [0.0, 0.0, 0.25, 0.5, 0.375, 1.0]]
 >>> triangle = bezier.Triangle(nodes, 2)
 >>> dimension = triangle.dimension
 >>> dimension
 2
-</pre>
+</code></pre>
 
 <p class="item"><b>Curve.nodes</b> -> <i>numpy.ndarray</i></p>
 
 <p>三角形的节点。</p>
 
-<pre class="code">
->>> import bezier
+<pre><code class="language-python">>>> import bezier
 >>> nodes = [[0.0, 0.5, 1.0, 0.125, 0.375, 0.25], [0.0, 0.0, 0.25, 0.5, 0.375, 1.0]]
 >>> triangle = bezier.Triangle(nodes, 2)
 >>> nodes = triangle.nodes
 >>> nodes
 array([[0.   , 0.5  , 1.   , 0.125, 0.375, 0.25 ],
        [0.   , 0.   , 0.25 , 0.5  , 0.375, 1.   ]])
-</pre>
+</code></pre>
 
 {% endblock %}

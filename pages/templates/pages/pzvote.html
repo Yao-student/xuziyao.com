@@ -1,17 +1,25 @@
 {% extends "pages/base.html" %}
 
-{% block title %}PhiZone谱面投票信息{% endblock %}
+{% block title %}PhiZone 谱面投票信息{% endblock %}
 
-{% block header %}PhiZone谱面投票信息{% endblock %}
+{% block header %}PhiZone 谱面投票信息{% endblock %}
 
 {% block breadcrumb %}
-  <p><a href="{% url 'pages:index' %}">首页</a> > <a href="{% url 'pages:phizone' %}">PhiZone工具</a> > PhiZone谱面投票信息</p>
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item active">PhiZone 工具</li>
+    </ol>
+  </nav>
+
   <hr />
+
 {% endblock %}
 
 {% block content %}
 
-  <p>注：谱面ID即谱面页面链接最后的那串字母和数字，比如这张<a href="https://www.phizone.cn/charts/98e8c2cb-1c87-4b5d-b5d9-9f88bd46362b">星相运轨 -The End of Time-</a>的谱面ID就是98e8c2cb-1c87-4b5d-b5d9-9f88bd46362b。</p>
+  <p>注：谱面 ID 即谱面页面链接最后的那串字母和数字，比如这张 <a href="https://www.phizone.cn/charts/98e8c2cb-1c87-4b5d-b5d9-9f88bd46362b">星相运轨 -The End of Time-</a> 的谱面 ID 就是 98e8c2cb-1c87-4b5d-b5d9-9f88bd46362b。</p>
 
   <form action="{% url 'pages:pzvote' %}" method='post'>
     {% csrf_token %}
@@ -29,9 +37,9 @@
 
     <p><b>投票信息</b></h2>：
 
-    <table style="margin-bottom: 20px;">
+    <table class="table table-borded table-hover">
 
-      <thead>
+      <thead class="table-light">
         <th>投票者</th>
         <th>评分倍率</th>
         <th>配置</th>

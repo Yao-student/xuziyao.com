@@ -1,26 +1,31 @@
 {% extends "pages/base.html" %}
 
-{% block title %}Phira谱面文件获取{% endblock %}
+{% block title %}Phira 谱面文件获取{% endblock %}
 
-{% block header %}Phira谱面文件获取{% endblock %}
+{% block header %}Phira 谱面文件获取{% endblock %}
 
 {% block breadcrumb %}
-  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > <a href="{% url 'pages:phira' %}">Phira工具</a> > Phira谱面文件获取</p>
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
+      <li class="breadcrumb-item active">Phira 谱面文件获取</li>
+    </ol>
+  </nav>
+
   <hr />
+
 {% endblock %}
 
 {% block content %}
 
-  <p>谱面页面链接最后的那串数字即为谱面ID，比如这张<a href="https://phira.moe/chart/10176">Super Nova Project</a>的谱面ID就是10176。</p>
+  <p>谱面页面链接最后的那串数字即为谱面 ID，比如这张 <a href="https://phira.moe/chart/10176">Super Nova Project</a> 的谱面 ID 就是 10176。</p>
 
   <form action="{% url 'pages:prgetfile' %}" method='post'>
     {% csrf_token %}
     {{ form.as_p }}
-    {% if error %}
-      <button name="submit">获取</button>
-    {% else %}
-      <button name="submit" style="margin-bottom: 20px;">获取</button>
-    {% endif %}
+    <button name="submit">获取</button>
   </form>
 
   {% if error %}

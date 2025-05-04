@@ -5,12 +5,20 @@
 {% block header %}自制谱{% endblock %}
 
 {% block breadcrumb %}
-  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > 自制谱</p>
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item active">自制谱</li>
+    </ol>
+  </nav>
+
   <hr />
+
 {% endblock %}
 
 {% block content %}
   <ul>
-    <li><a href="{% url 'pages:fmchartsphi' %}">Phigros自制谱</a></li>
+    <li><a href="{% url 'pages:fmchartsphi' %}">Phigros 自制谱</a></li>
   </ul>
 {% endblock %}

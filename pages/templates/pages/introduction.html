@@ -5,18 +5,24 @@
 {% block header %}自我介绍{% endblock %}
 
 {% block breadcrumb %}
-  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > 自我介绍</p>
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item active">自我介绍</li>
+  </nav>
+
   <hr />
+
 {% endblock %}
 
 {% block content %}
-
   <ul>
     <li><b>姓</b>：徐</li>
     <li><b>小名</b>：尧尧</li>
     <li><b>网名</b>：大松_Dason</li>
     <li><b>性别</b>：男</li>
-    <li><b>生日</b>：2010年9月18日</li>
+    <li><b>生日</b>：2010 年 9 月 18 日</li>
     <li><b>家乡</b>：上海</li>
     <li><b>爱好</b>：
       <ul>
@@ -33,13 +39,13 @@
     </li>
     <li><b>联系方式</b>：
       <ul>
-        <li>电子邮箱：genius_tiger@outlook.com、2296655624@qq.com</li>
+        <li><a href="mailto:genius_tiger@outlook.com">genius_tiger@outlook.com</a></li>
+        <li><a href="mailto:2296655624@qq.com">2296655624@qq.com</a></li>
         <li><a href="https://space.bilibili.com/17116186">哔哩哔哩</a></li>
         <li><a href="https://x.com/Dason2074137">X</a></li>
         <li><a href="https://github.com/Yao-student">Github</a></li>
-        <li><a href="https://qm.qq.com/q/s03NyJX1x6">QQ交流群</a></li>
+        <li><a href="https://qm.qq.com/q/s03NyJX1x6">QQ 交流群</a></li>
       </ul>
     </li>
   </ul>
-
 {% endblock %}

@@ -1,17 +1,25 @@
 {% extends "pages/base.html" %}
 
-{% block title %}Notanote工具{% endblock %}
+{% block title %}Notanote 工具{% endblock %}
 
-{% block header %}Notanote工具{% endblock %}
+{% block header %}Notanote 工具{% endblock %}
 
 {% block breadcrumb %}
-  <p id="breadcrumb"><a href="{% url 'pages:index' %}">首页</a> > Notanote工具</p>
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item active">Notanote 工具</li>
+    </ol>
+  </nav>
+
   <hr />
+
 {% endblock %}
 
 {% block content %}
   <ul>
-    <li><a href="{% url 'pages:nanbest' %}">Notanote B26计算</a></li>
-    <li><a href="{% url 'pages:nanrankcalc' %}">Notanote单曲Rank计算</a></li>
+    <li><a href="{% url 'pages:nanbest' %}">Notanote B26 计算</a></li>
+    <li><a href="{% url 'pages:nanrankcalc' %}">Notanote 单曲 Rank 计算</a></li>
   </ul>
 {% endblock %}

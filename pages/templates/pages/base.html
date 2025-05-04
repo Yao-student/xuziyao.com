@@ -16,8 +16,8 @@
 
     <style>
 
-      a {
-        color: inherit;
+      .breadcrumb{
+        --bs-breadcrumb-divider: '>';
       }
 
       table {
@@ -45,7 +45,6 @@
         margin: 0;
         padding: 0;
         overflow: hidden;
-        background-color: royalblue;
       }
 
       .nav li {
@@ -99,73 +98,94 @@
 
       .chart_link {
         margin: 10px;
-        padding: 10px;
         float: left;
-        max-width: 25%;
-        background-color: lightgrey;
-        border-radius: 20px;
+        width: 300px;
+      }
+
+      .phizone_best_bg {
+        overflow-y: auto;
+        background-image: url({% static 'pages/phizone/phizone_best_bg.png' %});
+        background-size: cover;
+      }
+
+      .phizone_best_record_AT {
+        margin: 5px;
+        float: left;
+        background-color: #d3d2d2 !important;
+      }
+
+      .phizone_best_record_IN {
+        margin: 5px;
+        float: left;
+        background-color: salmon !important;
+      }
+
+      .phizone_best_record_HD {
+        margin: 5px;
+        float: left;
+        background-color: #ffbe00 !important;
+      }
+
+      .phizone_best_record_EZ {
+        margin: 5px;
+        float: left;
+        background-color: #00b6ff !important;
+      }
+
+      .phizone_best_record_SP {
+        margin: 5px;
+        float: left;
+        background-color: #5c7f67 !important;
+      }
+
+      .phizone_best_record_other {
+        margin: 5px;
+        float: left;
+        background-color: lemonchiffon !important;
       }
 
       .notanote_best_bg {
-        border-radius: 5px;
         overflow-y: auto;
         background-image: url({% static 'pages/notanote/notanote_best_bg.png' %});
         background-size: cover;
       }
 
       .notanote_best_record_SY {
-        margin: 10px;
-        padding: 10px;
+        margin: 5px;
         float: left;
-        min-width: 25%;
-        border-radius: 5px;
-        background-color: pink;
+        background-color: pink !important;
       }
 
       .notanote_best_record_EZ_Plus {
-        margin: 10px;
-        padding: 10px;
+        margin: 5px;
         float: left;
-        min-width: 25%;
-        border-radius: 5px;
-        background-color: lightseagreen;
+        background-color: lightseagreen !important;
       }
 
       .notanote_best_record_EZ {
-        margin: 10px;
-        padding: 10px;
+        margin: 5px;
         float: left;
-        min-width: 25%;
-        border-radius: 5px;
-        background-color: mediumaquamarine;
+        background-color: mediumaquamarine !important;
       }
 
       .notanote_best_record_TL {
-        margin: 10px;
-        padding: 10px;
+        margin: 5px;
         float: left;
-        min-width: 25%;
-        border-radius: 5px;
-        background-color: salmon;
+        background-color: salmon !important;
       }
 
       .notanote_best_record_SP {
-        margin: 10px;
-        padding: 10px;
+        margin: 5px;
         float: left;
-        min-width: 25%;
-        border-radius: 5px;
-        background-color: orange;
+        background-color: orange !important;
       }
 
       .article_link {
-        margin: 20px 0;
-        padding: 10px;
-        background-color: lightgrey;
-        border-radius: 20px;
+        margin: 20px 0 !important;
       }
 
       .anchor_contents {
+        margin: 20px 0;
         padding: 15px;
         background-color: lightblue;
         border-radius: 10px;
@@ -179,51 +199,55 @@
         border-left: 5px solid steelblue;
       }
 
-      .code{
-        padding: 10px;
-        font-family: 'Consolas', 'Menlo', 'Ubuntu Mono';
-        color: black;
-        background-color: lightgrey;
+      .hljs {
         border-radius: 10px;
-        overflow-x: auto;
+        background: lightgrey !important;
+        color: #444;
+        font-family: 'Consolas';
       }
 
     </style>
 
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+    <script>hljs.highlightAll();</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
 
   </head>
 
   <body style="background-color: lightblue;">
 
-    <div id="container" style="margin: auto;max-width: 1200px;">
+    <div id="container" style="margin: 20px auto;max-width: 1200px;">
 
-      <div id="header" style="padding: 20px;border-top-left-radius: 20px;border-top-right-radius: 20px;color: white;background-color: navy;">
-        <h1 style="text-align: center">{% block header %}{% endblock %}</h1>
+      <div id="header" style="padding: 40px;border-top-left-radius: 20px;border-top-right-radius: 20px;color: white;background-color: navy;">
+        <h1 style="text-align: center"><b>{% block header %}{% endblock %}</b></h1>
       </div>
 
-      <div id="nav" class="nav ul">
+      <div id="nav" class="nav ul" style="background-color: royalblue;">
         <ul>
           <li><a href="{% url 'pages:index' %}">首页</a></li>
           <li><a href="{% url 'pages:fmcharts' %}">自制谱</a></li>
-          <li><a href="{% url 'pages:phira' %}">Phira工具</a></li>
-          <li><a href="{% url 'pages:phizone' %}">PhiZone工具</a></li>
-          <li><a href="{% url 'pages:notanote' %}">Notanote工具</a></li>
+          <li><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
+          <li><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
+          <li><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
           <li><a href="{% url 'pages:randomnum' %}">随机数生成</a></li>
-          <li><a href="{% url 'pages:diaries_index' %}">日记</a></li>
+          <li><a href="{% url 'pages:posts_index' %}">帖子</a></li>
           <li><a href="{% url 'pages:programming_index' %}">编程</a></li>
-          <li><b><a href="{% url 'pages:introduction' %}">联系&反馈</a></b></li>
+          <li><b><a href="{% url 'pages:introduction' %}">联系 & 反馈</a></b></li>
         </ul>
       </div>
 
-      <div id="pinned" style="padding: 20px;background-color: lightgrey;text-align: center;font-size: large;">
-        <p style="margin: 0;"><a href="https://qm.qq.com/q/s03NyJX1x6">加入QQ交流群</a></p>
+      <div id="pinned" style="padding: 10px;background-color: lightgrey;text-align: center;font-size: large;">
+        <p style="margin: 0;"><a href="https://qm.qq.com/q/s03NyJX1x6">加入 QQ 交流群</a></p>
         <p style="margin: 0;">喜欢本站？<a href="https://afdian.com/a/dason">打赏作者</a></p>
-        <p id="ad" style="color: grey;font-size: smaller;"><b>宣传</b>：由zzzProject制作的<strong>完全免费的</strong>新音游Notanote已上线移动端，并更新2.0版本。欢迎各位来<a href="https://ifdian.net/a/zzzProject">爱发电赞助通道</a>赞助，详细内容见<a href="https://www.bilibili.com/opus/970372595543179267/">官方动态</a>。Notanote于2024年2月14日上线Steam，安卓上在TapTap上下载，iOS上在App Store下载。游戏收录了Chronomia、《Ж》、Random、ENERGY SYNERGY MATRIX、Sense、Lapis、愛を探して等知名曲目，有UXN、Soul Notes、Milthm、Orzmic、Berry Melody联动，请各位多多支持哦，详细内容见<a href="https://www.bilibili.com/video/BV1krRpY1En8/">官方的v2.0前瞻</a>。反馈渠道与QQ群请看<a href="https://www.bilibili.com/opus/861624646376620053">官方动态</a>。</p>
+        <p id="ad" class="text-muted" style="font-size: smaller;"><b>宣传</b>：由 zzzProject 制作的<strong>完全免费的</strong>新音游 Notanote 安卓版已在 TaoTap 上线。欢迎各位来 <a href="https://ifdian.net/a/zzzProject">爱发电赞助通道</a> 赞助，详细内容见 <a href="https://www.bilibili.com/opus/970372595543179267/">官方动态</a>。Notanote 于 2024 年 2 月 14 日上线 Steam，游戏收录了 Chronomia、《Ж》、Random、ENERGY SYNERGY MATRIX、Sense、Lapis、愛を探して 等知名曲目，有 UXN、Soul Notes、Milthm、Orzmic、Berry Melody、KALPA 联动，请各位多多支持哦，详细内容见 <a href="https://www.bilibili.com/video/BV1krRpY1En8/">官方的v2.0前瞻</a>。反馈渠道与 QQ 群请看 <a href="https://www.bilibili.com/opus/861624646376620053">官方动态</a>。</p>
       </div>
 
-      <div id="content" style="padding: 0 20px;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px;background-color: whitesmoke;overflow: hidden;">
+      <div id="content" style="padding: 20px;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px;background-color: whitesmoke;overflow: hidden;">
         {% block breadcrumb %}{% endblock %}
         {% block content %}{% endblock %}
       </div>

@@ -6,9 +6,9 @@
 
 {% block content %}
 
-  <p style="text-align: center;font-size: x-large;"><b>欢迎来到我的个人网站，这是我的<a href="{% url 'pages:introduction' %}">自我介绍</a>。</b></h2>
+  <p style="text-align: center;font-size: x-large;"><b>欢迎来到我的个人网站，这是我的 <a href="{% url 'pages:introduction' %}">自我介绍</a>。</b></h2>
 
-  <p style="text-align: center;font-size: large;"><a href="https://github.com/Yao-student/xuziyao.com">Github仓库</a></p>
+  <p style="text-align: center;font-size: large;"><a href="https://github.com/Yao-student/xuziyao.com">Github 仓库</a></p>
 
   <h2 id="tools_and_articles">工具与文章</h2>
 
@@ -17,9 +17,9 @@
     <ul>
       <li><a href="{% url 'pages:index' %}">开字母<b>（开发中）</b></a></li>
       <li><a href="{% url 'pages:fmcharts' %}">自制谱</a></li>
-      <li><a href="{% url 'pages:phira' %}">Phira工具</a></li>
-      <li><a href="{% url 'pages:phizone' %}">PhiZone工具</a></li>
-      <li><a href="{% url 'pages:notanote' %}">Notanote工具</a></li>
+      <li><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
+      <li><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
+      <li><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
     </ul>
   </div>
 
@@ -34,7 +34,7 @@
     <h3>其他</h3>
     <ul>
       <li><a href="{% url 'pages:randomnum' %}">随机数生成</a></li>
-      <li><a href="{% url 'pages:diaries_index' %}">日记</a></li>
+      <li><a href="{% url 'pages:posts_index' %}">帖子</a></li>
     </ul>
   </div>
 
@@ -42,8 +42,8 @@
     <h3>友情链接</h3>
     <ul>
       <li><a href="https://mkzi-nya.github.io/">归梦的个人主页</a></li>
-      <li><a href="https://carlsky.cn">Sky的个人主页</a></li>
-      <li><a href="https://wikiwiki.jp/notanote/">notanote 日本語WIKI</a></li>
+      <li><a href="https://carlsky.cn">Sky 的个人主页</a></li>
+      <li><a href="https://wikiwiki.jp/notanote/">notanote 日本語 WIKI</a></li>
     </ul>
   </div>
 
@@ -51,14 +51,18 @@
 
     <h2>文章推荐</h2>
 
-    <div class="article_link">
-      <h2><a href="{% url 'pages:programming' id=1 %}">Python bezier库超详细教程</a></h2>
-      <p>2024年10月2日</p>
+    <div class="card article_link">
+      <div class="card-body">
+        <h3 class="card-title"><a class="link-dark" href="{% url 'pages:programming' id=1 %}">Python bezier 库超详细教程</a></h3>
+        <p class="card-text">2024年10月2日</p>
+      </div>
     </div>
 
-    <div class="article_link">
-      <h2><a href="{% url 'pages:programming' id=2 %}">Python 用正则表达式判断字符串是否为数</a></h2>
-      <p>2025年3月25日</p>
+    <div class="card article_link">
+      <div class="card-body">
+        <h3 class="card-title"><a class="link-dark" href="{% url 'pages:programming' id=2 %}">Python 用正则表达式判断字符串是否为数</a></h3>
+        <p class="card-text">2025年3月25日</p>
+      </div>
     </div>
 
   </div>
