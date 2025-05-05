@@ -6,6 +6,10 @@ My personal website. Developed with [Django](https://www.djangoproject.com/) web
 
 ## Changelog
 
+### v1.2.1 (2025.05.04)
+
+- [Notanote B26 Calculator](http://xuziyao.com/notanote/best/) synced v2.1.1 update
+
 ### v1.2.0 (2025.04.26)
 
 - UI was partly changed
