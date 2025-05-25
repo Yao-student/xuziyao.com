@@ -54,7 +54,7 @@ def phira(request):
 # Phira chart rating ranking info page
 def prranking(request):
     figure = ''
-    error = None
+    errors = []
     if request.method == 'POST':
         form = CommandForm(request.POST)
         if form.is_valid():
@@ -82,9 +82,9 @@ def prranking(request):
                 api_url = 'https://api.phira.cn/chart?tags=6thPecJam'
                 title = ' 6thPecJam'
             else:
-                error = '指令错误'
+                errors.append('指令错误')
             # Position limited
-            if re.match(r'^(all|stable|ranked|unranked|6pj) \d+,\d+$', command):  
+            if re.match(r'^(all|stable|ranked|unranked|6pj) \d+,\d+$', command):
                 start, end = re.search(r'\d+,\d+$', command).group().split(',')
                 start, end = int(start), int(end)
                 parameter = ''
@@ -98,8 +98,8 @@ def prranking(request):
                 parameter = f'&rating={decimalize(f'{lowest} / 5')},{decimalize(f'{highest} / 5')}'
                 title += f'{lowest}~{highest}分第{start}~{end}名'
             else:
-                error = '指令错误'
-            if not error:
+                errors.append('指令错误')
+            if not errors:
                 # Read the data
                 names, ratings = [], []
                 page = decimalize(f'({start} - 1) // 30')
@@ -136,28 +136,28 @@ def prranking(request):
                 figure = f"<img src='data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode('ascii')}' />"
     else:
         form = CommandForm()
-    context = {'form': form, 'figure': figure, 'error': error}
+    context = {'form': form, 'figure': figure, 'errors': errors}
     return render(request, 'pages/prranking.html', context)
 
 # Phira chart file getting
 def prgetfile(request):
-    error = None
+    errors = []
     if request.method == 'POST':
         form = IdForm(request.POST)
         if form.is_valid():
             chart_id = request.POST.get('id')
             req = requests.get(f'https://api.phira.cn/chart/{chart_id}')
-            if req.status_code != 400 and req.json() != {'error': 'Not found'}:
+            if req.status_code != 400 and req.json() != {'errors': 'Not found'}:
                 file = requests.get(req.json()['file'], headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'})
                 response = HttpResponse(content_type='application/octet-stream')
                 response['Content-Disposition'] = f'attachment; filename="{chart_id}.pez"'
                 response.write(file)
                 return response
             else:
-                error = '谱面不存在'
+                errors.append('谱面不存在')
     else:
         form = IdForm()
-    context = {'form': form, 'error': error}
+    context = {'form': form, 'errors': errors}
     return render(request, 'pages/prgetfile.html', context)
 
 # PhiZone info index page
@@ -167,7 +167,7 @@ def phizone(request):
 # PhiZone chart rating ranking info page
 def pzranking(request):
     figure = ''
-    error = None
+    errors = []
     if request.method == 'POST':
         form = CommandForm(request.POST)
         if form.is_valid():
@@ -186,38 +186,36 @@ def pzranking(request):
             elif re.match(r'^unranked', command):
                 api_url = 'https://api.phizone.cn/charts?isranked=false'
                 title = '不计分'
-            # PecJam charts
-            elif re.match(r'^\dpj (rg|nl)', command):
-                # 7thPecJam RG charts
-                if re.match(r'^7pj rg', command):
-                    api_url = 'https://api.phizone.cn/events/divisions/a550e9cb-a1de-4885-bd08-6e85792ff1bc/entries/charts'
-                    title = ' 7thPecJam RG赛道'
-                # 7thPecJam NL charts
-                elif re.match(r'^7pj nl', command):
-                    api_url = 'https://api.phizone.cn/events/divisions/c7bd5d87-bbef-4ca4-b31e-fb6bb8e7e718/entries/charts'
-                    title = ' 7thPecJam NL赛道'
-                else:
-                    error = '指令错误'
+            # 7thPecJam RG charts
+            if re.match(r'^7pj rg', command):
+                api_url = 'https://api.phizone.cn/events/divisions/a550e9cb-a1de-4885-bd08-6e85792ff1bc/entries/charts'
+                title = ' 7thPecJam RG赛道'
+            # 7thPecJam NL charts
+            elif re.match(r'^7pj nl', command):
+                api_url = 'https://api.phizone.cn/events/divisions/c7bd5d87-bbef-4ca4-b31e-fb6bb8e7e718/entries/charts'
+                title = ' 7thPecJam NL赛道'
+            else:
+                errors.append('指令错误')
             # Position limited
-            if re.match(r'^(all|\dpj (rg|nl)) \d+,\d+$', command):
+            if re.match(r'^(all|stable|ranked|unranked|7pj (rg|nl)) \d+,\d+$', command):
                 start, end = re.search(r'\d+,\d+$', command).group().split(',')
                 start, end = int(start), int(end)
                 if start >= end or start < 1:
-                    error = '最高排名大于最低排名或排名超出范围'
+                    errors.append('最高排名大于最低排名或排名超出范围')
                 title += f'第{start}~{end}名'
             # Position and rating limited
-            elif re.match(r'^(all|stable|ranked|unranked|\dpj (rg|nl)) \d+(\.\d+)?-\d+(\.\d+)? \d+,\d+$', command):
+            elif re.match(r'^(all|stable|ranked|unranked|7pj (rg|nl)) \d+(\.\d+)?-\d+(\.\d+)? \d+,\d+$', command):
                 lowest, highest = re.search(r'\d+(\.\d+)?-\d+(\.\d+)?(?= \d+,\d+$)', command).group().split('-')
                 lowest, highest = float(lowest), float(highest)
                 if lowest >= highest or not 0 <= lowest <= 5 or not 0 <= highest <= 5:
-                    error = '最低评分大于最高评分或评分超出0~5'
+                    errors.append('最低评分大于最高评分或评分超出0~5')
                 start, end = re.search(r'\d+,\d+$', command).group().split(',')
                 start, end = int(start), int(end)
                 parameter = f'&minrating={lowest}&maxrating={highest}'
                 title += f'{lowest}~{highest}分第{start}~{end}名'
             else:
-                error = '指令错误'
-            if not error:
+                errors.append('指令错误')
+            if not errors:
                 names, ratings = [], []
                 page = 0
                 # Read the data
@@ -254,7 +252,7 @@ def pzranking(request):
                 figure = f"<img src='data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode('ascii')}' />"
     else:
         form = CommandForm()
-    context = {'form': form, 'figure': figure, 'error': error}
+    context = {'form': form, 'figure': figure, 'errors': errors}
     return render(request, 'pages/pzranking.html', context)
 
 # Phizone chart vote info page
@@ -276,7 +274,7 @@ def pzvote(request):
     chart_info = None
     votes = None
     total = None
-    error = None
+    errors = []
     if request.method == 'POST':
         form = IdForm(request.POST)
         if form.is_valid():
@@ -309,10 +307,10 @@ def pzvote(request):
                     owner = req.json()['data']['userName']
                     votes.append(PzVote(owner, vote['ownerId'], vote['multiplier'], vote['arrangement'], vote['gameplay'], vote['visualEffects'], vote['creativity'], vote['concord'], vote['impression']))
             else:
-                error = '谱面不存在'
+                errors.append('谱面不存在')
     else:
         form = IdForm()
-    context = {'form': form, 'chart_info': chart_info, 'votes': votes, 'total': total, 'error': error}
+    context = {'form': form, 'chart_info': chart_info, 'votes': votes, 'total': total, 'errors': errors}
     return render(request, 'pages/pzvote.html', context)
 
 # PhiZone B19 info
@@ -334,8 +332,8 @@ def pzbest(request):
             self.bad = bad
             self.miss = miss
             self.rks = rks
-            self.level_id = 'other' if self.level not in ['AT', 'IN', 'HD', 'EZ'] else self.level
-    
+            self.level_id = 'other' if self.level not in ['AT', 'IN', 'HD', 'EZ', 'SP'] else self.level.lower()
+
     def get_best_info(index, record):
         song = record['chart']['song']['title']
         level = record['chart']['level']
@@ -352,9 +350,9 @@ def pzbest(request):
         return PzBest(index, song, level, difficulty, chart_id, score, acc, perfect, early, late, bad, miss, rks)
 
     rks = None
-    b0 = None
-    b19 = []
-    error = None
+    phi3 = []
+    b27 = []
+    errors = []
     if request.method == 'POST':
         form = IdForm(request.POST)
         if form.is_valid():
@@ -363,15 +361,15 @@ def pzbest(request):
             req = requests.get(f'https://api.phizone.cn/users/{user_id}/personalBests')
             if req.status_code != 404 and req.json()['code'] != 'UserNotFound':
                 data = req.json()['data']
-                if data['phi1']:
-                    b0 = get_best_info(0, data['phi1'])
-                if data['best19']:
-                    b19 = [get_best_info(i + 1, record) for i, record in enumerate(data['best19'])]
+                if data['phi3']:
+                    phi3 = [get_best_info(i + 1, record) for i, record in enumerate(data['phi3'])]
+                if data['best27']:
+                    b27 = [get_best_info(i + 1, record) for i, record in enumerate(data['best27'])]
             else:
-                error = '用户不存在'
+                errors.append('用户不存在')
     else:
         form = IdForm()
-    context = {'form': form, 'rks': rks, 'b0': b0, 'b19': b19, 'error': error}
+    context = {'form': form, 'rks': rks, 'phi3': phi3, 'b27': b27, 'errors': errors}
     return render(request, 'pages/pzbest.html', context)
 
 # Notanote Tools
@@ -390,8 +388,8 @@ def nanbest(request):
             self.score = score
             self.acc = acc
             self.rank = rank
-            self.level_id = 'EZ_Plus' if self.level == 'EZ+' else self.level
-    
+            self.level_id = 'ez-plus' if self.level == 'EZ+' else self.level.lower()
+
     b26 = []
     overflow = []
     nrk = None
@@ -399,7 +397,7 @@ def nanbest(request):
     if request.method == 'POST':
         form = NanBestForm(request.POST)
         if form.is_valid():
-            info = request.POST.get('ranks').strip().split('\r\n')    
+            info = request.POST.get('ranks').strip().split('\r\n')
             records = []
             with open('static/pages/notanote/notanote_chart_info.json', encoding='utf-8') as file:
                 data = json.loads(file.read())
@@ -423,6 +421,8 @@ def nanbest(request):
                             errors.append(f'{song} {level}的分数不是整数')
                         elif (int(score) < 0) or (int(score) > 1000000):
                             errors.append(f'{song} {level}的分数不在0~1000000之间')
+                        else:
+                            score = '%07d' % int(score)
                     # Check the acc
                     try:
                         acc = float(acc)
@@ -477,12 +477,12 @@ def nanbest_v1_7_0(request):
             self.acc = acc
             self.rank = rank
             if self.level == 'EZ+':
-                self.level_id = 'EZ_Plus'
+                self.level_id = 'ez-plus'
             elif self.level == 'EX':
-                self.level_id = 'TL'
+                self.level_id = 'tl'
             else:
-                self.level_id = self.level
-    
+                self.level_id = self.level.lower
+
     b21 = []
     overflow = []
     nrk = None
@@ -491,7 +491,7 @@ def nanbest_v1_7_0(request):
         form = NanBestForm_v1_7_0(request.POST)
         if form.is_valid():
             try:
-                info = request.POST.get('ranks').strip().split('\r\n')    
+                info = request.POST.get('ranks').strip().split('\r\n')
                 records = []
                 with open('static/pages/notanote/notanote_chart_info_v1.7.0.json', encoding='utf-8') as file:
                     data = json.loads(file.read())
@@ -560,7 +560,7 @@ def nanbest_v1_7_0(request):
 # Notanote single rank calculator
 def nanrankcalc(request):
     rank = []
-    error = []
+    errors = []
     if request.method == 'POST':
         form = NanRankCalcForm(request.POST)
         if form.is_valid():
@@ -569,16 +569,16 @@ def nanrankcalc(request):
             if 0 <= acc <= 100:
                 rank = decimalize(f'({math.e} ** (2 * {acc} / 100) - 1) / ({math.e} ** 2 - 1) * ({difficulty} + 5)').quantize(Decimal('0.000'), decimal.ROUND_HALF_UP)
             else:
-                error = '准确率不在0~100之间'
+                errors.append('准确率不在0~100之间')
     else:
         form = NanRankCalcForm()
-    context = {'form': form, 'rank': rank, 'error': error}
+    context = {'form': form, 'rank': rank, 'errors': errors}
     return render(request, 'pages/nanrankcalc.html', context)
 
 # Notanote single rank calculator (v1.7.0)
 def nanrankcalc_v1_7_0(request):
     rank = []
-    error = []
+    errors = []
     if request.method == 'POST':
         form = NanRankCalcForm(request.POST)
         if form.is_valid():
@@ -587,10 +587,10 @@ def nanrankcalc_v1_7_0(request):
             if 0 <= acc <= 100:
                 rank = decimalize(f'({acc} / 100) ** 1.75 / (2 - {acc} / 100) * ({difficulty} + 5)').quantize(Decimal('0.000'))
             else:
-                error = '准确率不在0~100之间'
+                errors.append('准确率不在0~100之间')
     else:
         form = NanRankCalcForm()
-    context = {'form': form, 'rank': rank, 'error': error}
+    context = {'form': form, 'rank': rank, 'errors': errors}
     return render(request, 'pages/nanrankcalc_v1.7.0.html', context)
 
 # Programming index page
@@ -610,7 +610,7 @@ def programming(request, id):
 
 # Random number generator
 def randomnum(request):
-    random_num = None
+    result = None
     errors = []
     if request.method == 'POST':
         form = RandomNumForm(request.POST)
@@ -619,12 +619,12 @@ def randomnum(request):
             max = float(request.POST.get('max'))
             decimal_places = int(request.POST.get('decimal_places'))
             if min < max:
-                random_num = Decimal(f'{random.uniform(min, max)}').quantize(Decimal(f'{10 ** -decimal_places}'))
+                result = Decimal(f'{random.uniform(min, max)}').quantize(Decimal(f'{10 ** -decimal_places}'))
             else:
                 errors.append('最小值必须小于最大值')
     else:
         form = RandomNumForm()
-    context = {'form': form, 'errors': errors,'random_num': random_num}
+    context = {'form': form, 'errors': errors, 'result': result}
     return render(request, 'pages/randomnum.html', context)
 
 # Diary index page
