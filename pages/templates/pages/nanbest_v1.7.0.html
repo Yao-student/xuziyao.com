@@ -36,7 +36,7 @@
   <form action="{% url 'pages:nanbest_v1.7.0' %}" method='post' style="overflow-x: auto;">
     {% csrf_token %}
     {{ form.as_p }}
-    <button name="submit">查分</button>
+    <button type="submit" class="btn btn-primary">查分</button>
   </form>
 
   {% if b26 %}
@@ -45,10 +45,10 @@
     <p><b>{{ nrk }}</b></p>
 
     <h2>B26：</h2>
-      <div class="card notanote_best_bg">
+      <div class="card notanote-best-bg">
         <div class="card-body" style="padding: 5px !important;">
           {% for record in b26 %}
-            <div class="card notanote_best_record_{{ record.level_id }}">
+            <div class="card notanote-record-{{ record.level_id }}">
               <div class="card-body" style="padding: 10px !important;">
                 <p class="card-text" style="margin: 0;font-size: medium;">#{{ record.index }}</p>
                 <p class="h3 card-title" style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
@@ -63,10 +63,10 @@
 
     {% if overflow %}
       <h2>溢出部分</h2>
-      <div class="card notanote_best_bg">
+      <div class="card notanote-best-bg">
           <div class="card-body" style="padding: 5px !important;">
           {% for record in overflow %}
-            <div class="card notanote_best_record_{{ record.level_id }}">
+            <div class="card notanote-record-{{ record.level_id }}">
               <div class="card-body" style="padding: 10px !important;">
                 <p class="card-text" style="margin: 0;font-size: medium;">#{{ record.index }}</p>
                 <p class="h3 card-title" style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
@@ -89,3 +89,5 @@
   {% endif %}
 
 {% endblock %}
+
+{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}

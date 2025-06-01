@@ -31,7 +31,7 @@
 
   <hr />
 
-  <p>适用版本：v2.0.0 及以上</p>
+  <p>适用版本：v2.1.1 及以上</p>
 
   <p>输入格式：曲名,,,难度,,,分数,,,准确率<strong>（分数选填，准确率不带百分号）</strong></p>
   <p>例：《Ж》,,,SY,,,1000000,,,100</p>
@@ -41,7 +41,7 @@
   <form action="{% url 'pages:nanbest' %}" method='post' style="overflow-x: auto;">
     {% csrf_token %}
     {{ form.as_p }}
-    <button name="submit">查分</button>
+    <button type="submit" class="btn btn-primary">查分</button>
   </form>
 
   {% if b26 %}
@@ -50,10 +50,10 @@
     <p><b>{{ nrk }}</b></p>
 
     <h2>B26：</h2>
-      <div class="card notanote_best_bg">
+      <div class="card notanote-best-bg">
         <div class="card-body" style="padding: 5px !important;">
           {% for record in b26 %}
-            <div class="card notanote_best_record_{{ record.level_id }}">
+            <div class="card notanote-record-{{ record.level_id }}">
               <div class="card-body" style="padding: 10px !important;">
                 <p class="card-text" style="margin: 0;font-size: medium;">#{{ record.index }}</p>
                 <p class="card-title" style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
@@ -68,10 +68,10 @@
 
     {% if overflow %}
       <h2>溢出部分</h2>
-      <div class="card notanote_best_bg">
+      <div class="card notanote-best-bg">
           <div class="card-body" style="padding: 5px !important;">
           {% for record in overflow %}
-            <div class="card notanote_best_record_{{ record.level_id }}">
+            <div class="card notanote-record-{{ record.level_id }}">
               <div class="card-body" style="padding: 10px !important;">
                 <p class="card-text" style="margin: 0;font-size: medium;">#{{ record.index }}</p>
                 <p class="card-title" style="margin: 0;font-size: large;"><b>{{ record.song }}</b></p>
@@ -100,7 +100,9 @@
     <li><a href="https://space.bilibili.com/439775291">qm</a>（Notanote 主策划）</li>
     <li><a href="https://space.bilibili.com/289100515">羽毛球awa</a>（Notanote 主程序）</li>
     <li><a href="https://carlsky.cn">Sky</a>（Notanote 程序组 Web 开发）</li>
-    <li><a href="https://mkzi-nya.github.io/">归梦</li>
+    <li><a href="https://mkzi-nya.github.io/">归梦</a></li>
   </ul>
 
 {% endblock %}
+
+{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}

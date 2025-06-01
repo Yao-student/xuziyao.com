@@ -1,8 +1,8 @@
 {% extends "pages/base.html" %}
 
-{% block title %}PhiZone B19查询{% endblock %}
+{% block title %}PhiZone B27 查询{% endblock %}
 
-{% block header %}PhiZone B19查询{% endblock %}
+{% block header %}PhiZone B27 查询{% endblock %}
 
 {% block breadcrumb %}
 
@@ -10,7 +10,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
       <li class="breadcrumb-item"><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
-      <li class="breadcrumb-item active">PhiZone B19 查询</li>
+      <li class="breadcrumb-item active">PhiZone B27 查询</li>
     </ol>
   </nav>
 
@@ -20,39 +20,45 @@
 
 {% block content %}
 
-  <p>注：用户 ID 即用户页面链接最后的那串数字，比如 <a href="https://www.phizone.cn/users/26830">大松_Dason</a>（网站作者本人）的用户 ID 就是 26830。</p>
+  <p>注：用户 ID 即用户页面链接最后的那串数字，比如 <a href="https://www.phizone.cn/users/26830">大松_Dason</a>（站长本人）的用户 ID 就是 26830。</p>
 
   <form action="{% url 'pages:pzbest' %}" method='post'>
     {% csrf_token %}
     {{ form.as_p }}
-    <button name="submit">查询</button>
+    <button type="submit" class="btn btn-primary">查询</button>
   </form>
 
-  {% if b19 %}
+  {% if b27 %}
 
     <h2>RKS</h2>
     <p>{{ rks }}</p>
 
-    <h2>B19</h2>
+    <h2>B27</h2>
 
-    <div class="card phizone_best_bg">
+    <div class="card phizone-best-bg">
       <div class="card-body" style="padding: 5px !important;">
 
-        {% if b0 %}
-          <div class="card phizone_best_record_{{ record.level_id }}">
-            <div class="card-body" style="padding: 5px !important;">
-              <p class="card-text" style="margin: 0;font-size: medium;">#0</p>
-              <p class="card-title" style="margin: 0;font-size: large;"><b><a class="link-dark" href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ b0.song }}</a></b></p>
-              <p class="card-text" style="margin: 0;font-size: medium;"><b>{{ b0.level }} {{ b0.difficulty }}</b></p>
-              <p class="card-text" style="margin: 0;font-size: large;"><b>{{ b0.score }}</b></p>
-              <p class="card-text" style="margin: 0;font-size: medium;">{{ b0.acc }}% > <b>{{ b0.rks }}</b></p>
-              <p class="card-text" style="margin: 0;font-size: medium;"><b>PGBM:</b> {{ b0.perfect }} - {{ b0.good }} ( {{ b0.early }} - {{ b0.late }} ) - {{ b0.bad }} - {{ b0.miss }}</p>
+        {% if phi3 %}
+
+          {% for record in phi3 %}
+            <div class="card phizone-record-{{ record.level_id }}">
+              <div class="card-body" style="padding: 5px !important;">
+                <p class="card-text" style="margin: 0;font-size: medium;">φ{{ record.index }}</p>
+                <p class="card-title" style="margin: 0;font-size: large;"><b><a class="link-dark" href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ record.song }}</a></b></p>
+                <p class="card-text" style="margin: 0;font-size: medium;"><b>{{ record.level }} {{ record.difficulty }}</b></p>
+                <p class="card-text" style="margin: 0;font-size: large;"><b>{{ record.score }}</b></p>
+                <p class="card-text" style="margin: 0;font-size: medium;">{{ record.acc }}% > <b>{{ record.rks }}</b></p>
+                <p class="card-text" style="margin: 0;font-size: medium;"><b>PGBM:</b> {{ record.perfect }} - {{ record.good }} ( {{ record.early }} - {{ record.late }} ) - {{ record.bad }} - {{ record.miss }}</p>
+              </div>
             </div>
-          </div>
+          {% endfor %}
+
+          <hr />
+
         {% endif %}
 
-        {% for record in b19 %}
-          <div class="card phizone_best_record_{{ record.level_id }}">
+        {% for record in b27 %}
+          <div class="card phizone-record-{{ record.level_id }}">
             <div class="card-body" style="padding: 5px !important;">
               <p class="card-text" style="margin: 0;font-size: medium;">#{{ record.index }}</p>
               <p class="card-title" style="margin: 0;font-size: large;"><b><a class="link-dark" href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ record.song }}</a></b></p>
@@ -69,8 +75,12 @@
 
   {% endif %}
 
-  {% if error %}
-    <p style="color: red;">{{ error }}</p>
+  {% if errors %}
+    {% for error in errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
   {% endif %}
 
 {% endblock %}
+
+{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}

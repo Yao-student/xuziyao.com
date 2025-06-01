@@ -14,12 +14,12 @@
   </nav>
 
   <hr />
- 
+
 {% endblock %}
 
 {% block content %}
   {% for chart in charts %}
-    <div class="card chart_link" style="border-radius: 20px;">
+    <div class="card chart-link" style="border-radius: 20px;">
       <img class="card-img-top" src="{% static 'pages/fanmade_charts/phigros/'|add:chart.illustration %}" alt="{{ chart.title }} 曲绘" />
       <div class="card-body">
         <h3 class="card-title"><a class="link-dark" href="{% url 'pages:fmcharts_download' category='phigros' id=chart.id %}">{{ chart.title }}</a></h3>
@@ -35,3 +35,5 @@
     </div>
   {% endfor %}
 {% endblock %}
+
+{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}

@@ -34,15 +34,19 @@
     {% csrf_token %}
     <p>定数：{{ form.difficulty }}</p>
     <p>准确率：{{ form.acc }}</p>
-    <button name="submit">计算</button>
+    <button type="submit" class="btn btn-primary">计算</button>
   </form>
 
   {% if rank %}
     <p>单曲 Rank：{{ rank }}</p>
   {% endif %}
 
-  {% if error %}
-    <p style="color: red;">{{ error }}</p>
+  {% if errors %}
+    {% for error in errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
   {% endif %}
 
 {% endblock %}
+
+{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}

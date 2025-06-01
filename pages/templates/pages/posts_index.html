@@ -21,7 +21,7 @@
 
   <div id="pinned">
     <h2>置顶帖子</h2>
-    <div class="card article_link">
+    <div class="card article-link">
       <div class="card-body">
         <h3 class="card-title"><a class="link-dark" href="{% url 'pages:posts' id=1 %}">这个网站的第一篇帖子</a></h3>
         <p class="card-text">2025年3月15日</p>
@@ -34,7 +34,7 @@
   <div id="all">
     <h2>所有帖子</h2>
     {% for post in posts %}
-      <div class="card article_link">
+      <div class="card article-link">
         <div class="card-body">
           <h3 class="card-title"><a class="link-dark" href="{% url 'pages:posts' id=post.id %}">{{ post.title }}</a></h3>
           <p class="card-text">{{ post.date }}</p>
@@ -44,3 +44,5 @@
   </div>
 
 {% endblock %}
+
+{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}

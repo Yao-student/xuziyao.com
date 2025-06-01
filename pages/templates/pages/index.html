@@ -10,12 +10,12 @@
 
   <p style="text-align: center;font-size: large;"><a href="https://github.com/Yao-student/xuziyao.com">Github 仓库</a></p>
 
-  <h2 id="tools_and_articles">工具与文章</h2>
+  <h2 id="tools-and-articles">工具与文章</h2>
 
   <div id="mug" class="section">
     <h3>音游</h3>
     <ul>
-      <li><a href="{% url 'pages:index' %}">开字母<b>（开发中）</b></a></li>
+      <li><a href="{% url 'pages:index' %}">开字母（开发中）</a></li>
       <li><a href="{% url 'pages:fmcharts' %}">自制谱</a></li>
       <li><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
       <li><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
@@ -38,33 +38,35 @@
     </ul>
   </div>
 
-  <div id="friendly_links" class="section">
+  <div id="friendly-links" class="section">
     <h3>友情链接</h3>
     <ul>
-      <li><a href="https://mkzi-nya.github.io/">归梦的个人主页</a></li>
+      <li><a href="https://notanote.cn">Notanote</a></li>
+      <li><a href="https://mkzi-nya.github.io">归梦的个人主页</a></li>
+      <li><a href="https://mhtlim.top">归梦的 Milthm 查分器</a></li>
       <li><a href="https://carlsky.cn">Sky 的个人主页</a></li>
       <li><a href="https://wikiwiki.jp/notanote/">notanote 日本語 WIKI</a></li>
     </ul>
   </div>
 
-  <div id="recommended_articles">
+  <div id="recommended-articles">
 
     <h2>文章推荐</h2>
 
-    <div class="card article_link">
+    <div class="card article-link">
       <div class="card-body">
         <h3 class="card-title"><a class="link-dark" href="{% url 'pages:programming' id=1 %}">Python bezier 库超详细教程</a></h3>
         <p class="card-text">2024年10月2日</p>
       </div>
     </div>
 
-    <div class="card article_link">
+    <div class="card article-link">
       <div class="card-body">
         <h3 class="card-title"><a class="link-dark" href="{% url 'pages:programming' id=2 %}">Python 用正则表达式判断字符串是否为数</a></h3>
         <p class="card-text">2025年3月25日</p>
       </div>
     </div>
 
-  </div>
-
 {% endblock %}
+
+{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}

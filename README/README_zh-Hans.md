@@ -6,14 +6,29 @@
 
 ## 更新日志
 
+### v1.2.3 (2025.05.30)
+
+- 将网页计数器从 [不蒜子](https://busuanzi.ibruce.info/) 改为 [Vercount](https://vercount.one/)
+- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 同步 Notanote v2.2.0 更新
+- 增加新友情链接
+- 其他小更改
+
+### v1.2.2 (2025.05.24)
+
+- 在页面底部显示访问量与访客量
+- [PhiZone B27 计算](http://xuziyao.com/phizone/best/) 同步 PhiZone 更新，将 Phi1 + B19 改为 Phi3 + B27
+- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 分数前面自动补 0
+- 其他小更改
+
 ### v1.2.1 (2025.05.04)
 
-- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 同步 v2.1.1 更新
+- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 同步 Notanote v2.1.1 更新
 
 ### v1.2.0 (2025.04.26)
 
 - UI 部分更改
-- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 同步 v2.1.0 更新
+- 日记板块更名为 [帖子](http://xuziyao.com/posts/)
+- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 同步 Notanote v2.1.0 更新
 
 ### v1.1.2 (2025.04.20)
 
@@ -31,7 +46,7 @@
 - 增加 [自制谱](http://xuziyao.com/fanmade_charts/) 板块
 - 首页增加友情链接
 - 增加面包屑导航
-- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 与 [Notanote 单曲 Rank 计算](http://xuziyao.com/notanote/rankcal/) 改为使用 v2.0.0 新公式并同步 v2.0.0 更新，使用 v1.7.0 公式的版本被迁移到 [Notanote B21 计算（v1.7.0）](http://xuziyao.com/notanote/best/v1.7.0) 与 [Notanote 单曲 Rank 计算](http://xuziyao.com/notanote/rankcal/v1.7.0)。数据格式中增加分数信息（选填），移除定数信息，输出结果中不同难度改用不同颜色。修复了当准确率全为 0 时发生错误的问题
+- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 与 [Notanote 单曲 Rank 计算](http://xuziyao.com/notanote/rankcal/) 同步 Notanote v2.0.0 更新，改用新公式，使用 v1.7.0 公式的版本被迁移到 [Notanote B21 计算（v1.7.0）](http://xuziyao.com/notanote/best/v1.7.0) 与 [Notanote 单曲 Rank 计算](http://xuziyao.com/notanote/rankcal/v1.7.0)。数据格式中增加分数信息（选填），移除定数信息，输出结果中不同难度改用不同颜色。修复了当准确率全为 0 时发生错误的问题
 - 增加置顶日记与置顶编程文章
 - [编程](http://xuziyao.com/programming/) 板块更新文章
 - 优化代码并修复错误

@@ -24,7 +24,7 @@
   <form action="{% url 'pages:pzvote' %}" method='post'>
     {% csrf_token %}
     {{ form.as_p }}
-    <button name="submit">查询</button>
+    <button type="submit" class="btn btn-primary">查询</button>
   </form>
 
   {% if chart_info and votes %}
@@ -82,8 +82,12 @@
 
   {% endif %}
 
-  {% if error %}
-    <p style="color: red;">{{ error }}</p>
+  {% if errors %}
+    {% for error in errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
   {% endif %}
 
 {% endblock %}
+
+{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}

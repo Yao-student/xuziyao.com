@@ -19,28 +19,24 @@
 
 {% block content %}
 
-  {% if random_num %}
+  <form action="{% url 'pages:randomnum' %}" method="post">
+    {% csrf_token %}
+    <p>最小值: {{ form.min }}</p>
+    <p>最大值: {{ form.max }}</p>
+    <p>小数位数: {{ form.decimal_places }}</p>
+    <button type="submit" class="btn btn-primary">生成</button>
+  </form>
 
-    <form action="{% url 'pages:randomnum' %}" method="post">
-      {% csrf_token %}
-      <p>最小值: {{ form.min }}</p>
-      <p>最大值: {{ form.max }}</p>
-      <p>小数位数: {{ form.decimal_places }}</p>
-      <button name="submit">生成</button>
-    </form>
-    
-    <p>结果：{{ random_num }}</p>
+  {% if result %}
+    <p>结果：{{ result }}</p>
+  {% endif %}
 
-  {% else %}
-
-    <form action="{% url 'pages:randomnum' %}" method="post" style="margin-bottom: 20px;">
-      {% csrf_token %}
-      <p>最小值: {{ form.min }}</p>
-      <p>最大值: {{ form.max }}</p>
-      <p>小数位数: {{ form.decimal_places }}</p>
-      <button name="submit">生成</button>
-    </form>
-
+  {% if errors %}
+    {% for error in errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
   {% endif %}
 
 {% endblock %}
+
+{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}

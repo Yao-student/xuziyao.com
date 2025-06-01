@@ -28,21 +28,25 @@
     <li>所有谱面：all [最低评分-最高评分] (最高排名,最低排名)</li>
     <li>计分谱面：ranked [最低评分-最高评分] (最高排名,最低排名)</li>
     <li>不计分谱面：unranked [最低评分-最高评分] (最高排名,最低排名)</li>
-    <li>PecJam RG赛道谱面：(序号)pj rg [最低评分-最高评分] (最高排名,最低排名)</li>
-    <li>PecJam NL赛道谱面：(序号)pj nl [最低评分-最高评分] (最高排名,最低排名)</li>
+    <li>7thPecJam RG赛道谱面：7pj rg [最低评分-最高评分] (最高排名,最低排名)</li>
+    <li>7thPecJam NL赛道谱面：7pj nl [最低评分-最高评分] (最高排名,最低排名)</li>
   </ul>
   <p>例：7pj rg 3.0-5.0 1,10</p>
 
   <form action="{% url 'pages:pzranking' %}" method='post'>
     {% csrf_token %}
     {{ form.as_p }}
-    <button name="submit">查询</button>
+    <button type="submit" class="btn btn-primary">查询</button>
   </form>
 
   {{ figure|safe }}
 
-  {% if error %}
+  {% if errors %}
+    {% for error in errors %}
     <p style="color: red;">{{ error }}</p>
+    {% endfor %}
   {% endif %}
 
 {% endblock %}
+
+{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}
