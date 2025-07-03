@@ -22,7 +22,9 @@
     <div class="card chart-link" style="border-radius: 20px;">
       <img class="card-img-top" src="{% static 'pages/fanmade_charts/phigros/'|add:chart.illustration %}" alt="{{ chart.title }} 曲绘" />
       <div class="card-body">
-        <h3 class="card-title"><a class="link-dark" href="{% url 'pages:fmcharts_download' category='phigros' id=chart.id %}">{{ chart.title }}</a></h3>
+        {% with forloop.counter|stringformat:'s' as id %}
+          <h3 class="card-title"><a class="link-dark" href="{% static 'pages/fanmade_charts/phigros/'|add:id|add:'.pez' %}">{{ chart.title }}</a></h3>
+        {% endwith %}
         <p class="card-text" style="margin: 0"><b>{{ chart.difficulty }}</b></p>
         <p class="card-text" style="margin: 0"><b>日期</b>：{{ chart.date }}</p>
         <p class="card-text" style="margin: 0"><b>曲师</b>：{{ chart.composer }}</p>

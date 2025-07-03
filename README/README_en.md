@@ -6,6 +6,10 @@ My personal website. Developed with [Django](https://www.djangoproject.com/) web
 
 ## Changelog
 
+### v1.2.5 (2025.06.28)
+
+- Fixed the problem that the charts can't be correctly downloaded in [Fanmade Charts](http://xuziyao.com/fanmade_charts/) section
+
 ### v1.2.4 (2025.06.22)
 
 - [Phigros Fanmade Charts](http://xuziyao.com/fanmade_charts/phigros/) section update

@@ -16,7 +16,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('introduction/', views.introduction, name='introduction'),
     path('fanmade_charts/', views.fmcharts, name='fmcharts'),
-    re_path(r'^fanmade_charts/(?P<category>\w+)/(?P<id>\d+)/$', views.fmcharts_download, name='fmcharts_download'),
     path('fanmade_charts/phigros/', views.fmchartsphi, name='fmchartsphi'),
     path('phira/', views.phira, name='phira'),
     path('phira/ranking/', views.prranking, name='prranking'),

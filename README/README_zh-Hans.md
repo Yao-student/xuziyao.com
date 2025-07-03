@@ -6,6 +6,10 @@
 
 ## 更新日志
 
+### v1.2.5 (2025.06.28)
+
+- 修复了 [自制谱](http://xuziyao.com/fanmade_charts/) 板块无法正确下载谱面的问题
+
 ### v1.2.4 (2025.06.22)
 
 - [Phigros 自制谱](http://xuziyao.com/fanmade_charts/phigros/) 板块更新

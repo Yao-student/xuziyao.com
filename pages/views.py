@@ -37,16 +37,6 @@ def fmchartsphi(request):
     context = {'charts': charts}
     return render(request, 'pages/fmchartsphi.html', context)
 
-# Phigros fanmade charts download
-def fmcharts_download(request, category, id):
-    file = requests.get(f'http://xuziyao.com/static/fanmade_charts/{category}/{id}')
-    ext_dict = {'phigros': 'pez'}
-    ext = ext_dict[category]
-    response = HttpResponse(content_type='application/octet-stream')
-    response['Content-Disposition'] = f'attachment; filename="{id}.{ext}"'
-    response.write(file)
-    return response
-
 # Phira tools index page
 def phira(request):
     return render(request, 'pages/phira.html')
