@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'secret'
+SECRET_KEY = 'django-insecure-ytujk+r$ffwltsa$@zb9)uu5no4%*)j2^j3tokc88zrl5st129'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '564c68d9.r6.cpolar.cn']
 
 
 # Application definition
@@ -75,7 +75,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'xuziyao.wsgi.application'
 
-CSRF_TRUSTED_ORIGINS = ['http://xuziyao.com']
+CSRF_TRUSTED_ORIGINS = ['http://xuziyao.com', 'http://564c68d9.r6.cpolar.cn/']
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

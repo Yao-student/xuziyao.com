@@ -2,9 +2,14 @@
 
 ## Introduction
 
-My personal website. Developed with [Django](https://www.djangoproject.com/) web framework and [Python](https://www.python.org/) .
+My personal website. Developed with [Django](https://www.djangoproject.com/) web framework.
 
 ## Changelog
+
+### v1.2.4 (2025.06.22)
+
+- [Phigros Fanmade Charts](http://xuziyao.com/fanmade_charts/phigros/) section update
+- [Notanote B26 Calculator](http://xuziyao.com/notanote/best/) synced Notanote v2.3.0 update
 
 ### v1.2.3 (2025.05.30)
 

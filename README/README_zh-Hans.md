@@ -2,9 +2,14 @@
 
 ## 介绍
 
-我的个人网站。使用 [Django](https://www.djangoproject.com/) Web 框架和 [Python](https://www.python.org/) 开发。
+我的个人网站。使用 [Django](https://www.djangoproject.com/) Web 框架开发。
 
 ## 更新日志
+
+### v1.2.4 (2025.06.22)
+
+- [Phigros 自制谱](http://xuziyao.com/fanmade_charts/phigros/) 板块更新
+- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 同步 Notanote v2.3.0 更新
 
 ### v1.2.3 (2025.05.30)
 
