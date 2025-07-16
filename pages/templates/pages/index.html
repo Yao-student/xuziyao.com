@@ -1,8 +1,8 @@
-{% extends "pages/base.html" %}
+{% extends 'pages/base.html' %}
 
 {% block title %}首页{% endblock %}
 
-{% block header %}尧尧的网站{% endblock %}
+{% block header %}大松的个人网站{% endblock %}
 
 {% block content %}
 
@@ -10,13 +10,17 @@
 
   <p style="text-align: center;font-size: large;"><a href="https://github.com/Yao-student/xuziyao.com">Github 仓库</a></p>
 
+  <p style="text-align: center;font-size: large;""><a href="{% url 'pages:changelog' %}">更新日志</a></p>
+
+  <hr />
+
   <h2 id="tools-and-articles">工具与文章</h2>
 
   <div id="mug" class="section">
     <h3>音游</h3>
     <ul>
       <li><a href="{% url 'pages:index' %}">开字母（开发中）</a></li>
-      <li><a href="{% url 'pages:fmcharts' %}">自制谱</a></li>
+      <li><a href="{% url 'pages:fanmade_charts' %}">自制谱</a></li>
       <li><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
       <li><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
       <li><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
@@ -69,4 +73,4 @@
 
 {% endblock %}
 
-{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

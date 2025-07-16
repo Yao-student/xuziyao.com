@@ -1,4 +1,4 @@
-{% extends "pages/base.html" %}
+{% extends 'pages/base.html' %}
 
 {% block title %}随机数生成{% endblock %}
 
@@ -19,11 +19,20 @@
 
 {% block content %}
 
-  <form action="{% url 'pages:randomnum' %}" method="post">
+  <form action="{% url 'pages:randomnum' %}" method="post" class="form" target="_self">
     {% csrf_token %}
-    <p>最小值: {{ form.min }}</p>
-    <p>最大值: {{ form.max }}</p>
-    <p>小数位数: {{ form.decimal_places }}</p>
+    <p>
+      <label for="min" class="form-label">最小值:</label>
+      <input type="number" name="min" class="form-control" id="min" value="0" step="any" required>
+    </p>
+    <p>
+      <label for="max" class="form-label">最大值:</label>
+      <input type="number" name="max" class="form-control" id="max" value="10" step="any" required>
+    </p>
+    <p>
+      <label for="decimal_places" class="form-label">小数位数:</label>
+      <input type="number" name="decimal-places" class="form-control" id="decimal-places" value="1" min="0" required>
+    </p>
     <button type="submit" class="btn btn-primary">生成</button>
   </form>
 
@@ -39,4 +48,4 @@
 
 {% endblock %}
 
-{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

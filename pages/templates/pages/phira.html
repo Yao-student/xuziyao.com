@@ -1,4 +1,4 @@
-{% extends "pages/base.html" %}
+{% extends 'pages/base.html' %}
 
 {% block title %}Phira 工具{% endblock %}
 
@@ -17,10 +17,19 @@
 {% endblock %}
 
 {% block content %}
-  <ul>
-    <li><a href="{% url 'pages:prranking' %}">Phira 谱面评分排名</a></li>
-    <li><a href="{% url 'pages:prgetfile' %}">Phira 谱面文件获取</a></li>
-  </ul>
+
+  <div class="card section-link" style="margin-bottom: 1rem;background-image: url({% static 'phira/ranking_card_bg.png' %});">
+    <div class="card-body">
+      <h3 class="card-title"><a href="{% url 'pages:phira_ranking' %}" class="link-light">Phira 谱面评分排名</a></h3>
+    </div>
+  </div>
+
+  <div class="card section-link" style="background-image: url({% static 'phira/download_card_bg.png' %});">
+    <div class="card-body">
+      <h3 class="card-title"><a href="{% url 'pages:phira_download' %}" class="link-light">Phira 谱面文件下载</a></h3>
+    </div>
+  </div>
+
 {% endblock %}
 
-{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

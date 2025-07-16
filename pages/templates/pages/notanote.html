@@ -1,4 +1,4 @@
-{% extends "pages/base.html" %}
+{% extends 'pages/base.html' %}
 
 {% block title %}Notanote 工具{% endblock %}
 
@@ -18,10 +18,19 @@
 {% endblock %}
 
 {% block content %}
-  <ul>
-    <li><a href="{% url 'pages:nanbest' %}">Notanote B26 计算</a></li>
-    <li><a href="{% url 'pages:nanrankcalc' %}">Notanote 单曲 Rank 计算</a></li>
-  </ul>
+
+  <div class="card section-link" style="margin-bottom: 1rem;background-image: url({% static 'notanote/best_card_bg.png' %});">
+    <div class="card-body">
+      <h3 class="card-title"><a href="{% url 'pages:notanote_best' %}" class="link-light">Notanote 查分器</a></h3>
+    </div>
+  </div>
+
+  <div class="card section-link" style="background-image: url({% static 'notanote/rank_card_bg.png' %});">
+    <div class="card-body">
+      <h3 class="card-title"><a href="{% url 'pages:notanote_rank' %}" class="link-light">Notanote 单曲 Rank 计算</a></h3>
+    </div>
+  </div>
+
 {% endblock %}
 
-{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

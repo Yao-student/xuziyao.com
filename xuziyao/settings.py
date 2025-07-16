@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ytujk+r$ffwltsa$@zb9)uu5no4%*)j2^j3tokc88zrl5st129'
+SECRET_KEY = 'secret'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '564c68d9.r6.cpolar.cn']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -75,7 +75,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'xuziyao.wsgi.application'
 
-CSRF_TRUSTED_ORIGINS = ['http://xuziyao.com', 'http://564c68d9.r6.cpolar.cn/']
+CSRF_TRUSTED_ORIGINS = ['http://xuziyao.com']
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -126,7 +126,14 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_new')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+BOOTSTRAP5 = {
+    'include_jquery': True,
+}

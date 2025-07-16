@@ -1,8 +1,8 @@
-{% extends "pages/programming.html" %}
+{% extends 'pages/programming.html' %}
 
 {% block article %}
 
-<h1 id="title" style="text-align: center;">Python bezier 库超详细教程</h1>
+<h1 style="text-align: center;">Python bezier 库超详细教程</h1>
 
 <p>bezier 是 Python 的一个第三方库，可以让我们方便地处理、绘制贝塞尔曲线。使用前需要用 pip 安装。</p>
 
@@ -102,7 +102,7 @@ pip install bezier -i https://pypi.tuna.tsinghua.edu.cn/simple<b>（使用国内
 &lt;Curve (degree=2, dimension=2)&gt;
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve.png' %}" alt="Curve() 代码示例配图" />
+<img src="{% static 'programming/1/Curve.png' %}" alt="Curve() 代码示例配图" />
 
 <h3 id="curve-methods">方法</h3>
 
@@ -155,7 +155,7 @@ array([[0.5625],
        [0.375 ]])
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_evaluate.png' %}" alt="Curve.evaluate() 代码示例配图" />
+<img src="{% static 'programming/1/Curve_evaluate.png' %}" alt="Curve.evaluate() 代码示例配图" />
 
 <p class="item"><b>Curve.evaluate_multi</b><i>(s_vals)</i> -> <i>numpy.ndarray</i></p>
 
@@ -166,7 +166,7 @@ array([[0.5625],
   <li><b>s_vals</b> <i>(numpy.ndarray)</i>：多个曲线参数。参数是一个一维 NumPy 浮点数数组。</li>
 </ul>
 
-<img src="{% static 'pages/programming/1/Curve_evaluate_multi.png' %}" alt="Curve.evaluate_multi() 代码示例配图" />
+<img src="{% static 'programming/1/Curve_evaluate_multi.png' %}" alt="Curve.evaluate_multi() 代码示例配图" />
 
 <pre><code class="language-python">>>> import bezier
 >>> import numpy as np
@@ -197,7 +197,7 @@ array([[1. ],
        [0.5]])
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_hodograph.png' %}" alt="Curve.hodograph() 代码示例配图" />
+<img src="{% static 'programming/1/Curve_hodograph.png' %}" alt="Curve.hodograph() 代码示例配图" />
 
 <p class="item"><b>Curve.plot</b><i>(num_pts, color=None, alpha=None, ax=None)</i> -> <i>matplotlib.artist.Artist</i></p>
 
@@ -227,7 +227,7 @@ array([[1. ],
 >>> plt.show()
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_plot_1.png' %}" alt="Curve.plot() 代码示例配图 1" />
+<img src="{% static 'programming/1/Curve_plot_1.png' %}" alt="Curve.plot() 代码示例配图 1" />
 
 <pre><code class="language-python">>>> # 单独操作 axes，把多条曲线画在同一图表上
 >>> nodes1 = [[0.0, 0.625, 1.0], [0.0, 0.5, 0.5]]
@@ -244,7 +244,7 @@ array([[1. ],
 >>> plt.show()
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_plot_2.png' %}" alt="Curve.plot() 代码示例配图 2" />
+<img src="{% static 'programming/1/Curve_plot_2.png' %}" alt="Curve.plot() 代码示例配图 2" />
 
 <p class="item"><b>Curve.subdivide</b>() -> <i>tuple Curve</i></p>
 
@@ -258,7 +258,7 @@ array([[1. ],
 &lt;Curve (degree=2, dimension=2)&gt; &lt;Curve (degree=2, dimension=2)&gt;
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_subdivide.png' %}" alt="Curve.subdivide() 代码示例配图" />
+<img src="{% static 'programming/1/Curve_subdivide.png' %}" alt="Curve.subdivide() 代码示例配图" />
 
 <p class="item"><b>Curve.intersect</b><i>(other, strategy=IntersectionStrategy.GEOMETRIC, verify=True)</i> -> <i>numpy.ndarray</i></p>
 
@@ -287,7 +287,7 @@ array([[0.58799506],
 [(np.float64(0.6485592796603902), np.float64(0.41512596570181837))]
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_intersect.png' %}" alt="Curve.intersect() 代码示例配图" />
+<img src="{% static 'programming/1/Curve_intersect.png' %}" alt="Curve.intersect() 代码示例配图" />
 
 <p class="item"><b>Curve.self_intersections</b><i>(strategy=IntersectionStrategy.GEOMETRIC, verify=True)</i> -> <i>numpy.ndarray</i></p>
 
@@ -313,7 +313,7 @@ array([[0.16666667, 0.66666667],
 [(np.float64(-149.99999999999997), np.float64(74.99999999999989)), (np.float64(150.0), np.float64(74.99999999999991))]
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_self_intersections.png' %}" alt="Curve.self_intersections() 代码示例配图" />
+<img src="{% static 'programming/1/Curve_self_intersections.png' %}" alt="Curve.self_intersections() 代码示例配图" />
 
 <p class="item"><b>Curve.elevate</b>() -> <i>Curve</i></p>
 
@@ -329,7 +329,7 @@ array([[0.16666667, 0.66666667],
 &lt;Curve (degree=3, dimension=2)&gt;
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_elevate.png' %}" alt="Curve.elevate() 代码示例配图" />
+<img src="{% static 'programming/1/Curve_elevate.png' %}" alt="Curve.elevate() 代码示例配图" />
 
 <p class="item"><b>Curve.reduce_</b>() -> <i>Curve</i></p>
 
@@ -356,8 +356,8 @@ array([[0.16666667, 0.66666667],
 &lt;Curve (degree=1, dimension=2)&gt;
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_reduce_not_deformed.png' %}" alt="Curve.reduce_() 曲线不变形代码示例配图" />
-<img src="{% static 'pages/programming/1/Curve_reduce_deformed.png' %}" alt="Curve.reduce_() 曲线变形代码示例配图" />
+<img src="{% static 'programming/1/Curve_reduce_not_deformed.png' %}" alt="Curve.reduce_() 曲线不变形代码示例配图" />
+<img src="{% static 'programming/1/Curve_reduce_deformed.png' %}" alt="Curve.reduce_() 曲线变形代码示例配图" />
 
 <p class="item"><b>Curve.specialize</b><i>(start, end)</i> -> <i>Curve</i></p>
 
@@ -379,7 +379,7 @@ array([[0.16666667, 0.66666667],
 &lt;Curve (degree=3, dimension=2)&gt;
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_specialize.png' %}" alt="Curve.specialize() 代码示例配图" />
+<img src="{% static 'programming/1/Curve_specialize.png' %}" alt="Curve.specialize() 代码示例配图" />
 
 <p class="item"><b>Curve.locate</b><i>(point)</i> -> <i>Optional float</i></p>
 
@@ -400,7 +400,7 @@ array([[0.16666667, 0.66666667],
 0.29999999999992016
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_locate.png' %}" alt="Curve.locate() 代码示例配图" />
+<img src="{% static 'programming/1/Curve_locate.png' %}" alt="Curve.locate() 代码示例配图" />
 
 <p class="item"><b>Curve.to_symbolic</b>() -> <i>sympy.Matrix</i></p>
 
@@ -419,7 +419,7 @@ Matrix([
 [-s*(s - 2)/2]])
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_to_symbolic.png' %}" alt="Curve.to_symbolic() 代码示例配图" />
+<img src="{% static 'programming/1/Curve_to_symbolic.png' %}" alt="Curve.to_symbolic() 代码示例配图" />
 
 <p class="item"><b>Curve.implicitize</b>() -> <i>sympy.Expr</i></p>
 
@@ -435,7 +435,7 @@ Matrix([
 36*(x**2 + 2*x*y - 3*x + y**2 - 9*y + 18)
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Curve_implicitize.png' %}" alt="Curve.implicitize() 代码示例配图" />
+<img src="{% static 'programming/1/Curve_implicitize.png' %}" alt="Curve.implicitize() 代码示例配图" />
 
 <h3 id="curve-properties" style="font-size: large;">属性</h3>
 
@@ -521,7 +521,7 @@ array([[0.   , 0.625, 1.   ],
 &lt;CurvedPolygon (num_sides=4)&gt;
 </code></pre>
 
-<img src="{% static 'pages/programming/1/CurvedPolygon.png' %}" alt="CurvedPolygon() 代码示例配图" />
+<img src="{% static 'programming/1/CurvedPolygon.png' %}" alt="CurvedPolygon() 代码示例配图" />
 
 <h3 id="curved-polygon-methods" style="font-size: large;">方法</h3>
 
@@ -565,7 +565,7 @@ array([[0.   , 0.625, 1.   ],
 >>> plt.show()
 </code></pre>
 
-<img src="{% static 'pages/programming/1/CurvedPolygon_plot.png' %}" alt="CurvedPolygon.plot() 代码示例配图" />
+<img src="{% static 'programming/1/CurvedPolygon_plot.png' %}" alt="CurvedPolygon.plot() 代码示例配图" />
 
 <h3 id="curved-polygon-properties" style="font-size: large;">属性</h3>
 
@@ -630,7 +630,7 @@ array([[0.   , 0.625, 1.   ],
 &lt;Triangle (degree=2, dimension=2)&gt;
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Triangle.png' %}" alt="Triangle() 代码示例配图" />
+<img src="{% static 'programming/1/Triangle.png' %}" alt="Triangle() 代码示例配图" />
 
 <h3 id="triangle-methods" style="font-size: large;">方法</h3>
 
@@ -691,7 +691,7 @@ array([[0.   , 0.625, 1.   ],
 >>> plt.show()
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Triangle_plot.png' %}" alt="Triangle.plot() 代码示例配图" />
+<img src="{% static 'programming/1/Triangle_plot.png' %}" alt="Triangle.plot() 代码示例配图" />
 
 <p class="item"><b>Triangle.subdivide</b>() -> <i>tuple Triangle,Triangle,Triangle,Triangle</i></p>
 
@@ -705,7 +705,7 @@ array([[0.   , 0.625, 1.   ],
 (&lt;Triangle (degree=2, dimension=2)&gt;, &lt;Triangle (degree=2, dimension=2)&gt;, &lt;Triangle (degree=2, dimension=2)&gt;, &lt;Triangle (degree=2, dimension=2)&gt;)
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Triangle_subdivide.png' %}" alt="Triangle.subdivide() 代码示例配图" />
+<img src="{% static 'programming/1/Triangle_subdivide.png' %}" alt="Triangle.subdivide() 代码示例配图" />
 
 <p class="item"><b>Triangle.intersect</b><i>(other, strategy=IntersectionStrategy.GEOMETRIC, verify=True)</i> -> <i>list Union CurvedPolygon,Triangle</i></p>
 
@@ -729,7 +729,7 @@ array([[0.   , 0.625, 1.   ],
 [&lt;CurvedPolygon (num_sides=3)&gt;]
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Triangle_intersect.png' %}" alt="Triangle.intersect() 代码示例配图" />
+<img src="{% static 'programming/1/Triangle_intersect.png' %}" alt="Triangle.intersect() 代码示例配图" />
 
 <p class="item"><b>Triangle.elevate</b>() -> <i>Triangle</i></p>
 
@@ -745,7 +745,7 @@ array([[0.   , 0.625, 1.   ],
 &lt;Triangle (degree=3, dimension=2)&gt;
 </code></pre>
 
-<img src="{% static 'pages/programming/1/Triangle_elevate.png' %}" alt="Triangle.elevate() 代码示例配图" />
+<img src="{% static 'programming/1/Triangle_elevate.png' %}" alt="Triangle.elevate() 代码示例配图" />
 
 <h3 id="triangle-properties" style="font-size: large;">属性</h3>
 

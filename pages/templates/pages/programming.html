@@ -1,4 +1,4 @@
-{% extends "pages/base.html" %}
+{% extends 'pages/base.html' %}
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -22,8 +22,10 @@
 
   <p style="text-align: center;">日期：{{ date }}</p>
 
-  {% block article %}{% endblock %}
+  <article class="arti">
+    {% block article %}{% endblock %}
+  </article>
 
 {% endblock %}
 
-{% block page_pv %}<span id="busuanzi_value_page_pv"></span>{% endblock %}
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

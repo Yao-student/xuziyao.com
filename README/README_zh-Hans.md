@@ -6,6 +6,20 @@
 
 ## 更新日志
 
+### v2.0.0 (2025.07.14)
+
+- 在页面底部显示网站运行天数与备案信息
+- 增加 [更新日志](http://xuziyao.com/changelog/)
+- [自制谱](http://xuziyao.com/fanmade_charts/)、[Phira 工具](http://xuziyao.com/phira/)、[PhiZone 工具](http://xuziyao.com/phizone/)、[Notanote 工具](http://xuziyao.com/notanote/) 页面上的无序列表链接改为卡片
+- [PhiZone B27 计算](http://xuziyao.com/notanote/best/) 更名为 [PhiZone 查分器](http://xuziyao.com/phizone/best/)，修复了 Phi3 排版错误的问题
+- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 更名为 [Notanote 查分器](http://xuziyao.com/notanote/best/)，将查分方式改为更方便的上传成绩文件
+- [Notanote 单曲 Rank 计算](http://xuziyao.com/notanote/rank/) URL 由 /notanote/rankcalc/ 改为 /notanote/rank/
+- [编程](http://xuziyao.com/programming/) 板块更新文章
+- [帖子](http://xuziyao.com/programming/) 板块更新
+- 增加 [特别感谢](http://xuziyao.com/special_thanks/) 页面
+- 优化了代码
+- 其他小更改
+
 ### v1.2.5 (2025.06.28)
 
 - 修复了 [自制谱](http://xuziyao.com/fanmade_charts/) 板块无法正确下载谱面的问题

@@ -2,7 +2,6 @@ from django.db import models
 
 # Phigros Fanmade Charts
 class PhigrosFanmadeChart(models.Model):
-    illustration = models.CharField(max_length=10)
     title = models.CharField(max_length=80)
     difficulty = models.CharField(max_length=10)
     date = models.DateField()
@@ -12,6 +11,10 @@ class PhigrosFanmadeChart(models.Model):
     bpm = models.FloatField()
     offset = models.FloatField()
     notenum = models.IntegerField()
+    bilibili_bv = models.CharField(max_length=10)
+    phira_id = models.IntegerField()
+    phizone_id = models.IntegerField()
+
 
     def __str__(self):
         return f'{self.title} [{self.difficulty}]'
