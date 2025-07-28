@@ -1,0 +1,28 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}自制谱{% endblock %}
+
+{% block header %}自制谱{% endblock %}
+
+{% block breadcrumb %}
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item active">自制谱</li>
+    </ol>
+  </nav>
+
+  <hr />
+
+{% endblock %}
+
+{% block content %}
+  <div class="card section-link" style="background-image: url({% static 'fanmade_charts/phigros_card_bg.png' %});">
+    <div class="card-body">
+      <h3 class="card-title"><a href="{% url 'pages:fanmade_charts_phigros' %}" class="link-light">Phigros 自制谱</a></h3>
+    </div>
+  </div>
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

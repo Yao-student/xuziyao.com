@@ -17,7 +17,7 @@ import json
 import math
 import random
 
-# Homepage
+# Index
 def index(request):
     return render(request, 'pages/index.html')
 
@@ -29,25 +29,25 @@ def changelog(request):
 def introduction(request):
     return render(request, 'pages/introduction.html')
 
-# Special thanks
+# Special Thanks
 def special_thanks(request):
     return render(request, 'pages/special_thanks.html')
 
-# Fanmade charts
+# Fanmade Charts
 def fanmade_charts(request):
     return render(request, 'pages/fanmade_charts.html')
 
-# Phigros fanmade charts
+# Phigros Fanmade Charts
 def fanmade_charts_phigros(request):
     charts = PhigrosFanmadeChart.objects.all()
     context = {'charts': charts}
     return render(request, 'pages/fanmade_charts_phigros.html', context)
 
-# Phira tools index page
+# Phira Tools
 def phira(request):
     return render(request, 'pages/phira.html')
 
-# Phira chart rating ranking info page
+# Phira Chart Ranking
 def phira_ranking(request):
     figure = ''
     errors = []
@@ -131,14 +131,14 @@ def phira_ranking(request):
     context = {'figure': figure, 'errors': errors}
     return render(request, 'pages/phira_ranking.html', context)
 
-# Phira chart file getting
+# Phira Chart File Download
 def phira_download(request):
     errors = []
     if request.method == 'POST':
         chart_id = request.POST.get('chart-id')
         req = requests.get(f'https://api.phira.cn/chart/{chart_id}')
         if req.status_code != 400 and req.json() != {'errors': 'Not found'}:
-            file = requests.get(req.json()['file'], headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'})
+            file = requests.get(req.json()['file'], headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}).content
             response = HttpResponse(content_type='application/octet-stream')
             response['Content-Disposition'] = f'attachment; filename="{chart_id}.pez"'
             response.write(file)
@@ -148,11 +148,11 @@ def phira_download(request):
     context = {'errors': errors}
     return render(request, 'pages/phira_download.html', context)
 
-# PhiZone info index page
+# PhiZone Tools
 def phizone(request):
     return render(request, 'pages/phizone.html')
 
-# PhiZone chart rating ranking info page
+# PhiZone Chart Ranking
 def phizone_ranking(request):
     figure = ''
     errors = []
@@ -239,7 +239,7 @@ def phizone_ranking(request):
     context = {'figure': figure, 'errors': errors}
     return render(request, 'pages/phizone_ranking.html', context)
 
-# Phizone chart vote info page
+# Phizone Chart Vote Info
 def phizone_vote(request):
     # Phizone vote class
     class Vote:
@@ -293,9 +293,9 @@ def phizone_vote(request):
     context = {'chart_info': chart_info, 'votes': votes, 'total': total, 'errors': errors}
     return render(request, 'pages/phizone_vote.html', context)
 
-# PhiZone B19 info
+# PhiZone B27 Info
 def phizone_best(request):
-    # PhiZone B19 class
+    # Record class
     class Record():
         def __init__(self, index, song, level, diff, chart_id, score, acc, perfect, early, late, bad, miss, rks):
             self.index = index
@@ -356,7 +356,7 @@ def notanote(request):
 
 # Notanote B26 calculator
 def notanote_best(request):
-    # Notanote rank class
+    # Record class
     class Record():
         def __init__(self, index, song, level, diff, score, acc, rank):
             self.index = index
@@ -417,15 +417,11 @@ def notanote_best(request):
                     acc = (perfect + sum([0.4 + (120 - abs(offset)) / 100 for offset in good_offset_list])) / note_num
                     rank = (math.e ** (2 * acc) - 1) / (math.e ** 2 - 1) * (diff + 5)
                     records.append(Record(None, song, level, diff, score, acc * 100, rank))
-                # Sort records
-                records.sort(key=lambda record: record.rank, reverse=True)
-                b26 = records[:26]
-                print(b26)
-                for index, record in enumerate(b26):
+                # Number the records
+                for index, record in enumerate(records):
                     record.index = index + 1
+                b26 = records[:26]
                 overflow = records[26:36]
-                for index, record in enumerate(overflow):
-                    record.index = index + 27
                 # Calculate the Nrk
                 rank_m_weight_sum = 0
                 i = 0
@@ -439,11 +435,11 @@ def notanote_best(request):
     context = {'nrk': nrk, 'b26': b26, 'overflow': overflow, 'errors': errors}
     return render(request, 'pages/notanote_best.html', context)
 
-# Notanote best instruction
+# Notanote B26 Calculator instruction
 def notanote_best_instruction(request):
     return render(request, 'pages/notanote_best_instruction.html')
 
-# Notanote single rank calculator
+# Notanote Rank Calculator
 def notanote_rank(request):
     rank = []
     errors = []
@@ -457,13 +453,13 @@ def notanote_rank(request):
     context = {'rank': rank, 'errors': errors}
     return render(request, 'pages/notanote_rank.html', context)
 
-# Programming index page
+# Programming
 def programming_index(request):
     articles = Programming.objects.all().order_by('-date')
     context = {'articles': articles}
     return render(request, 'pages/programming_index.html', context)
 
-# Programming
+# Programming single article
 def programming(request, id):
     article = Programming.objects.get(id=id)
     id = article.id
@@ -472,7 +468,7 @@ def programming(request, id):
     context = {id: 'id', 'title': title, 'date': date}
     return render(request, f'pages/programming/{id}.html', context)
 
-# Random number generator
+# Random Number Generator
 def randomnum(request):
     result = None
     errors = []
@@ -487,13 +483,13 @@ def randomnum(request):
     context = {'errors': errors, 'result': result}
     return render(request, 'pages/randomnum.html', context)
 
-# Diary index page
+# Posts
 def posts_index(request):
     posts = Post.objects.all().order_by('-date')
     context = {'posts': posts}
     return render(request, 'pages/posts_index.html', context)
 
-# Diary
+# Posts single post
 def posts(request, id):
     post = Post.objects.get(id=id)
     id = post.id
@@ -502,22 +498,22 @@ def posts(request, id):
     context = {id: 'id', 'title': title, 'date': date}
     return render(request, f'pages/posts/{id}.html', context)
 
-# The 400 page
+# 400
 def bad_request(request):
     return render(request, '400.html')
 
-# The 403 page
+# 403
 def forbidden(request):
     return render(request, '403.html')
 
-# The 404 page
+# 404
 def not_found(request):
     return render(request, '404.html')
 
-# The 500 page
+# 500
 def internal_server_error(request):
     return render(request, '500.html')
 
-# The 502 page
-def bad_gatway(request):
+# 502
+def bad_gateway(request):
     return render(request, '502.html')

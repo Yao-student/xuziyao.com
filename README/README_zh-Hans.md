@@ -6,6 +6,14 @@
 
 ## 更新日志
 
+### v2.1.0 (2025.07.22)
+
+- 修复了 [Phira 谱面文件下载](http://xuziyao.com/phira/download/) 无法正确下载谱面的问题
+- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 同步 v2.4.0 更新
+- [Notanote 单曲 Rank 计算](http://xuziyao.com/notanote/rank/) 更名为 [Notanote Rank 计算](http://xuziyao.com/notanote/rank/)
+- [首页](http://xuziyao.com/) 增加新友情链接
+- 其他小更改
+
 ### v2.0.0 (2025.07.14)
 
 - 在页面底部显示网站运行天数与备案信息

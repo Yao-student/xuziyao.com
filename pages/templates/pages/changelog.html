@@ -1,0 +1,117 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}更新日志{% endblock %}
+
+{% block header %}更新日志{% endblock %}
+
+{% block breadcrumb %}
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item active">更新日志</li>
+    </ol>
+  </nav>
+
+  <hr />
+
+{% endblock %}
+
+{% block content %}
+
+  <h1 style="text-align: center;">更新日志</h1>
+
+  <h2>v2.1.0 (2025.07.22)</h2>
+  <ul>
+    <li>修复了 <a href="http://xuziyao.com/phira/download/">Phira 谱面文件下载</a> 无法正确下载谱面的问题</li>
+    <li><a href="http://xuziyao.com/notanote/best/">Notanote B26 计算</a> 同步 v2.4.0 更新</li>
+    <li><a href="http://xuziyao.com/notanote/rank/">Notanote 单曲 Rank 计算</a> 更名为 <a href="http://xuziyao.com/notanote/rank/">Notanote Rank 计算</a></li>
+    <li><a href="http://xuziyao.com/">首页</a> 增加新友情链接</li>
+    <li>其他小更改</li>
+  </ul>
+
+  <h2>v2.0.0 (2025.07.14)</h2>
+  <ul>
+    <li>在页面底部显示网站运行天数与备案信息</li>
+    <li><a href="http://xuziyao.com/fanmade_charts/">自制谱</a>、<a href="http://xuziyao.com/phira/">Phira 工具</a>、<a href="http://xuziyao.com/phizone/">PhiZone 工具</a>、<a href="http://xuziyao.com/notanote/">Notanote 工具</a> 页面上的无序列表链接改为卡片</li>
+    <li><a href="http://xuziyao.com/notanote/best/">PhiZone B27 计算</a> 更名为 <a href="http://xuziyao.com/phizone/best/">PhiZone 查分器</a>，修复了 Phi3 排版错误的问题</li>
+    <li><a href="http://xuziyao.com/notanote/best/">Notanote B26 计算</a> 更名为 <a href="http://xuziyao.com/notanote/best/">Notanote 查分器</a>，将查分方式改为更方便的上传成绩文件</li>
+    <li><a href="http://xuziyao.com/notanote/rank/">Notanote 单曲 Rank 计算</a> URL 由 /notanote/rankcalc/ 改为 /notanote/rank/</li>
+    <li><a href="http://xuziyao.com/programming/">编程</a> 板块更新文章</li>
+    <li><a href="http://xuziyao.com/programming/">帖子</a> 板块更新</li>
+    <li>增加 <a href="http://xuziyao.com/special_thanks/">特别感谢</a> 页面</li>
+    <li>其他小更改</li>
+  </ul>
+
+  <h2>v1.2.5 (2025.06.28)</h2>
+  <ul>
+    <li>修复了 <a href="http://xuziyao.com/fanmade_charts/">自制谱</a> 板块无法正确下载谱面的问题</li>
+  </ul>
+
+  <h2>v1.2.4 (2025.06.22)</h2>
+  <ul>
+    <li><a href="http://xuziyao.com/fanmade_charts/phigros/">Phigros 自制谱</a> 板块更新</li>
+    <li><a href="http://xuziyao.com/notanote/best/">Notanote B26 计算</a> 同步 Notanote v2.3.0 更新</li>
+  </ul>
+
+  <h2>v1.2.3 (2025.05.30)</h2>
+  <ul>
+    <li>将网页计数器从 <a href="https://busuanzi.ibruce.info/">不蒜子</a> 改为 <a href="https://vercount.one/">Vercount</a></li>
+    <li><a href="http://xuziyao.com/notanote/best/">Notanote B26 计算</a> 同步 Notanote v2.2.0 更新</li>
+    <li>增加新友情链接</li>
+    <li>其他小更改</li>
+  </ul>
+
+  <h2>v1.2.2 (2025.05.24)</h2>
+  <ul>
+    <li>在页面底部显示访问量与访客量</li>
+    <li><a href="http://xuziyao.com/phizone/best/">PhiZone B27 计算</a> 同步 PhiZone 更新，将 Phi1 + B19 改为 Phi3 + B27</li>
+    <li><a href="http://xuziyao.com/notanote/best/">Notanote B26 计算</a> 分数前面自动补 0</li>
+    <li>其他小更改</li>
+  </ul>
+
+  <h2>v1.2.1 (2025.05.04)</h2>
+  <ul>
+    <li><a href="http://xuziyao.com/notanote/best/">Notanote B26 计算</a> 同步 Notanote v2.1.1 更新</li>
+  </ul>
+
+  <h2>v1.2.0 (2025.04.26)</h2>
+  <ul>
+    <li>UI 部分更改</li>
+    <li>日记板块更名为 <a href="http://xuziyao.com/posts/">帖子</a></li>
+    <li><a href="http://xuziyao.com/notanote/best/">Notanote B26 计算</a> 同步 Notanote v2.1.0 更新</li>
+  </ul>
+
+  <h2>v1.1.2 (2025.04.20)</h2>
+  <ul>
+    <li>UI 小更改</li>
+    <li><a href="http://xuziyao.com/fanmade_charts/phigros/">Phigros 自制谱</a> 板块更新</li>
+    <li>其他小更改</li>
+  </ul>
+
+  <h2>v1.1.1 (2025.04.12)</h2>
+  <ul>
+    <li>修复了当 B26 为被填满时 Nrk 计算错误的问题</li>
+    <li>其他小更改</li>
+  </ul>
+
+  <h2>v1.1.0 (2025.03.31)</h2>
+  <ul>
+    <li>增加 <a href="http://xuziyao.com/fanmade_charts/">自制谱</a> 板块</li>
+    <li>首页增加友情链接</li>
+    <li>增加面包屑导航</li>
+    <li><a href="http://xuziyao.com/notanote/best/">Notanote B26 计算</a> 与 <a href="http://xuziyao.com/notanote/rankcal/">Notanote 单曲 Rank 计算</a> 同步 Notanote v2.0.0 更新，改用新公式，使用 v1.7.0 公式的版本被迁移到 <a href="http://xuziyao.com/notanote/best/v1.7.0">Notanote B21 计算（v1.7.0）</a> 与 <a href="http://xuziyao.com/notanote/rankcal/v1.7.0">Notanote 单曲 Rank 计算</a>。数据格式中增加分数信息（选填），移除定数信息，输出结果中不同难度改用不同颜色。修复了当准确率全为 0 时发生错误的问题</li>
+    <li>增加置顶日记与置顶编程文章</li>
+    <li><a href="http://xuziyao.com/programming/">编程</a> 板块更新文章</li>
+    <li>优化代码并修复错误</li>
+    <li>其他小更改</li>
+  </ul>
+
+  <h2>v1.0.0 (2025.03.15)</h2>
+  <ul>
+    <li>上线网站</li>
+  </ul>
+
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

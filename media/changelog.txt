@@ -1,0 +1,137 @@
+////////////////////////////////////////////
+*==========================================*
+               CHANGELOG
+             MSWP VERSION 3
+*==========================================*
+////////////////////////////////////////////
+
+
+New Guns-
+• Added Fedorov Avtomat.
+• Added Dragunov SVD.
+• Added M1014 shotgun.
+• Added APS underwater rifle.
+• Added AKS74u.
+• Added Dp27.
+• Added Colt LMG.
+• Added RPK.
+• Added MG3.
+• Removed AA12.
+• Removed M240.
+
+Textures-
+• Retextured guns.
+
+New Animations-
+• New animations for all guns.
+
+Vests-
+• Added Armor.
+
+Resources-
+• Improved subpacks to increase performance.
+
+Behaviours-
+• Fixed minor bugs.
+• Added Subpacks to change dificulty.
+• Increased fire rate for M1911.
+• Reduced Content Error Logs.
+
+UI-
+• Removed old UI
+
+Sounds-
+• New sounds for all guns.
+
+////////////////////////////////////////////
+*==========================================*
+               CHANGELOG
+             MSWP VERSION 2.1
+*==========================================*
+////////////////////////////////////////////
+
+Added Subpacks to reduce animations.
+
+Behaviors-
+• Improved flying behaviors.
+• Reduced Lag in M240.
+• Improved Deathmatch Spawn.
+
+Animations-
+• Fixed M240 animations.
+• Fixed AA12 animations.
+
+UI-
+• New icons
+
+Sounds-
+• Updated Mig21 and F4phantom sounds.
+
+////////////////////////////////////////////
+*==========================================*
+               CHANGELOG
+             MSWP VERSION 2
+*==========================================*
+////////////////////////////////////////////
+
+Behaviors-
+• New reload system.
+• Major bug fixes.
+• Fixed animation bugs.
+• Better projectile behaviors.
+
+Weapons-
+• Added IED.
+• Added PP90.
+• Added M16A1.
+• Added RPK.
+• Added M1911.
+• Added Mosin Nagant.
+• Added RPK-16.
+• Added G3.
+• Added M240.
+• Retexturerd AA12.
+• Remodelled M24.
+• Remodelled AK47.
+• Remodelled RPG7.
+• Removed P90.
+• Removed MK46.
+• Removed C4.
+• Removed Browning Hi-Power.
+• Removed Korshun Knife.
+
+Vehicles-
+• Added F4 Phantom.
+• Added Mig-21.
+
+Animations-
+• New improved gun animations.
+
+////////////////////////////////////////////
+*==========================================*
+               CHANGELOG
+             MSWP VERSION 1
+*==========================================*
+////////////////////////////////////////////
+
+Weapons-
+• Added Korshun Knife.
+• Added C4.
+• Added Browning Hi-Power.
+• Added AA12.
+• Added P90.
+• Added AK47.
+• Added MK46.
+• Added RPG7.
+• Added M24.
+
+Vehicles-
+• Added LandRover Medic Jeep.
+• Added Humvee.
+• Added Combat Boat.
+• Added M939 Truck.
+• Added BTR-80.
+
+////////////////////////////////////////////
+*==========================================*
+////////////////////////////////////////////

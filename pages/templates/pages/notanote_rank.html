@@ -1,0 +1,54 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Notanote Rank 计算{% endblock %}
+
+{% block header %}Notanote Rank 计算{% endblock %}
+
+{% block breadcrumb %}
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
+      <li class="breadcrumb-item active">Notanote Rank 计算</li>
+    </ol>
+  </nav>
+
+  <hr />
+
+{% endblock %}
+
+{% block content %}
+
+  <p><a href="{% url 'pages:notanote_best' %}">Notanote 查分器</a></p>
+
+  <hr />
+
+  <p><strong>准确率不带百分号。</strong></p>
+
+  <form action="" method="post" target="_self" class="form">
+    {% csrf_token %}
+    <p>
+      <label for="difficulty" class="form-label">定数:</label>
+      <input type="number" name="difficulty" class="form-control" id="difficulty" min="1.0" max="10.5" step="0.1" required>
+    </p>
+    <p>
+      <label for="acc" class="form-label">准确率:</label>
+      <input type="number" name="acc" class="form-control" id="acc" min="0.00" max="100.00" step="0.01" required>
+    </p>
+    <button type="submit" class="btn btn-primary">计算</button>
+  </form>
+
+  {% if rank %}
+    <p>Rank：{{ rank }}</p>
+  {% endif %}
+
+  {% if errors %}
+    {% for error in errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
+  {% endif %}
+
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

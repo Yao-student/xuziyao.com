@@ -1,0 +1,55 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}PhiZone 谱面评分排名{% endblock %}
+
+{% block header %}PhiZone 谱面评分排名{% endblock %}
+
+{% block breadcrumb %}
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
+      <li class="breadcrumb-item active">PhiZone 谱面评分排名</li>
+    </ol>
+  </nav>
+
+  <hr />
+
+{% endblock %}
+
+{% block content %}
+
+  <p>如果指定的谱面数过多，图表会容不下数据。获取谱面信息可能需要较长时间，请耐心等待。</p>
+
+  <p><b>指令列表</b></p>
+  <p><strong>斜体字为需填写内容，圆括号内为必填，方括号内为选填，输入指令时不带上括号。</strong></p>
+  <ul style="margin-bottom: 1.5rem;">
+    <li>所有谱面：all [最低评分-最高评分] (最高排名,最低排名)</li>
+    <li>计分谱面：ranked [最低评分-最高评分] (最高排名,最低排名)</li>
+    <li>不计分谱面：unranked [最低评分-最高评分] (最高排名,最低排名)</li>
+    <li>7thPecJam RG赛道谱面：7pj rg [最低评分-最高评分] (最高排名,最低排名)</li>
+    <li>7thPecJam NL赛道谱面：7pj nl [最低评分-最高评分] (最高排名,最低排名)</li>
+  </ul>
+  <p>例：7pj rg 3.0-5.0 1,10</p>
+
+  <form action="" method="post" target="_self" class="form">
+    {% csrf_token %}
+    <p>
+      <label for="command" class="form-label">指令;</label>
+      <input type="text" name="command" class="form-control" id="command" required>
+    </p>
+    <button type="submit" class="btn btn-primary">查询</button>
+  </form>
+
+  {{ figure|safe }}
+
+  {% if errors %}
+    {% for error in errors %}
+    <p style="color: red;">{{ error }}</p>
+    {% endfor %}
+  {% endif %}
+
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

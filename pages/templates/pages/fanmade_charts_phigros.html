@@ -1,0 +1,45 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Phigros 自制谱{% endblock %}
+
+{% block header %}Phigros 自制谱{% endblock %}
+
+{% block breadcrumb %}
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:fanmade_charts' %}">自制谱</a></li>
+      <li class="breadcrumb-item active">Phigros 自制谱</li>
+  </nav>
+
+  <hr />
+
+{% endblock %}
+
+{% block content %}
+  {% for chart in charts %}
+    <div class="card chart-link">
+      <div style="aspect-ratio: 3 / 2;overflow: hidden;">
+        {% with forloop.counter|stringformat:'s' as id %}
+          <img class="card-img-top" src="{% static 'fanmade_charts/phigros/illustration/'|add:id|add:'.png' %}" alt="{{ chart.title }} 曲绘" />
+        {% endwith %}
+      </div>
+      <div class="card-body">
+        {% with forloop.counter|stringformat:'s' as id %}
+          <h3 class="card-title"><a class="link-dark" href="{% static 'fanmade_charts/phigros/chart/'|add:id|add:'.pez' %}">{{ chart.title }}</a></h3>
+        {% endwith %}
+        <p class="card-text" style="margin: 0"><b>{{ chart.difficulty }}</b></p>
+        <p class="card-text" style="margin: 0"><b>日期</b>：{{ chart.date }}</p>
+        <p class="card-text" style="margin: 0"><b>曲师</b>：{{ chart.composer }}</p>
+        <p class="card-text" style="margin: 0"><b>曲绘画师</b>：{{ chart.illustrator }}</p>
+        <p class="card-text" style="margin: 0"><b>谱师</b>：{{ chart.charter }}</p>
+        <p class="card-text" style="margin: 0"><b>BPM</b>：{{ chart.bpm }}</p>
+        <p class="card-text" style="margin: 0"><b>偏移</b>：{{ chart.offset }}</p>
+        <p class="card-text" style="margin: 0"><b>物量</b>：{{ chart.notenum }}</p>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

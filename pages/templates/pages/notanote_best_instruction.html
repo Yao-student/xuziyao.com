@@ -1,0 +1,87 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Notanote 查分器使用说明{% endblock %}
+
+{% block header %}Notanote 查分器使用说明{% endblock %}
+
+{% block breadcrumb %}
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:notanote_best' %}">Notanote 查分器</a></li>
+      <li class="breadcrumb-item active">Notanote 查分器使用说明</li>
+    </ol>
+  </nav>
+
+  <hr />
+
+{% endblock %}
+
+{% block content %}
+
+  <article>
+
+    <h1 style="text-align: center;">Notanote 查分器使用说明</h1>
+
+    <p style="text-align: center;"><a href="{% url 'pages:notanote_best' %}">Notanote查分器链接</a></p>
+
+    <p>如果对查分器有任何问题，可加入 Notanote 官方交流群（<a href="https://qm.qq.com/q/EvU94QWhcA">1 群</a> / <a href="https://qm.qq.com/q/TPLLMd2cEs">2 群</a>）、站长的 <a href="https://qm.qq.com/q/s03NyJX1x6">QQ 个人群</a>、或直接问 <a href="https://qm.qq.com/q/wDuy1wI0kE">站长本人</a>。</p>
+
+    <p>首先，请确认你设备上的 Notanote 版本高于 v2.1.3，低于此版本的没有导出成绩功能。版本查看方式：在 Notanote 中打开“设置”页面，点击上方菜单栏中的“账户”，找到右上方的“游戏版本”。</p>
+
+    <p>在 Notanote 中打开“设置”页面，点击上方菜单栏中的“账户”，往下翻，找到“语言”选项下方的“导出成绩到文件”。</p>
+
+    <img src="{% static 'notanote/best_instruction/find_export_button1.png' %}" alt="导出成绩文件 1" style="width: 50%">
+    <img src="{% static 'notanote/best_instruction/find_export_button2.png' %}" alt="导出成绩文件 2" style="width: 50%">
+
+    <p>点击“导出成绩到文件”按钮后，在相应文件夹下找到导出的存档文件，不同设备的存档文件路径如下所示：</p>
+
+    <ul>
+      <li>
+        <b>Windows</b><br>
+        <span><code class="code-inline">Notanote 安装路径\steamapps\common\Notanote\Save\Save_一串数字</code></span><br>
+        在 Steam 的“库”中，右键左侧游戏列表中的 Notanote，点击“管理”—“浏览本地文件”即可找到 Notanote 安装路径。
+        <img src="{% static 'notanote/best_instruction/steam_find_file_path.png' %}" alt="Steam 上打开安装路径" style="width: 50%">
+      </li>
+      <li>
+        <b>安卓</b><br>
+        <span><code class="code-inline">/storage/emulated/0/Android/data/game.taptap.zzzProject.Notanote/files/Save/Save_一串数字</code></span><br>
+        若您的安卓设备出现没有访问权限的系统提示：<br>
+        如果当前使用的是系统文件管理器或第三方文件管理器，您可以尝试使用其他文件管理器访问。推荐使用 MT 管理器，并在应用顶部的地址栏中输入以下路径直接跳转（如果有多个用户，请将 0 改为用户 ID 或将 <span><code class="code-inline">/storage/emulated/0/</code></span> 改为 <span><code class="code-inline">/sdcard/</code></span>）：<br>
+        <span><code class="code-inline">/storage/emulated/0/Android/data/game.taptap.zzzProject.Notanote/files/Save/</code></span><br>
+        也可以通过右上角添加书签，在底部上滑+号进行快速访问。也可以尝试不使用系统自带文件浏览器，使用原生安卓的文件<br>
+        文件进入方式参考：<br>
+        打开 MT 管理器，点击安装包提取—选择系统应用—搜索文件—点击文件，选择左下角更多—启动应用。可以在进入 Notanote 存档文件夹后选择复制到内置存储（<span><code class="code-inline">/storage/emulated/0/</code></span>，一般就是文件的根目录）后到浏览器中访问。如果还是无法访问，只能通过连接电脑或使用 ADB 权限访问。在较高版本的安卓系统中，可能会出现此问题。若开发者选项中启用了 USB 调试，并且开启了“无线调试”，可以在没有电脑的情况下，使用 Shizuku 进行无线 ADB 调试。更多说明请参见 Shizuku 的相关文档。
+      </li>
+      <li>
+        <b>iOS</b><br>
+        <span><code class="code-inline">Notanote 安装路径/Save/Save_一串数字</code></span><br>
+        Notanote 安装路径可在系统自带文件管理器中“我的iPhone”或者“我的iPad”中找到。
+      </li>
+    </ul>
+
+    <p>最后，在查分器中上传你导出的成绩文件，就能查到你的 B26 了。</p>
+
+    <p>B26 信息格式如下：</p>
+
+    <div class="card notanote-best" style="float: left;">
+      <div class="card-body" style="padding: .3rem !important;">
+        <div class="card record-sy">
+          <div class="card-body" style="padding: .6rem !important;">
+            <p class="card-text" style="font-size: small;">序号</p>
+            <p class="card-title" style="font-size: medium;"><b>曲名</b></p>
+            <p class="card-text" style="font-size: small;"><b>等级 难度</b></p>
+            <p class="card-text" style="font-size: medium;"><b>分数</b></p>
+            <p class="card-text" style="font-size: small;">准确率 → <b>单曲 Rank</b></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </article>
+
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

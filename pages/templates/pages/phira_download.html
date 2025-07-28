@@ -1,0 +1,42 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Phira 谱面文件下载{% endblock %}
+
+{% block header %}Phira 谱面文件下载{% endblock %}
+
+{% block breadcrumb %}
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
+      <li class="breadcrumb-item active">Phira 谱面文件下载</li>
+    </ol>
+  </nav>
+
+  <hr />
+
+{% endblock %}
+
+{% block content %}
+
+  <p>谱面页面链接最后的那串数字即为谱面 ID，比如这张 <a href="https://phira.moe/chart/10176">Super Nova Project</a> 的谱面 ID 就是 10176。</p>
+
+  <form action="" method="post" target="_self" class="form">
+    {% csrf_token %}
+    <p>
+      <label for="chart-id" class="form-label">谱面 ID:</label>
+      <input type="text" name="chart-id" class="form-control" id="chart-id" required>
+    </p>
+    <button type="submit" class="btn btn-primary">下载</button>
+  </form>
+
+  {% if errors %}
+    {% for error in errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
+  {% endif %}
+
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

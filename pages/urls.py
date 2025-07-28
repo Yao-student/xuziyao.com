@@ -8,7 +8,7 @@ handler400 = views.bad_request
 handler403 = views.forbidden
 handler404 = views.not_found
 handler500 = views.internal_server_error
-handler502 = views.bad_gatway
+handler502 = views.bad_gateway
 
 urlpatterns = [
     re_path(r'^static/(?P<path>.*)$', static.serve, {'document_root': settings.STATIC_ROOT }, name='static'),

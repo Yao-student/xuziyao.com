@@ -1,0 +1,41 @@
+{% extends 'pages/programming.html' %}
+
+{% block article %}
+
+<h1 style="text-align: center;">Bootstrap [不用网格系统] 使表单标签和控件位于同一行，并修改控件宽度</h1>
+
+<p>之前做个人网站的 v2.0.0 更新，应用 Bootstrap 的表单样式时遇到了个问题，标签与控件不在同一行。</p>
+
+<img src="{% static 'programming/3/before.png' %}" alt="标签与控件不在同一行">
+
+<p>去网上搜解决办法，有用网格系统的，有给 label 标签的 class 加上 form-inline 的，前者太烦，后者试了似乎没效果。然后我想到能不能通过修改 Bootstrap 的 CSS 来实现，于是打开开发者模式查了 form-control 的 CSS。</p>
+
+<img src="{% static 'programming/3/form_control_css.png' %}" alt="form-control 的 CSS">
+
+<p>可以看到问题出在 <span><code class="language-css code-inline">display: block;</code></span> 和 <span><code class="language-css code-inline">width: 100%;</code></span> 上，前者让控件显示为块级元素，后者把宽度设为 100%，所以把这俩属性的值改掉就行了。</p>
+
+<pre><code class="language-css">/* 一定要加上 !important，不然会被 Bootstrap 原样式覆盖 */
+
+.form-control {
+    display: inline !important;
+    width: auto !important;
+}
+
+/* 注意：像 .form-control-lg、.form-control-sm 等 class 和 .form-control 名字不同，需要单独修改 */
+
+.form-control-lg {
+    display: inline !important;
+    width: auto !important;
+}
+
+.form-control-sm {
+    display: inline !important;
+    width: auto !important;
+}
+</code></pre>
+
+<p>搞定。</p>
+
+<img src="{% static 'programming/3/after.png' %}" alt="form-control 的 CSS">
+
+{% endblock %}

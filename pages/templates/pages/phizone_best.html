@@ -1,0 +1,90 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}PhiZone 查分器{% endblock %}
+
+{% block header %}PhiZone 查分器{% endblock %}
+
+{% block breadcrumb %}
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
+      <li class="breadcrumb-item active">PhiZone 查分器</li>
+    </ol>
+  </nav>
+
+  <hr />
+
+{% endblock %}
+
+{% block content %}
+
+  <p>注：用户 ID 即用户页面链接最后的那串数字，比如 <a href="https://www.phizone.cn/users/26830">大松_Dason</a>（站长本人）的用户 ID 就是 26830。</p>
+
+  <form action="" method="post" target="_self" class="form">
+    {% csrf_token %}
+    <p>
+      <label for="user-id" class="form-label">用户 ID:</label>
+      <input type="text" name="user-id" class="form-control" id="user-id" required>
+    </p>
+    <button type="submit" class="btn btn-primary">查询</button>
+  </form>
+
+  {% if b27 %}
+
+    <p class="h2">RKS：{{ rks }}</p>
+
+    <h2>B27</h2>
+
+    <div class="card phizone-best">
+      <div class="card-body" style="padding: .3rem !important;">
+
+        {% if phi3 %}
+
+          {% for record in phi3 %}
+            <div class="card record-phi3 record-{{ record.level_id }}">
+              <div class="card-body" style="padding: .3rem !important;">
+                <p class="card-text" style="font-size: small;">φ{{ record.index }}</p>
+                <p class="card-title" style="font-size: medium;"><b><a class="link-dark" href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ record.song }}</a></b></p>
+                <p class="card-text" style="font-size: small;"><b>{{ record.level }} {{ record.diff }}</b></p>
+                <p class="card-text" style="font-size: medium;"><b>{{ record.score }}</b></p>
+                <p class="card-text" style="font-size: small;">{{ record.acc }}% → <b>{{ record.rks }}</b></p>
+                <p class="card-text" style="font-size: small;"><b>PGBM:</b> {{ record.perfect }} - {{ record.good }} ( {{ record.early }} - {{ record.late }} ) - {{ record.bad }} - {{ record.miss }}</p>
+              </div>
+            </div>
+          {% endfor %}
+
+        {% endif %}
+
+        {% for record in b27 %}
+          {% if forloop.first %}
+            <div class="card record-normal record-{{ record.level_id }}" style="clear: left;">
+          {% else %}
+            <div class="card record-normal record-{{ record.level_id }}">
+          {% endif %}
+            <div class="card-body" style="padding: .3rem !important;">
+              <p class="card-text" style="font-size: small;">#{{ record.index }}</p>
+              <p class="card-title" style="font-size: medium;"><b><a class="link-dark" href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ record.song }}</a></b></p>
+              <p class="card-text" style="font-size: small;"><b>{{ record.level }} {{ record.diff }}</b></p>
+              <p class="card-text" style="font-size: medium;"><b>{{ record.score }}</b></p>
+              <p class="card-text" style="font-size: small;">{{ record.acc }}% → <b>{{ record.rks }}</b></p>
+              <p class="card-text" style="font-size: small;"><b>PGBM:</b> {{ record.perfect }} - {{ record.good }} ( {{ record.early }} - {{ record.late }} ) - {{ record.bad }} - {{ record.miss }}</p>
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+    </div>
+
+  {% endif %}
+
+  {% if errors %}
+    {% for error in errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
+  {% endif %}
+
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

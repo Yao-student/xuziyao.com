@@ -1,0 +1,43 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}特别感谢{% endblock %}
+
+{% block header %}特别感谢{% endblock %}
+
+{% block breadcrumb %}
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item active">特别感谢</li>
+    </ol>
+  </nav>
+
+  <hr />
+
+{% endblock %}
+
+{% block content %}
+  <h1 style="text-align: center;">特别感谢</h1>
+
+  <div style="text-align: center;font-size: large;">
+    <p>站长的爸爸</p>
+    <p><a href="https://space.bilibili.com/439775291">qm</a>（<a href="https://www.notanote.cn/">Notanote</a> 主策）</p>
+    <p><a href="https://space.bilibili.com/289100515">羽毛球awa</a>（<a href="https://www.notanote.cn/">Notanote</a> 主程序）</p>
+  </div>
+
+  <h2 style="text-align: center;">赞助者</h2>
+
+  <p style="text-align: center;"><a href="https://afdian.com/a/dason">赞助链接</a></p>
+
+  <div class="row justify-content-center text-center sponsors" style="font-size: large;">
+    <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+      <p>站长的爸爸</p>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+      <p><a href="https://space.bilibili.com/3493256885177104">晟子Rope</a></p>
+    </div>
+  </div>
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

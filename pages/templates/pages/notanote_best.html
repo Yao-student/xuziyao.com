@@ -1,0 +1,100 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Notanote 查分器{% endblock %}
+
+{% block header %}Notanote 查分器{% endblock %}
+
+{% block breadcrumb %}
+
+  <nav id="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
+      <li class="breadcrumb-item active">Notanote 查分器</li>
+    </ol>
+  </nav>
+
+  <hr />
+
+{% endblock %}
+
+{% block content %}
+
+  <p><a href="{% url 'pages:notanote_rank' %}">Notanote Rank 计算</a></p>
+
+  <p><b>友情链接</b>：<a href="https://mkzi-nya.github.io">归梦的个人主页</a> | <a href="https://mhtlim.top">Milthm 查分器</a></p>
+
+  <p><b>QQ 交流群</b>：<a href="https://qm.qq.com/q/s03NyJX1x6">大松的小窝</a></p>
+
+  <hr />
+
+  <p style="font-size: xx-large;color: red;"><strong>请先阅读 <a href="{% url 'pages:notanote_best_instruction' %}">使用说明</a>！！！</strong></p>
+
+  <form action="" method="post" enctype="multipart/form-data" target="_self" class="form" style="overflow-x: auto;">
+    {% csrf_token %}
+    <p>
+      <label for="save" class="form-label">成绩文件:</label>
+      <input type="file" class="form-control" name="save" id="save" required>
+    </p>
+    <button type="submit" class="btn btn-primary">查分</button>
+  </form>
+
+  {% if b26 %}
+
+    <p class="h2">Nrk：{{ nrk }}</p>
+
+    <h2>B26</h2>
+      <div class="card notanote-best">
+        <div class="card-body" style="padding: .3rem !important;">
+          {% for record in b26 %}
+            <div class="card record-{{ record.level_id }}">
+              <div class="card-body" style="padding: .6rem !important;">
+                <p class="card-text" style="font-size: small;">#{{ record.index }}</p>
+                <p class="card-title" style="font-size: medium;"><b>{{ record.song }}</b></p>
+                <p class="card-text" style="font-size: small;"><b>{{ record.level }} {{ record.diff }}</b></p>
+                <p class="card-text" style="font-size: medium;"><b>{{ record.score }}</b></p>
+                <p class="card-text" style="font-size: small;">{{ record.acc|stringformat:'.3f%%' }} → <b>{{ record.rank|stringformat:'.3f' }}</b></p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    {% if overflow %}
+      <h2>溢出部分</h2>
+      <div class="card notanote-best">
+          <div class="card-body" style="padding: .3rem !important;">
+          {% for record in overflow %}
+            <div class="card record-{{ record.level_id }}">
+              <div class="card-body" style="padding: .6rem !important;">
+                <p class="card-text" style="font-size: small;">#{{ record.index }}</p>
+                <p class="card-title" style="font-size: medium;"><b>{{ record.song }}</b></p>
+                <p class="card-text" style="font-size: small;"><b>{{ record.level }} {{ record.diff }}</b></p>
+                <p class="card-text" style="font-size: medium;"><b>{{ record.score }}</b></p>
+                <p class="card-text" style="font-size: small;">{{ record.acc|stringformat:'.3f%%' }}% → <b>{{ record.rank|stringformat:'.3f' }}</b></p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+  {% endif %}
+
+  {% if errors %}
+    {% for error in errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <hr />
+
+  <h2>感谢</h2>
+  <ul>
+    <li><a href="https://space.bilibili.com/439775291">qm</a>（Notanote 主策划）</li>
+    <li><a href="https://space.bilibili.com/289100515">羽毛球awa</a>（Notanote 主程序）</li>
+  </ul>
+
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}
