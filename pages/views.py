@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from django.conf import settings
 
@@ -14,6 +14,7 @@ import os
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 import json
+import hashlib
 import math
 import random
 
@@ -35,17 +36,17 @@ def special_thanks(request):
 
 # Fanmade Charts
 def fanmade_charts(request):
-    return render(request, 'pages/fanmade_charts.html')
+    return render(request, 'pages/fanmade_charts/index.html')
 
 # Phigros Fanmade Charts
 def fanmade_charts_phigros(request):
     charts = PhigrosFanmadeChart.objects.all()
     context = {'charts': charts}
-    return render(request, 'pages/fanmade_charts_phigros.html', context)
+    return render(request, 'pages/fanmade_charts/phigros.html', context)
 
 # Phira Tools
 def phira(request):
-    return render(request, 'pages/phira.html')
+    return render(request, 'pages/phira/index.html')
 
 # Phira Chart Ranking
 def phira_ranking(request):
@@ -129,7 +130,7 @@ def phira_ranking(request):
             plt.close()
             figure = f"<img src=\"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode('ascii')}\" style=\"max-width: 100%;border-radius: .3rem;\" />"
     context = {'figure': figure, 'errors': errors}
-    return render(request, 'pages/phira_ranking.html', context)
+    return render(request, 'pages/phira/ranking.html', context)
 
 # Phira Chart File Download
 def phira_download(request):
@@ -146,11 +147,11 @@ def phira_download(request):
         else:
             errors.append('谱面不存在')
     context = {'errors': errors}
-    return render(request, 'pages/phira_download.html', context)
+    return render(request, 'pages/phira/download.html', context)
 
 # PhiZone Tools
 def phizone(request):
-    return render(request, 'pages/phizone.html')
+    return render(request, 'pages/phizone/index.html')
 
 # PhiZone Chart Ranking
 def phizone_ranking(request):
@@ -237,7 +238,7 @@ def phizone_ranking(request):
             plt.close()
             figure = f"<img src=\"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode('ascii')}\" style=\"max-width: 100%;border-radius: .3rem;\" />"
     context = {'figure': figure, 'errors': errors}
-    return render(request, 'pages/phizone_ranking.html', context)
+    return render(request, 'pages/phizone/ranking.html', context)
 
 # Phizone Chart Vote Info
 def phizone_vote(request):
@@ -291,7 +292,7 @@ def phizone_vote(request):
         else:
             errors.append('谱面不存在')
     context = {'chart_info': chart_info, 'votes': votes, 'total': total, 'errors': errors}
-    return render(request, 'pages/phizone_vote.html', context)
+    return render(request, 'pages/phizone/vote.html', context)
 
 # PhiZone B27 Info
 def phizone_best(request):
@@ -348,11 +349,11 @@ def phizone_best(request):
         else:
             errors.append('用户不存在')
     context = {'rks': rks, 'phi3': phi3, 'b27': b27, 'errors': errors}
-    return render(request, 'pages/phizone_best.html', context)
+    return render(request, 'pages/phizone/best.html', context)
 
 # Notanote Tools
 def notanote(request):
-    return render(request, 'pages/notanote.html')
+    return render(request, 'pages/notanote/index.html')
 
 # Notanote B26 calculator
 def notanote_best(request):
@@ -375,14 +376,14 @@ def notanote_best(request):
     if request.method == 'POST':
         # Read the save file
         file = request.FILES['save']
-        with open(os.path.join(settings.MEDIA_ROOT, file.name), 'wb') as destination:
+        with open(os.path.join(settings.MEDIA_ROOT, 'notanote', 'best', file.name), 'wb') as destination:
             for chunk in file.chunks():
                 destination.write(chunk)
         # Decrypt the save file
         try:
-            with open(os.path.join(settings.MEDIA_ROOT, file.name), 'r') as file:
+            with open(os.path.join(settings.MEDIA_ROOT, 'notanote', 'best', file.name), 'r') as file:
                 ciphertext = base64.b64decode(file.read())
-            os.remove(os.path.join(settings.MEDIA_ROOT, file.name))
+            os.remove(os.path.join(settings.MEDIA_ROOT, 'notanote', 'best', file.name))
             key = 'secret'.encode('utf-8')
             iv = 'secret'.encode('utf-8')
             cipher = AES.new(key, AES.MODE_CBC, iv=iv)
@@ -433,11 +434,11 @@ def notanote_best(request):
             except:
                 errors.append('查分时出现错误')
     context = {'nrk': nrk, 'b26': b26, 'overflow': overflow, 'errors': errors}
-    return render(request, 'pages/notanote_best.html', context)
+    return render(request, 'pages/notanote/best.html', context)
 
 # Notanote B26 Calculator instruction
 def notanote_best_instruction(request):
-    return render(request, 'pages/notanote_best_instruction.html')
+    return render(request, 'pages/notanote/best_instruction.html')
 
 # Notanote Rank Calculator
 def notanote_rank(request):
@@ -447,11 +448,11 @@ def notanote_rank(request):
         diff = float(request.POST.get('diff'))
         acc = float(request.POST.get('acc'))
         if 0 <= acc <= 100:
-            rank = (math.e ** (2 * acc / 100) - 1) / (math.e ** 2 - 1) * (diff + 5)
+            rank = round((math.e ** (2 * acc / 100) - 1) / (math.e ** 2 - 1) * (diff + 5), 3)
         else:
             errors.append('准确率不在0~100之间')
     context = {'rank': rank, 'errors': errors}
-    return render(request, 'pages/notanote_rank.html', context)
+    return render(request, 'pages/notanote/rank.html', context)
 
 # Programming
 def programming_index(request):

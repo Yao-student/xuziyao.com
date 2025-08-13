@@ -3,8 +3,13 @@
 ## Introduction
 
 My personal website. Developed with [Django](https://www.djangoproject.com/) web framework.
+Confidential content has already been hidden. The files are added into [.gitignore](../.gitignore) , and characters in a file are replaced with `secret`。
 
 ## Changelog
+
+### v2.1.1 (2025.08.12)
+
+- Fixed the problem that [Notanote Rank Calculator](http://xuziyao.com/notanote/rank/) went wrong when submit
 
 ### v2.1.0 (2025.07.22)
 

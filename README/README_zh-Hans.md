@@ -3,13 +3,18 @@
 ## 介绍
 
 我的个人网站。使用 [Django](https://www.djangoproject.com/) Web 框架开发。
+源码中保密内容已被隐藏，文件被添加至 [.gitignore](../.gitignore)，文件内字符被替换为 `secret`。
 
 ## 更新日志
+
+### v2.1.1 (2025.08.12)
+
+- 修复了 [Notanote Rank 计算](http://xuziyao.com/notanote/rank/) 提交时出现错误的问题
 
 ### v2.1.0 (2025.07.22)
 
 - 修复了 [Phira 谱面文件下载](http://xuziyao.com/phira/download/) 无法正确下载谱面的问题
-- [Notanote B26 计算](http://xuziyao.com/notanote/best/) 同步 v2.4.0 更新
+- [Notanote 查分器](http://xuziyao.com/notanote/best/) 同步 v2.4.0 更新
 - [Notanote 单曲 Rank 计算](http://xuziyao.com/notanote/rank/) 更名为 [Notanote Rank 计算](http://xuziyao.com/notanote/rank/)
 - [首页](http://xuziyao.com/) 增加新友情链接
 - 其他小更改
@@ -69,7 +74,7 @@
 
 ### v1.1.1 (2025.04.12)
 
-- 修复了当 B26 为被填满时 Nrk 计算错误的问题
+- 修复了当 B26 未被填满时 Nrk 计算错误的问题
 - 其他小更改
 
 ### v1.1.0 (2025.03.31)
