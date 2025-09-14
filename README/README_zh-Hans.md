@@ -7,6 +7,10 @@
 
 ## 更新日志
 
+### v2.1.2 (2025.08.18)
+
+- [Notanote 查分器](http://xuziyao.com/notanote/best/) 与 [Notanote Rank 计算](http://xuziyao.com/notanote/rank/) 同步 v2.5.0 更新
+
 ### v2.1.1 (2025.08.12)
 
 - 修复了 [Notanote Rank 计算](http://xuziyao.com/notanote/rank/) 提交时出现错误的问题

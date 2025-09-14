@@ -355,7 +355,7 @@ def phizone_best(request):
 def notanote(request):
     return render(request, 'pages/notanote/index.html')
 
-# Notanote B26 calculator
+# Notanote B31 calculator
 def notanote_best(request):
     # Record class
     class Record():
@@ -367,10 +367,15 @@ def notanote_best(request):
             self.score = score
             self.acc = acc
             self.rank = rank
-            self.level_id = 'ez-plus' if self.level == 'EZ+' else self.level.lower()
+            if self.level == 'EZ+':
+                self.level_id = 'ez-plus'
+            elif self.level == 'SY+':
+                self.level_id = 'sy-plus'
+            else:
+                self.level_id = self.level.lower()
 
     nrk = None
-    b26 = []
+    b31 = []
     overflow = []
     errors = []
     if request.method == 'POST':
@@ -393,47 +398,50 @@ def notanote_best(request):
             errors.append('存档文件解密失败')
 
         records = []
-        i = 0
         if not errors:
-            try:
+            #try:
                 with open(os.path.join(settings.STATIC_ROOT, 'notanote/song_id.json'), encoding='utf-8') as file:
                     id_dict = json.loads(file.read())
                 # Traverse the data
+                calculated_songs = []
+                i = 0
                 for chart, result in scores.items():
-                    i += 1
                     song_id, level = chart.split('_', maxsplit=1)
-                    if level[:2] == 'EX':
-                        level = 'TL'
-                    elif level == 'EZ_Plus':
-                        level = 'EZ+'
-                    song = id_dict[song_id]
-                    diff = result['Rate']
                     good_offset_list = result['GoodOffsetList']
                     perfect = result['PerfectNum']
                     good = result['GoodNum']
                     bad = result['BadNum']
                     miss = result['MissNum']
                     note_num = perfect + good + bad + miss
-                    score = round(1000000 * (perfect + good) / note_num)
                     acc = (perfect + sum([0.4 + (120 - abs(offset)) / 100 for offset in good_offset_list])) / note_num
-                    rank = (math.e ** (2 * acc) - 1) / (math.e ** 2 - 1) * (diff + 5)
-                    records.append(Record(None, song, level, diff, score, acc * 100, rank))
-                # Number the records
-                for index, record in enumerate(records):
-                    record.index = index + 1
-                b26 = records[:26]
-                overflow = records[26:36]
+                    if (song_id not in calculated_songs) and (acc >= 0.5):
+                        calculated_songs.append(song_id)
+                        i += 1
+                        if level == 'EX-NT':
+                            level = 'NT'
+                        elif level[:2] == 'EX':
+                            level = 'TL'
+                        elif level == 'EZ_Plus':
+                            level = 'EZ+'
+                        elif level == 'SY_Plus':
+                            level = 'SY+'
+                        song = id_dict[song_id]
+                        diff = result['Rate']
+                        score = result['HighestScore']
+                        rank = (math.e ** (acc - 0.5) - 1) / (math.e ** 0.5 - 1) * (diff + 5)
+                        records.append(Record(i, song, level, diff, score, acc * 100, rank))
+                b31 = records[:31]
+                overflow = records[31:41]
                 # Calculate the Nrk
                 rank_m_weight_sum = 0
                 i = 0
-                while i < len(b26):
-                    rank = b26[i].rank
-                    rank_m_weight_sum = rank_m_weight_sum + rank * (1 - 0.02 * i)
+                while i < len(b31):
+                    rank_m_weight_sum = rank_m_weight_sum + b31[i].rank * (1 - 0.02 * i)
                     i += 1
-                nrk = round(rank_m_weight_sum / 19.5, 3)
-            except:
-                errors.append('查分时出现错误')
-    context = {'nrk': nrk, 'b26': b26, 'overflow': overflow, 'errors': errors}
+                nrk = round(rank_m_weight_sum / 22, 3)
+            #except:
+                #errors.append('查分时出现错误')
+    context = {'nrk': nrk, 'b31': b31, 'overflow': overflow, 'errors': errors}
     return render(request, 'pages/notanote/best.html', context)
 
 # Notanote B26 Calculator instruction
@@ -448,7 +456,7 @@ def notanote_rank(request):
         diff = float(request.POST.get('diff'))
         acc = float(request.POST.get('acc'))
         if 0 <= acc <= 100:
-            rank = round((math.e ** (2 * acc / 100) - 1) / (math.e ** 2 - 1) * (diff + 5), 3)
+            rank = round((math.e ** (acc - 0.5) - 1) / (math.e ** 0.5 - 1) * (diff + 5), 3)
         else:
             errors.append('准确率不在0~100之间')
     context = {'rank': rank, 'errors': errors}

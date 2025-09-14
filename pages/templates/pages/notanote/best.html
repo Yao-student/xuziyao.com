@@ -30,6 +30,8 @@
 
   <p style="font-size: xx-large;color: red;"><strong>请先阅读 <a href="{% url 'pages:notanote_best_instruction' %}">使用说明</a>！！！</strong></p>
 
+  <p style="font-size: xx-large;color: red;"><strong>由于分数计算的修正，本查分器已不支持 v2.5 之前的版本。</strong></p>
+
   <form action="" method="post" enctype="multipart/form-data" target="_self" class="form" style="overflow-x: auto;">
     {% csrf_token %}
     <p>
@@ -39,14 +41,14 @@
     <button type="submit" class="btn btn-primary">查分</button>
   </form>
 
-  {% if b26 %}
+  {% if b31 %}
 
-    <p class="h2">Nrk：{{ nrk }}</p>
+    <p class="h2">Nrk：目前 Nrk 计算结果错误，暂不显示</p>
 
-    <h2>B26</h2>
+    <h2>B31</h2>
       <div class="card notanote-best">
         <div class="card-body" style="padding: .3rem !important;">
-          {% for record in b26 %}
+          {% for record in b31 %}
             <div class="card record-{{ record.level_id }}">
               <div class="card-body" style="padding: .6rem !important;">
                 <p class="card-text" style="font-size: small;">#{{ record.index }}</p>

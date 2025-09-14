@@ -30,11 +30,11 @@
     {% csrf_token %}
     <p>
       <label for="difficulty" class="form-label">定数:</label>
-      <input type="number" name="diff" class="form-control" id="diff" min="1.0" max="10.5" step="0.1" required>
+      <input type="number" name="diff" class="form-control" id="diff" min="1.0" step="0.1" required>
     </p>
     <p>
       <label for="acc" class="form-label">准确率:</label>
-      <input type="number" name="acc" class="form-control" id="acc" min="0.00" max="100.00" step="0.01" required>
+      <input type="number" name="acc" class="form-control" id="acc" min="50.00" max="100.00" step="0.01" required>
     </p>
     <button type="submit" class="btn btn-primary">计算</button>
   </form>
