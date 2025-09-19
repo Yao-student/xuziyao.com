@@ -25,11 +25,11 @@
 
     <h1 style="text-align: center;">Notanote 查分器使用说明</h1>
 
-    <p style="text-align: center;"><a href="{% url 'pages:notanote_best' %}">Notanote查分器链接</a></p>
+    <p style="text-align: center;"><a href="{% url 'pages:notanote_best' %}">Notanote 查分器链接</a></p>
 
     <p>如果对查分器有任何问题，可加入 Notanote 官方交流群（<a href="https://qm.qq.com/q/EvU94QWhcA">1 群</a> / <a href="https://qm.qq.com/q/TPLLMd2cEs">2 群</a>）、站长的 <a href="https://qm.qq.com/q/s03NyJX1x6">QQ 个人群</a>、或直接问 <a href="https://qm.qq.com/q/wDuy1wI0kE">站长本人</a>。</p>
 
-    <p>首先，请确认你设备上的 Notanote 版本高于 v2.1.3，低于此版本的没有导出成绩功能。版本查看方式：在 Notanote 中打开“设置”页面，点击上方菜单栏中的“账户”，找到右上方的“游戏版本”。</p>
+    <p>首先，请确认你设备上的 Notanote 版本高于 v2.5，本查分器不支持低于 v2.5 的版本中导出的成绩文件。版本查看方式：在 Notanote 中打开“设置”页面，点击上方菜单栏中的“账户”，找到右上方的“游戏版本”。</p>
 
     <p>在 Notanote 中打开“设置”页面，点击上方菜单栏中的“账户”，往下翻，找到“语言”选项下方的“导出成绩到文件”。</p>
 
@@ -41,13 +41,13 @@
     <ul>
       <li>
         <b>Windows</b><br>
-        <span><code class="code-inline">Notanote 安装路径\steamapps\common\Notanote\Save\Save_一串数字</code></span><br>
+        <span><code class="code-inline">Notanote 安装路径\steamapps\common\Notanote\Save\ReadonlyScoreFile_一串数字</code></span><br>
         在 Steam 的“库”中，右键左侧游戏列表中的 Notanote，点击“管理”—“浏览本地文件”即可找到 Notanote 安装路径。
         <img src="{% static 'notanote/best_instruction/steam_find_file_path.png' %}" alt="Steam 上打开安装路径" style="width: 50%">
       </li>
       <li>
         <b>安卓</b><br>
-        <span><code class="code-inline">/storage/emulated/0/Android/data/game.taptap.zzzProject.Notanote/files/Save/Save_一串数字</code></span><br>
+        <span><code class="code-inline">/storage/emulated/0/Android/data/game.taptap.zzzProject.Notanote/files/Save/ReadonlyScoreFile_一串数字</code></span><br>
         若您的安卓设备出现没有访问权限的系统提示：<br>
         如果当前使用的是系统文件管理器或第三方文件管理器，您可以尝试使用其他文件管理器访问。推荐使用 MT 管理器，并在应用顶部的地址栏中输入以下路径直接跳转（如果有多个用户，请将 0 改为用户 ID 或将 <span><code class="code-inline">/storage/emulated/0/</code></span> 改为 <span><code class="code-inline">/sdcard/</code></span>）：<br>
         <span><code class="code-inline">/storage/emulated/0/Android/data/game.taptap.zzzProject.Notanote/files/Save/</code></span><br>
@@ -57,14 +57,14 @@
       </li>
       <li>
         <b>iOS</b><br>
-        <span><code class="code-inline">Notanote 安装路径/Save/Save_一串数字</code></span><br>
+        <span><code class="code-inline">Notanote 安装路径/Save/ReadonlyScoreFile_一串数字</code></span><br>
         Notanote 安装路径可在系统自带文件管理器中“我的iPhone”或者“我的iPad”中找到。
       </li>
     </ul>
 
-    <p>最后，在查分器中上传你导出的成绩文件，就能查到你的 B26 了。</p>
+    <p>最后，在查分器中上传你导出的成绩文件，就能查到你的 B31 了。</p>
 
-    <p>B26 信息格式如下：</p>
+    <p>B31 信息格式如下：</p>
 
     <div class="card notanote-best" style="float: left;">
       <div class="card-body" style="padding: .3rem !important;">
@@ -74,6 +74,7 @@
             <p class="card-title" style="font-size: medium;"><b>曲名</b></p>
             <p class="card-text" style="font-size: small;"><b>等级 难度</b></p>
             <p class="card-text" style="font-size: medium;"><b>分数</b></p>
+            <p class="card-text" style="font-size: small;"><b>P</b>: PERFECT <b>G</b>: GOOD <b>B</b>: BAD <b>M</b>: MISS</p>
             <p class="card-text" style="font-size: small;">准确率 → <b>单曲 Rank</b></p>
           </div>
         </div>

@@ -37,6 +37,23 @@
         <p class="card-text" style="margin: 0"><b>BPM</b>：{{ chart.bpm }}</p>
         <p class="card-text" style="margin: 0"><b>偏移</b>：{{ chart.offset }}</p>
         <p class="card-text" style="margin: 0"><b>物量</b>：{{ chart.notenum }}</p>
+        <p class="card-text" style="margin: 0"><b>链接</b>：
+          <a href="https://www.bilibili.com/video/BV{{ chart.bilibili_bv }}/" style="text-decoration: none;">
+            <img src="{% static 'bilibili.ico' %}" style="margin: 0;" alt="哔哩哔哩" />
+          </a>
+          {% if chart.phira_id %}
+             | 
+            <a href="https://phira.moe/chart/{{ chart.phira_id }}" style="text-decoration: none;">
+              <img src="{% static 'phira.ico' %}" style="margin: 0;" alt="Phira" />
+            </a>
+          {% endif %}
+          {% if chart.phizone_id %}
+             | 
+            <a href="https://www.phizone.cn/charts/{{ chart.phizone_id }}" style="text-decoration: none;">
+              <img src="{% static 'phizone.ico' %}" style="margin: 0;" alt="PhiZone" />
+            </a>
+          {% endif %}
+        </p>
       </div>
     </div>
   {% endfor %}

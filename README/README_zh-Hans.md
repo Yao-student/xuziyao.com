@@ -7,6 +7,16 @@
 
 ## 更新日志
 
+### v2.2.0 (2025.09.18)
+
+- [Notanote 查分器](http://xuziyao.com/notanote/rank/) 同步 v2.5.1 更新，并修复 bug
+- 祝我自己 15 岁生日快乐！
+- 其他小更改
+
+### v2.1.2 (2025.08.18)
+
+- [Notanote 查分器](http://xuziyao.com/notanote/best/) 与 [Notanote Rank 计算](http://xuziyao.com/notanote/rank/) 同步 v2.5.0 更新
+
 ### v2.1.1 (2025.08.12)
 
 - 修复了 [Notanote Rank 计算](http://xuziyao.com/notanote/rank/) 提交时出现错误的问题

@@ -30,29 +30,36 @@
 
   <p style="font-size: xx-large;color: red;"><strong>请先阅读 <a href="{% url 'pages:notanote_best_instruction' %}">使用说明</a>！！！</strong></p>
 
+  <p style="font-size: xx-large;color: red;"><strong>由于分数计算的修正，本查分器已不支持 v2.5 之前的版本。</strong></p>
+
   <form action="" method="post" enctype="multipart/form-data" target="_self" class="form" style="overflow-x: auto;">
     {% csrf_token %}
     <p>
       <label for="save" class="form-label">成绩文件:</label>
       <input type="file" class="form-control" name="save" id="save" required>
     </p>
+    <p>
+      <label for="overflow" class="form-label">显示记录总数:</label>
+      <input type="number" class="form-control" name="overflow" id="overflow" value="41" min="41" required>
+    </p>
     <button type="submit" class="btn btn-primary">查分</button>
   </form>
 
-  {% if b26 %}
+  {% if b31 %}
 
     <p class="h2">Nrk：{{ nrk }}</p>
 
-    <h2>B26</h2>
+    <h2>B31</h2>
       <div class="card notanote-best">
         <div class="card-body" style="padding: .3rem !important;">
-          {% for record in b26 %}
+          {% for record in b31 %}
             <div class="card record-{{ record.level_id }}">
               <div class="card-body" style="padding: .6rem !important;">
                 <p class="card-text" style="font-size: small;">#{{ record.index }}</p>
                 <p class="card-title" style="font-size: medium;"><b>{{ record.song }}</b></p>
                 <p class="card-text" style="font-size: small;"><b>{{ record.level }} {{ record.diff }}</b></p>
                 <p class="card-text" style="font-size: medium;"><b>{{ record.score }}</b></p>
+                <p class="card-text" style="font-size: small;"><b>P</b>: {{ record.perfect }} <b>G</b>: {{ record.good }} <b>B</b>: {{ record.bad }} <b>M</b>: {{ record.miss }}</p>
                 <p class="card-text" style="font-size: small;">{{ record.acc|stringformat:'.3f%%' }} → <b>{{ record.rank|stringformat:'.3f' }}</b></p>
               </div>
             </div>
@@ -71,7 +78,8 @@
                 <p class="card-title" style="font-size: medium;"><b>{{ record.song }}</b></p>
                 <p class="card-text" style="font-size: small;"><b>{{ record.level }} {{ record.diff }}</b></p>
                 <p class="card-text" style="font-size: medium;"><b>{{ record.score }}</b></p>
-                <p class="card-text" style="font-size: small;">{{ record.acc|stringformat:'.3f%%' }}% → <b>{{ record.rank|stringformat:'.3f' }}</b></p>
+                <p class="card-text" style="font-size: small;"><b>P</b>: {{ record.perfect }} <b>G</b>: {{ record.good }} <b>B</b>: {{ record.bad }} <b>M</b>: {{ record.miss }}</p>
+                <p class="card-text" style="font-size: small;">{{ record.acc|stringformat:'.3f%%' }} → <b>{{ record.rank|stringformat:'.3f' }}</b></p>
               </div>
             </div>
           {% endfor %}

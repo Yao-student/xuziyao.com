@@ -7,6 +7,16 @@ Confidential content has already been hidden. The files are added into [.gitigno
 
 ## Changelog
 
+### v2.2.0 (2025.09.18)
+
+- [Notanote B31 Calculator](http://xuziyao.com/notanote/rank/) synced v2.5.1 update, and fixed bugs
+- HAPPY 15TH BIRTHDAY TO MYSELF!
+- Other minor changes
+
+### v2.1.2 (2025.08.18)
+
+- [Notanote B31 Calculator](http://xuziyao.com/notanote/best/) and [Notanote Rank Calculator](http://xuziyao.com/notanote/rank/) synced v2.5.0 update
+
 ### v2.1.1 (2025.08.12)
 
 - Fixed the problem that [Notanote Rank Calculator](http://xuziyao.com/notanote/rank/) went wrong when submit
