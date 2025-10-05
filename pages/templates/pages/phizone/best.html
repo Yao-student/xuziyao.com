@@ -38,19 +38,19 @@
     <h2>B27</h2>
 
     <div class="card phizone-best">
-      <div class="card-body" style="padding: .3rem !important;">
+      <div class="card-body" style="padding: .2rem !important;">
 
         {% if phi3 %}
 
           {% for record in phi3 %}
             <div class="card record-phi3 record-{{ record.level_id }}">
-              <div class="card-body" style="padding: .3rem !important;">
-                <p class="card-text" style="font-size: small;">φ{{ record.index }}</p>
-                <p class="card-title" style="font-size: medium;"><b><a class="link-dark" href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ record.song }}</a></b></p>
-                <p class="card-text" style="font-size: small;"><b>{{ record.level }} {{ record.diff }}</b></p>
-                <p class="card-text" style="font-size: medium;"><b>{{ record.score }}</b></p>
-                <p class="card-text" style="font-size: small;">{{ record.acc }}% → <b>{{ record.rks }}</b></p>
-                <p class="card-text" style="font-size: small;"><b>PGBM:</b> {{ record.perfect }} - {{ record.good }} ( {{ record.early }} - {{ record.late }} ) - {{ record.bad }} - {{ record.miss }}</p>
+              <div class="card-body" style="padding: .2rem !important;">
+                <p class="card-text" style="font-size: x-small;">φ{{ record.index }}</p>
+                <p class="card-title" style="font-size: small;"><b><a class="link-dark" href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ record.song }}</a></b></p>
+                <p class="card-text" style="font-size: x-small;"><b>{{ record.level }} {{ record.diff }}</b></p>
+                <p class="card-text" style="font-size: small;"><b>{{ record.score }}</b></p>
+                <p class="card-text" style="font-size: x-small;">{{ record.acc }}% → <b>{{ record.rks }}</b></p>
+                <p class="card-text" style="font-size: x-small;"><b>PGBM:</b> {{ record.perfect }}-{{ record.good }} ({{ record.early }}-{{ record.late }}) -{{ record.bad }}-{{ record.miss }}</p>
               </div>
             </div>
           {% endfor %}
@@ -63,13 +63,13 @@
           {% else %}
             <div class="card record-normal record-{{ record.level_id }}">
           {% endif %}
-            <div class="card-body" style="padding: .3rem !important;">
-              <p class="card-text" style="font-size: small;">#{{ record.index }}</p>
-              <p class="card-title" style="font-size: medium;"><b><a class="link-dark" href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ record.song }}</a></b></p>
-              <p class="card-text" style="font-size: small;"><b>{{ record.level }} {{ record.diff }}</b></p>
-              <p class="card-text" style="font-size: medium;"><b>{{ record.score }}</b></p>
-              <p class="card-text" style="font-size: small;">{{ record.acc }}% → <b>{{ record.rks }}</b></p>
-              <p class="card-text" style="font-size: small;"><b>PGBM:</b> {{ record.perfect }} - {{ record.good }} ( {{ record.early }} - {{ record.late }} ) - {{ record.bad }} - {{ record.miss }}</p>
+            <div class="card-body" style="padding: .2rem !important;">
+              <p class="card-text" style="font-size: x-small;">#{{ record.index }}</p>
+              <p class="card-title" style="font-size: small;"><b><a class="link-dark" href="https://www.phizone.cn/charts/{{ record.chart_id }}">{{ record.song }}</a></b></p>
+              <p class="card-text" style="font-size: x-small;"><b>{{ record.level }} {{ record.diff }}</b></p>
+              <p class="card-text" style="font-size: small;"><b>{{ record.score }}</b></p>
+              <p class="card-text" style="font-size: x-small;">{{ record.acc }}% → <b>{{ record.rks }}</b></p>
+              <p class="card-text" style="font-size: x-small;"><b>PGBM:</b> {{ record.perfect }}-{{ record.good }} ({{ record.early }}-{{ record.late }}) -{{ record.bad }}-{{ record.miss }}</p>
             </div>
           </div>
         {% endfor %}

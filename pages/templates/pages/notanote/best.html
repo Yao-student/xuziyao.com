@@ -36,7 +36,7 @@
     {% csrf_token %}
     <p>
       <label for="save" class="form-label">成绩文件:</label>
-      <input type="file" class="form-control" name="save" id="save" required>
+      <input type="file" class="form-control" name="score-file" id="score-file" required>
     </p>
     <p>
       <label for="overflow" class="form-label">显示记录总数:</label>
@@ -51,16 +51,16 @@
 
     <h2>B31</h2>
       <div class="card notanote-best">
-        <div class="card-body" style="padding: .3rem !important;">
+        <div class="card-body" style="padding: .2rem !important;">
           {% for record in b31 %}
             <div class="card record-{{ record.level_id }}">
-              <div class="card-body" style="padding: .6rem !important;">
-                <p class="card-text" style="font-size: small;">#{{ record.index }}</p>
-                <p class="card-title" style="font-size: medium;"><b>{{ record.song }}</b></p>
-                <p class="card-text" style="font-size: small;"><b>{{ record.level }} {{ record.diff }}</b></p>
-                <p class="card-text" style="font-size: medium;"><b>{{ record.score }}</b></p>
-                <p class="card-text" style="font-size: small;"><b>P</b>: {{ record.perfect }} <b>G</b>: {{ record.good }} <b>B</b>: {{ record.bad }} <b>M</b>: {{ record.miss }}</p>
-                <p class="card-text" style="font-size: small;">{{ record.acc|stringformat:'.3f%%' }} → <b>{{ record.rank|stringformat:'.3f' }}</b></p>
+              <div class="card-body" style="padding: .2rem !important;">
+                <p class="card-text" style="font-size: x-small;">#{{ record.index }}</p>
+                <p class="card-title" style="font-size: small;"><b>{{ record.song }}</b></p>
+                <p class="card-text" style="font-size: x-small;"><b>{{ record.level }} {{ record.diff }}</b></p>
+                <p class="card-text" style="font-size: small;"><b>{{ record.score }}</b></p>
+                <p class="card-text" style="font-size: x-small;"><b>P</b>: {{ record.perfect }} <b>G</b>: {{ record.good }} <b>B</b>: {{ record.bad }} <b>M</b>: {{ record.miss }}</p>
+                <p class="card-text" style="font-size: x-small;">{{ record.acc|stringformat:'.3f%%' }} → <b>{{ record.rank|stringformat:'.3f' }}</b></p>
               </div>
             </div>
           {% endfor %}
@@ -70,16 +70,16 @@
     {% if overflow %}
       <h2>溢出部分</h2>
       <div class="card notanote-best">
-          <div class="card-body" style="padding: .3rem !important;">
+        <div class="card-body" style="padding: .2rem !important;">
           {% for record in overflow %}
             <div class="card record-{{ record.level_id }}">
-              <div class="card-body" style="padding: .6rem !important;">
-                <p class="card-text" style="font-size: small;">#{{ record.index }}</p>
-                <p class="card-title" style="font-size: medium;"><b>{{ record.song }}</b></p>
-                <p class="card-text" style="font-size: small;"><b>{{ record.level }} {{ record.diff }}</b></p>
-                <p class="card-text" style="font-size: medium;"><b>{{ record.score }}</b></p>
-                <p class="card-text" style="font-size: small;"><b>P</b>: {{ record.perfect }} <b>G</b>: {{ record.good }} <b>B</b>: {{ record.bad }} <b>M</b>: {{ record.miss }}</p>
-                <p class="card-text" style="font-size: small;">{{ record.acc|stringformat:'.3f%%' }} → <b>{{ record.rank|stringformat:'.3f' }}</b></p>
+              <div class="card-body" style="padding: .2rem !important;">
+                <p class="card-text" style="font-size: x-small;">#{{ record.index }}</p>
+                <p class="card-title" style="font-size: small;"><b>{{ record.song }}</b></p>
+                <p class="card-text" style="font-size: x-small;"><b>{{ record.level }} {{ record.diff }}</b></p>
+                <p class="card-text" style="font-size: small;"><b>{{ record.score }}</b></p>
+                <p class="card-text" style="font-size: x-small;"><b>P</b>: {{ record.perfect }} <b>G</b>: {{ record.good }} <b>B</b>: {{ record.bad }} <b>M</b>: {{ record.miss }}</p>
+                <p class="card-text" style="font-size: x-small;">{{ record.acc|stringformat:'.3f%%' }} → <b>{{ record.rank|stringformat:'.3f' }}</b></p>
               </div>
             </div>
           {% endfor %}

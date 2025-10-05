@@ -7,9 +7,17 @@ Confidential content has already been hidden. The files are added into [.gitigno
 
 ## Changelog
 
+### v2.3.0 (2025.10.01)
+
+- Shrink play record cards in [PhiZone B27 Calculator](http://xuziyao.com/phizone/best/) and [Notanote B31 Calculator](http://xuziyao.com/notanote/best/) to make more information can be contained in the screen
+- [Notanote B31 Calculator](http://xuziyao.com/notanote/best/) synced v2.6.0 update, and fixed bugs
+- Fixed the problem that unable to download the right file in [Notanote PC Download](http://xuziyao.com/notanote/pcdownload/)
+- Move CSS in &lt;style&gt; element to a single CSS file
+
 ### v2.2.0 (2025.09.18)
 
-- [Notanote B31 Calculator](http://xuziyao.com/notanote/rank/) synced v2.5.1 update, and fixed bugs
+- [Notanote B31 Calculator](http://xuziyao.com/notanote/rank/) synced v2.5.1 update, fixed bugs, added PERFECT, GOOD, BAD, MISS display, and added total records amount option
+- Append [Notanote PC Download](http://xuziyao.com/notanote/pcdownload/)
 - HAPPY 15TH BIRTHDAY TO MYSELF!
 - Other minor changes
 
@@ -37,7 +45,6 @@ Confidential content has already been hidden. The files are added into [.gitigno
 - [PhiZone B27 计算 (PhiZone B27 Calculator)](http://xuziyao.com/notanote/best/) was renamed as [PhiZone 查分器](http://xuziyao.com/phizone/best/) . Fixed the problem that the layout of Phi3 was wrong
 - [Notanote B26 计算 (Notanote B26 Calculator)](http://xuziyao.com/notanote/best/) was renamed as [Notanote 查分器](http://xuziyao.com/notanote/best/) . Changed to use a more convenient way that uploading the score file to obtaining B26
 - The URL of [Notanote Single Rank Calcultor](http://xuziyao.com/notanote/rank/) was changed from /notanote/rankcalc/ to /notanote/rank/
-- New update in [Programming](http://xuziyao.com/programming/) section and [Post](http://xuziyao.com/programming/) section
 - Append [Special Thanks](http://xuziyao.com/special_thanks/) page
 - Optimized the codes
 - Other minor changes
@@ -48,7 +55,6 @@ Confidential content has already been hidden. The files are added into [.gitigno
 
 ### v1.2.4 (2025.06.22)
 
-- [Phigros Fanmade Charts](http://xuziyao.com/fanmade_charts/phigros/) section update
 - [Notanote B26 Calculator](http://xuziyao.com/notanote/best/) synced Notanote v2.3.0 update
 
 ### v1.2.3 (2025.05.30)
@@ -78,7 +84,6 @@ Confidential content has already been hidden. The files are added into [.gitigno
 ### v1.1.2 (2025.04.20)
 
 - Minor UI changes
-- [Phigros Fanmade Charts](http://xuziyao.com/fanmade_charts/phigros/) section update
 - Other minor changes
 
 ### v1.1.1 (2025.04.12)
@@ -93,7 +98,6 @@ Confidential content has already been hidden. The files are added into [.gitigno
 - Appended the breadcrumb navigation
 - [Notanote B26 Calculator](http://xuziyao.com/notanote/best/) and [Notanote Single Rank Calculator](http://xuziyao.com/notanote/rankcal/) synced Notanote v2.0.0 update, and changed to use the new formula on v2.0.0. The one using the v1.7.0 formula was migrated to [Notanote B21 Calculator (v1.7.0)](http://xuziyao.com/notanote/best/v1.7.0) and [Notanote Single Rank Calculator](http://xuziyao.com/notanote/rankcal/v1.7.0). Score information (optional) was added to the data format, and difficulty information was removed. Different colours were used to represent different levels in the results. Fixed the problem that an error occurred if every accuracy is 0
 - Appended pinned diaries and programming articles
-- New update in [Programming](http://xuziyao.com/programming/) section
 - Optimized the codes and fixed mistakes
 - Other minor changes
 

@@ -298,9 +298,10 @@ def phizone_vote(request):
 def phizone_best(request):
     # Record class
     class Record():
-        def __init__(self, index, song, level, diff, chart_id, score, acc, perfect, early, late, bad, miss, rks):
+        def __init__(self, index, song, level_type, level, diff, chart_id, score, acc, perfect, early, late, bad, miss, rks):
             self.index = index
             self.song = song
+            self.level_type = level_type
             self.level = level
             self.diff = diff
             self.chart_id = chart_id
@@ -313,12 +314,13 @@ def phizone_best(request):
             self.bad = bad
             self.miss = miss
             self.rks = rks
-            self.level_id = {0: 'ez', 1: 'hd', 2: 'in', 3: 'at', 4: 'sp'}[level]
+            self.level_id = {0: 'ez', 1: 'hd', 2: 'in', 3: 'at', 4: 'sp'}[level_type]
 
     # Get record info
     def get_record_info(index, record):
         song = record['chart']['song']['title']
-        level = record['chart']['levelType']
+        level_type = record['chart']['levelType']
+        level = record['chart']['level']
         diff = record['chart']['difficulty']
         chart_id = record['chart']['id']
         score = record['score']
@@ -329,7 +331,7 @@ def phizone_best(request):
         bad = record['bad']
         miss = record['miss']
         rks = round(record['rks'], 3)
-        return Record(index, song, level, diff, chart_id, score, acc, perfect, early, late, bad, miss, rks)
+        return Record(index, song, level_type, level, diff, chart_id, score, acc, perfect, early, late, bad, miss, rks)
 
     rks = None
     phi3 = []
@@ -384,7 +386,7 @@ def notanote_best(request):
     errors = []
     if request.method == 'POST':
         # Read the save file
-        file = request.FILES['save']
+        file = request.FILES['score-file']
         with open(os.path.join(settings.MEDIA_ROOT, 'notanote', 'best', file.name), 'wb') as destination:
             for chunk in file.chunks():
                 destination.write(chunk)
@@ -417,6 +419,8 @@ def notanote_best(request):
                     miss = result['MissNum']
                     note_num = perfect + good + bad + miss
                     acc = (perfect + sum([0.4 + (120 - abs(offset)) / 100 for offset in good_offset_list])) / note_num
+                    diff = result['Rate']
+                    rank = (math.e ** (acc - 0.5) - 1) / (math.e ** 0.5 - 1) * (diff + 5)
                     if (song_id not in records) or (rank > records[song_id].rank) and (acc >= 0.5):
                         if level == 'EX-NT':
                             level = 'NT'
@@ -427,9 +431,7 @@ def notanote_best(request):
                         elif level == 'SY_Plus':
                             level = 'SY+'
                         song = id_dict[song_id]
-                        diff = result['Rate']
                         score = result['HighestScore']
-                        rank = (math.e ** (acc - 0.5) - 1) / (math.e ** 0.5 - 1) * (diff + 5)
                         records[song_id] = Record(0, song, level, diff, score, perfect, good, bad, miss, acc * 100, rank)
                 # Sort the records
                 records = list(records.values())

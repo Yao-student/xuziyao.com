@@ -16,277 +16,7 @@
 
     <base target="_blank" />
 
-    <style>
-
-.container {
-    margin: 2rem;
-    max-width: 75rem !important;
-}
-
-.breadcrumb {
-    --bs-breadcrumb-divider: '>';
-}
-
-form {
-    margin-bottom: 1rem;
-}
-
-.form-control {
-    display: inline !important;
-    width: auto !important;
-}
-
-article {
-
-    img {
-        margin-bottom: 1rem;
-        max-width: 100%;
-        border-radius: .3rem;
-    }
-
-}
-
-.nav {
-
-    ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    li {
-        float: left;
-    }
-
-    a {
-        text-align: center;
-        display: block;
-        text-decoration: none;
-        padding: 1rem;
-        color: white;
-    }
-
-    a:hover {
-        color: white;
-        background-color: navy;
-    }
-
-}
-
-.section {
-    margin-bottom: 1.5rem;
-    clear: both;
-
-    ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    li {
-        float: left;
-        margin: .3rem;
-        border-radius: .3rem;
-        background-color: steelblue;
-    }
-
-    a {
-        padding: .6rem;
-        display: block;
-        text-decoration: none;
-        color: white;
-    }
-
-    a:hover {
-        border-radius: .6rem;
-        color: white;
-        background-color: #295D8A;
-    }
-
-}
-
-.counter {
-    margin: 0;
-    display: block !important;
-}
-
-.section-link {
-    margin: auto;
-    padding: 1rem;
-    max-width: 40rem;
-    border: 0 !important;
-    border-radius: 1rem !important;
-    background-size: cover;
-    background-position: center;
-
-    h3 {
-        text-align: center;
-    }
-
-}
-
-.chart-link {
-    margin: .6rem;
-    float: left;
-    width: 19rem;
-}
-
-.phizone-best {
-    padding: .3rem !important;
-    overflow-y: auto;
-    border: 0 !important;
-    background-image: url({% static 'phizone/best_card_bg.png' %});
-    background-size: cover;
-    background-position: center;
-
-    p {
-        margin: 0;
-    }
-
-    .record-phi3 {
-        border-color: gold;
-    }
-
-    .record-normal {
-        border: 0;
-    }
-
-    .record-ez {
-        margin: .3rem;
-        float: left;
-        background-color: #00b6ff !important;
-    }
-
-    .record-hd {
-        margin: .3rem;
-        float: left;
-        background-color: #ffbe00 !important;
-    }
-
-    .record-in {
-        margin: .3rem;
-        float: left;
-        background-color: salmon !important;
-    }
-
-    .record-at {
-        margin: .3rem;
-        float: left;
-        background-color: #d3d2d2 !important;
-    }
-
-    .record-sp {
-        margin: .3rem;
-        float: left;
-        background-color: #5c7f67 !important;
-    }
-
-    .record-other {
-        margin: .3rem;
-        float: left;
-        background-color: lemonchiffon !important;
-    }
-
-}
-
-.notanote-best {
-    padding: .3rem !important;
-    overflow-y: auto;
-    border: 0 !important;
-    background-image: url({% static 'notanote/rank_card_bg.png' %});
-    background-size: cover;
-    background-position: center;
-
-    p {
-        margin: 0;
-    }
-
-    .record-sy {
-        margin: .3rem;
-        border: 0;
-        float: left;
-        background-color: pink !important;
-    }
-
-    .record-sy-plus {
-        margin: .3rem;
-        border: 0;
-        float: left;
-        background-color: salmon !important;
-    }
-
-    .record-ez {
-        margin: .3rem;
-        border: 0;
-        float: left;
-        background-color: mediumaquamarine !important;
-    }
-
-    .record-ez-plus {
-        margin: .3rem;
-        border: 0;
-        float: left;
-        background-color: lightseagreen !important;
-    }
-
-    .record-tl {
-        margin: .3rem;
-        border: 0;
-        float: left;
-        background-color: orange !important;
-    }
-
-    .record-nt {
-        margin: .3rem;
-        border: 0;
-        float: left;
-        background-color: crimson !important;
-    }
-
-}
-
-.hljs {
-    border-radius: .6rem;
-    background: lightgrey !important;
-    color: #444;
-    font-family: 'Consolas';
-}
-
-.code-inline {
-    padding: .2rem;
-    border-radius: .3rem;
-    background: lightgrey !important;
-    color: #444;
-    font-family: 'Consolas';
-}
-
-.article-link {
-    margin: 1.5rem 0 !important;
-}
-
-.anchor-contents {
-    margin: 1.5rem 0;
-    padding: 1rem;
-    background-color: lightblue;
-    border-radius: .6rem;
-    width: fit-content;
-
-    ol {
-    margin-bottom: 0;
-    }
-
-}
-
-.item {
-    padding: .3rem;
-    width: fit-content;
-    background-color: lightblue;
-    border-left: .3rem solid steelblue;
-}
-
-    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"></script>
@@ -301,25 +31,24 @@ article {
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NF4X7Z6N5L"></script>
 
     <script>
-      // Highlight all codes
-      hljs.highlightAll();
+        // Highlight all codes
+        hljs.highlightAll();
 
-      // Google Analytics
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-NF4X7Z6N5L');
+        // Google Analytics
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-NF4X7Z6N5L');
 
-      // Show the website runtime
-      window.onload = function showDuration() {
-        var now = new Date();
-        var startTime = new Date(2025, 2, 15);
-        console.log(now, startTime)
-        var diff = now - startTime
-        var runtime = Math.floor(diff / 86400000);
-        document.getElementById("runtime").innerHTML = "本网站已运行 " + runtime + " 天";
-      }
-      showDuration();
+        // Show the website runtime
+        window.onload = function() {
+            var now = new Date();
+            var startTime = new Date(2025, 2, 15);
+            console.log(now, startTime)
+            var diff = now - startTime
+            var runtime = Math.floor(diff / 86400000);
+            document.getElementById("runtime").innerHTML = "本网站已运行 " + runtime + " 天";
+        }
     </script>
 
   </head>
@@ -349,7 +78,7 @@ article {
       <div id="pinned" style="padding: .6rem;background-color: lightgrey;text-align: center;">
         <p style="margin: 0;font-size: x-large;"><a href="https://qm.qq.com/q/s03NyJX1x6">加入 QQ 交流群</a></p>
         <p style="margin: 0;font-size: x-large;">喜欢本站？<a href="https://afdian.com/a/dason">打赏作者</a></p>
-        <p id="ad" class="text-muted"><b>宣传</b>：奇谱发生器（Kipphi Apparatus）是由 Zes M Young 开发的一款电脑端网页制谱器，目前正在逐步完善中，详细介绍可查看<a href="https://pgrfm.miraheze.org/wiki/%E5%A5%87%E8%B0%B1%E5%8F%91%E7%94%9F%E5%99%A8">官方 Wiki</a>，欢迎加入 QQ 群：478824121。</p>
+        <p id="ad" class="text-muted"><b>宣传</b>：奇谱发生器（Kipphi Apparatus）是由 Zes M Young 开发的一款电脑端网页制谱器，目前正在逐步完善中，详细介绍可查看 <a href="https://pgrfm.miraheze.org/wiki/%E5%A5%87%E8%B0%B1%E5%8F%91%E7%94%9F%E5%99%A8">官方 Wiki</a>，欢迎加入 QQ 群：478824121。</p>
       </div>
 
       <div id="content" style="padding: 1.5rem;border-bottom-left-radius: 1.5rem;border-bottom-right-radius: 1.5rem;background-color: whitesmoke;overflow: hidden;">
@@ -368,7 +97,7 @@ article {
     <p id="runtime" style="text-align: center;font-size: larger;"></p>
 
     <div style="text-align: center;">
-      <img src="{% static 'mps.png' %}" style="margin: 0;" />
+      <img src="{% static 'mps.png' %}" style="margin: 0;" alt="公安部" />
       <a href="http://beian.miit.gov.cn/" class="link-dark">沪ICP备2024097620号</a>
     </div>
 
