@@ -7,6 +7,10 @@ Confidential content has already been hidden. The files are added into [.gitigno
 
 ## Changelog
 
+### v2.3.1 (2025.10.12)
+
+- Fixed the problem that the URL of [Phira Chart File Download](http://xuziyao.com/phira/download/) URL wasn't changed from /phira/getfile/ to /phira/download/
+
 ### v2.3.0 (2025.10.01)
 
 - Shrink play record cards in [PhiZone B27 Calculator](http://xuziyao.com/phizone/best/) and [Notanote B31 Calculator](http://xuziyao.com/notanote/best/) to make more information can be contained in the screen
