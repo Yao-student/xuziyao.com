@@ -7,6 +7,10 @@
 
 ## 更新日志
 
+### v2.3.1 (2025.10.12)
+
+- 修复 [Phira 谱面文件下载](http://xuziyao.com/phira/download/) URL 未由 /phira/getfile/ 改为 /phira/download/ 的问题
+
 ### v2.3.0 (2025.10.01)
 
 - [PhiZone 查分器](http://xuziyao.com/phizone/best/) 与 [Notanote 查分器](http://xuziyao.com/notanote/best/) 游玩记录卡片大小被压缩，使得页面上能容纳更多信息
