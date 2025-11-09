@@ -22,6 +22,8 @@
 
   <p>谱面页面链接最后的那串数字即为谱面 ID，比如这张 <a href="https://phira.moe/chart/10176">Super Nova Project</a> 的谱面 ID 就是 10176。</p>
 
+  <p style="color: red;">若你使用此工具出现报错，可前往 <span><code class="code-inline">api.phira.cn/chart/谱面ID</code></span>，在页面内容里找到 <span><code class="code-inline">"file":"谱面文件链接"</code></span> 这串文字，复制并前往该链接即可下载到谱面。下载下来的文件后缀名直接改成 pez 或者 zip 即可。</p>
+
   <form action="" method="post" target="_self" class="form">
     {% csrf_token %}
     <p>

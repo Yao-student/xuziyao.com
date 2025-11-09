@@ -138,10 +138,10 @@ def phira_download(request):
     if request.method == 'POST':
         chart_id = request.POST.get('chart-id')
         req = requests.get(f'https://api.phira.cn/chart/{chart_id}')
-        if req.status_code != 400 and req.json() != {'errors': 'Not found'}:
-            file = requests.get(req.json()['file'], headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}).content
+        if (req.status_code != 400) and ('errors' not in req.json()):
+            file = requests.get(req.json()['file']).content
             response = HttpResponse(content_type='application/octet-stream')
-            response['Content-Disposition'] = f'attachment; filename="{chart_id}.pez"'
+            response['Content-Disposition'] = f'attachment; filename="{chart_id}.zip"'
             response.write(file)
             return response
         else:
@@ -394,9 +394,8 @@ def notanote_best(request):
         try:
             with open(os.path.join(settings.MEDIA_ROOT, 'notanote', 'best', file.name), 'r') as file:
                 ciphertext = base64.b64decode(file.read())
-            os.remove(os.path.join(settings.MEDIA_ROOT, 'notanote', 'best', file.name))
-            key = 'secret'.encode('utf-8')
-            iv = 'secret'.encode('utf-8')
+            key = '1JZEIU9@Fq#bUXoZ'.encode('utf-8')
+            iv = 'Wi#PiITR4p*&e&ns'.encode('utf-8')
             cipher = AES.new(key, AES.MODE_CBC, iv=iv)
             plaintext = unpad(cipher.decrypt(ciphertext), 16)
             scores = json.loads(plaintext)

@@ -7,6 +7,11 @@
 
 ## 更新日志
 
+## v2.3.2 (2025.11.08)
+
+- [Notanote 查分器](http://xuziyao.com/notanote/rank/) 同步 v2.7.0 更新
+- 其他小更改
+
 ### v2.3.1 (2025.10.12)
 
 - 修复 [Phira 谱面文件下载](http://xuziyao.com/phira/download/) URL 未由 /phira/getfile/ 改为 /phira/download/ 的问题
