@@ -7,9 +7,14 @@
 
 ## 更新日志
 
+## v2.3.3 (2025.11.30)
+
+- [Notanote 查分器](http://xuziyao.com/notanote/best/) 同步 v2.7.3 更新
+- 其他小更改
+
 ## v2.3.2 (2025.11.08)
 
-- [Notanote 查分器](http://xuziyao.com/notanote/rank/) 同步 v2.7.0 更新
+- [Notanote 查分器](http://xuziyao.com/notanote/best/) 同步 v2.7.0 更新
 - 其他小更改
 
 ### v2.3.1 (2025.10.12)

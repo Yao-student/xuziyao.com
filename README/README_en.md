@@ -7,9 +7,14 @@ Confidential content has already been hidden. The files are added into [.gitigno
 
 ## Changelog
 
+## v2.3.3 (2025.11.30)
+
+- [Notanote B31 Calculator](http://xuziyao.com/notanote/best/) synced v2.7.3 update
+- Other minor changes
+
 ## v2.3.2 (2025.11.08)
 
-- [Notanote 查分器](http://xuziyao.com/notanote/rank/) synced v2.7.0 update
+- [Notanote B31 Calculator](http://xuziyao.com/notanote/best/) synced v2.7.0 update
 - Other minor changes
 
 ### v2.3.1 (2025.10.12)

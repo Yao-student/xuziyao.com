@@ -471,6 +471,10 @@ def notanote_rank(request):
 def notanote_pcdownload(request):
     return render(request, 'pages/notanote/pcdownload.html')
 
+# Notanote Wiki Test
+def notanote_wikitest(request):
+    return render(request, 'pages/notanote/wikitest.html')
+
 # Programming
 def programming_index(request):
     articles = Programming.objects.all().order_by('-date')

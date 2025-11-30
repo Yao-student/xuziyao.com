@@ -31,6 +31,7 @@ urlpatterns = [
     path('notanote/best/instruction/', views.notanote_best_instruction, name='notanote_best_instruction'),
     path('notanote/rank/', views.notanote_rank, name='notanote_rank'),
     path('notanote/pcdownload/', views.notanote_pcdownload, name='notanote_pcdownload'),
+        path('notanote/wikitest/', views.notanote_wikitest, name='notanote_wikitest'),
     path('programming/', views.programming_index, name='programming_index'),
     re_path(r'^programming/(?P<id>\d+)/$', views.programming, name='programming'),
     path('randomnum/', views.randomnum, name='randomnum'),
