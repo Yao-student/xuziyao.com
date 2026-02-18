@@ -2,94 +2,189 @@
 
 {% block title %}PhiZone 谱面投票信息{% endblock %}
 
+{% block res %}<link rel="stylesheet" href="{% static 'css/sections.css' %}" />{% endblock %}
+
 {% block header %}PhiZone 谱面投票信息{% endblock %}
-
-{% block breadcrumb %}
-
-  <nav id="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
-      <li class="breadcrumb-item active">PhiZone 工具</li>
-    </ol>
-  </nav>
-
-  <hr />
-
-{% endblock %}
 
 {% block content %}
 
-  <p>注：谱面 ID 即谱面页面链接最后的那串字母和数字，比如这张 <a href="https://www.phizone.cn/charts/98e8c2cb-1c87-4b5d-b5d9-9f88bd46362b">星相运轨 -The End of Time-</a> 的谱面 ID 就是 98e8c2cb-1c87-4b5d-b5d9-9f88bd46362b。</p>
+<nav>
+<ol>
+    <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+    <li class="breadcrumb-item active">PhiZone 工具</li>
+</ol>
+</nav>
 
-  <form action="" method="post" target="_self" class="form">
-    {% csrf_token %}
-    <p>
-      <label for="chart-id" class="form-label">谱面 ID:</label>
-      <input type="text" name="chart-id" class="form-control" id="chart-id" required>
-    </p>
-    <button type="submit" class="btn btn-primary">查询</button>
-  </form>
+<hr />
 
-  {% if chart_info and votes %}
+<p>注：谱面 ID 即谱面页面链接最后的那串字母和数字，比如这张 <a href="https://www.phizone.cn/charts/98e8c2cb-1c87-4b5d-b5d9-9f88bd46362b">星相运轨 -The End of Time-</a> 的谱面 ID 就是 98e8c2cb-1c87-4b5d-b5d9-9f88bd46362b。</p>
 
-    <p><b>谱面信息</b></h2>：
+<form id="form" class="form">
+{% csrf_token %}
+<p>
+    <label for="chart-id" class="form-label">谱面 ID:</label>
+    <input type="text" id="chart-id" class="form-control"  required>
+</p>
+<button type="submit" class="btn btn-primary">查询</button>
+</form>
 
-    {% for info in chart_info %}
-      <p>{{ info|safe }}</p>
-    {% endfor %}
+{% endblock %}
 
-    <p><b>投票信息</b></h2>：
+{% block script %}
 
-    <table class="table table-bordered table-hover" style="text-align: center;">
+<script>
 
-      <thead class="table-light">
-        <th>投票者</th>
-        <th>评分倍率</th>
-        <th>配置</th>
-        <th>游玩体验</th>
-        <th>视觉效果</th>
-        <th>创新度</th>
-        <th>契合度</th>
-        <th>印象</th>
-        <th>总分</th>
-      </thead>
+    form = document.forms['form'];
 
-      <tbody>
-        {% for vote in votes %}
-          <tr>
-            <td><a href="https://www.phizone.cn/users/{{ vote.owner_id }}">{{ vote.owner }}</a></td>
-            <td>{{ vote.multiplier }}</td>
-            <td>{{ vote.arrangement }}</td>
-            <td>{{ vote.gameplay }}</td>
-            <td>{{ vote.visual_effects }}</td>
-            <td>{{ vote.creativity }}</td>
-            <td>{{ vote.concord }}</td>
-            <td>{{ vote.impression }}</td>
-            <td>{{ vote.total }}</td>
-          </tr>
-        {% endfor %}
-        <tr>
-          <td><b>{{ total.owner }}</b></td>
-          <td></td>
-          <td><b>{{ total.arrangement }}</b></td>
-          <td><b>{{ total.gameplay }}</b></td>
-          <td><b>{{ total.visual_effects }}</b></td>
-          <td><b>{{ total.creativity }}</b></td>
-          <td><b>{{ total.concord }}</b></td>
-          <td><b>{{ total.impression }}</b></td>
-          <td><b>{{ total.total }}</b></td>
-        </tr>
-      </tbody>
+    form.onsubmit = async e => {
+        e.preventDefault();
 
-    </table>
+        // Vote class
+        class Vote {
+            constructor(owner, ownerId, multiplier, arrangement, gameplay, visualEffects, creativity, concord, impression) {
+                this.owner = owner;
+                this.ownerId = ownerId;
+                this.multiplier = multiplier;
+                this.arrangement = arrangement;
+                this.gameplay = gameplay;
+                this.visualEffects = visualEffects;
+                this.creativity = creativity;
+                this.concord = concord;
+                this.impression = impression;
+                this.total = (multiplier * (arrangement + gameplay + visualEffects + creativity + concord + impression)).toFixed(3);
+            }
+        }
 
-  {% endif %}
+        const chartId = form['chart-id'].value;
 
-  {% if errors %}
-    {% for error in errors %}
-      <p style="color: red;">{{ error }}</p>
-    {% endfor %}
-  {% endif %}
+        // Show the loading tip
+        document.getElementById('vote-info')?.remove();
+        const loadingTip = document.createElement('p');
+        loadingTip.id = 'loading-tip';
+        loadingTip.textContent = '获取信息中…';
+        form.after(loadingTip);
+
+        try {
+            // Get chart data
+            var chartInfo, total;
+            var votes = [];
+            var response = await fetch(`https://api.phizone.cn/charts/${chartId}`);
+            if (response.status == 404) {
+                alert('谱面 ID 不合法');
+                document.getElementById('loading-tip').remove();
+                return;
+            } else {
+                var data = await response.json();
+            }
+            if (data['code'] == 'ResourceNotFound') {
+                alert('谱面不存在');
+                document.getElementById('loading-tip').remove();
+            } else {
+                chartData = data['data'];
+            }
+
+            // Set the chart info text
+            chartInfo = [
+                `曲名：${chartData['song']['title']}`,
+                `谱师：${chartData['authorName'].replace(/\[PZUser:(\d+):([^\s]+?):PZRT]/g, '<a href="https://www.phizone.cn/users/$1">$2</a>')}`,
+                `难度：${chartData['level']} ${chartData['difficulty']}`,
+                `评分：${chartData['rating'].toFixed(3)}`
+            ];
+
+            // The total vote
+            total = new Vote(
+                null, null, 1,
+                +chartData['ratingOnArrangement'].toFixed(3),
+                +chartData['ratingOnGameplay'].toFixed(3),
+                +chartData['ratingOnVisualEffects'].toFixed(3),
+                +chartData['ratingOnCreativity'].toFixed(3),
+                +chartData['ratingOnConcord'].toFixed(3),
+                +chartData['ratingOnImpression'].toFixed(3)
+            );
+
+            // Get chart vote data
+            var response = await fetch(`https://api.phizone.cn/charts/${chartId}/votes`);
+            var data = await response.json();
+            await Promise.all(
+                data['data'].map(async vote => {
+                    var response = await fetch(`https://api.phizone.cn/users/${vote['ownerId']}`);
+                    var data = await response.json();
+
+                    // Append the vote
+                    votes.push(new Vote(
+                        data['data']['userName'],
+                        vote['ownerId'],
+                        vote['multiplier'],
+                        vote['arrangement'],
+                        vote['gameplay'],
+                        vote['visualEffects'],
+                        vote['creativity'],
+                        vote['concord'],
+                        vote['impression']
+                    ));
+                })
+            );
+
+
+            // Show the result
+            const voteInfo = document.createElement('div');
+            voteInfo.id = 'vote-info';
+            voteInfo.innerHTML = `
+                <h2>谱面信息</h2>
+                <ul>
+                    ${chartInfo.map(info => `<li>${info}</li>`).join('')}
+                </ul>
+                <h2>投票信息</h2>
+                <table class="table table-bordered table-hover text-center">
+                    <thead class="table-light">
+                    <tr>
+                        <th>投票者</th>
+                        <th>评分倍率</th>
+                        <th>配置</th>
+                        <th>游玩体验</th>
+                        <th>视觉效果</th>
+                        <th>创新度</th>
+                        <th>契合度</th>
+                        <th>印象</th>
+                        <th>总分</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    ${votes.map(vote => `
+                        <tr>
+                            <td><a href="https://www.phizone.cn/users/${vote.ownerId}">${vote.owner}</a></td>
+                            <td>${vote.multiplier}</td>
+                            <td>${vote.arrangement}</td>
+                            <td>${vote.gameplay}</td>
+                            <td>${vote.visualEffects}</td>
+                            <td>${vote.creativity}</td>
+                            <td>${vote.concord}</td>
+                            <td>${vote.impression}</td>
+                            <td>${vote.total}</td>
+                        </tr>
+                    `).join('')}
+                    <tr>
+                        <td><strong>总计</strong></td>
+                        <td></td>
+                        <td><strong>${total.arrangement}</strong></td>
+                        <td><strong>${total.gameplay}</strong></td>
+                        <td><strong>${total.visualEffects}</strong></td>
+                        <td><strong>${total.creativity}</strong></td>
+                        <td><strong>${total.concord}</strong></td>
+                        <td><strong>${total.impression}</strong></td>
+                        <td><strong>${total.total}</strong></td>
+                    </tr>
+                    </tbody>
+                </table>
+            `;
+            form.after(voteInfo);
+        } catch {
+            alert('获取投票信息失败');
+        }
+        document.getElementById('loading-tip').remove();
+    };
+
+</script>
 
 {% endblock %}
 

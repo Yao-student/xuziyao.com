@@ -1,0 +1,660 @@
+{% extends 'pages/posts/template.html' %}
+
+{% block post %}
+
+<h1>Phira API 非官方文档</h1>
+
+<p>Phira 有自己的 API，但官方没有相关文档，所以我根据 <a href="https://github.com/TeamFlos/phira-web">phira-web</a> 仓库中的代码等信息，写了一篇非官方的文档。本文内容可能会有遗漏和错误的地方，部分内容也未研究清楚，欢迎各位补充。</p>
+
+<p>Phira 有两个 API 链接：<a href="https://api.phira.cn">https://api.phira.cn</a> 与 <a href="https://phira.5wyxi.com">https://phira.5wyxi.com</a>。</p>
+
+<pre><code class="language-python"># Python 示例
+
+# 获取 ID 为 1000 的谱面的信息
+import requests
+req = requests.get('https://api.phira.cn/chart/1000')
+print(req.json())
+</code></pre>
+
+<pre><code class="language-js">// JavaScript 示例
+
+// 获取 ID 为 1000 的谱面的信息
+fetch('https://api.phira.cn/chart/1000')
+    .then(response => response.json())
+    .then(data => console.log(data));
+</code></pre>
+
+<h2 >谱面</h2>
+
+<h3 >检索谱面</h3>
+
+<p><b>URL</b>: <code class="code-inline">/chart</code></p>
+
+<h4>参数</h4>
+
+<table class="table table-bordered">
+
+  <thead>
+    <th>参数</th>
+    <th>值</th>
+    <th>说明</th>
+  </thead>
+
+  <tbody>
+
+    <tr>
+      <td>uploader</td>
+      <td>int</td>
+      <td>上传者用户 ID</td>
+    </tr>
+
+    <tr>
+      <td>pageNum</td>
+      <td>integer (default: 30)</td>
+      <td>每页谱面数量，默认值为 30</td>
+    </tr>
+
+    <tr>
+      <td>page</td>
+      <td>integer (default: 1)</td>
+      <td>页码，默认值为 1</td>
+    </tr>
+
+    <tr>
+      <td>order</td>
+      <td>string</td>
+      <td>排序方式
+        <ul>
+          <li><b>时间顺序</b>: -update</li>
+          <li><b>时间倒序</b>: update</li>
+          <li><b>评分顺序</b>: -rating</li>
+          <li><b>评分倒序</b>: rating</li>
+          <li><b>名字顺序</b>: name</li>
+          <li><b>名字倒序</b>: -name</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>division</td>
+      <td>string</td>
+      <td>分区
+        <ul>
+          <li><b>常规</b>: regular</li>
+          <li><b>整活</b>: troll</li>
+          <li><b>纯配置</b>: plain</li>
+          <li><b>观赏</b>: visual</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>tags</td>
+      <td>array[string]</td>
+      <td>想包含与不想包含的标签，在标签前加负号表示不想包含</td>
+    </tr>
+
+    <tr>
+      <td>search</td>
+      <td>string</td>
+      <td>搜索</td>
+    </tr>
+
+    <tr>
+      <td>division</td>
+      <td>string</td>
+      <td>分区
+        <ul>
+          <li><b>常规</b>: regular</li>
+          <li><b>整活</b>: troll</li>
+          <li><b>纯配置</b>: plain</li>
+          <li><b>观赏</b>: visual</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>rating</td>
+      <td>array[number]</td>
+      <td>评分下界与上界，上界在前下界在后</td>
+    </tr>
+
+  </tbody>
+
+</table>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "count": int, // 谱面总数
+    "result": [
+        {
+            "id": int, // 谱面 ID
+            "name": string, // 曲名
+            "level": string, // 难度，格式为 XX Lv.XX
+            "difficulty": float, // 定数，会有浮点数误差，使用时注意四舍五入至十分位
+            "charter": string, // 谱师
+            "composer": string, // 曲师
+            "illustrator": string, // 画师
+            "description": string, // 简介
+            "ranked": boolean, // 是否计入 rks
+            "reviewed": boolean, // 是否通过审核
+            "stable": boolean, // 是否上架
+            "stableRequest": boolean, // 是否申请上架流程结束
+            "illustration": string, // 曲绘文件 URL
+            "preview": string, // 预览音频文件 URL
+            "file": string, // 谱面文件 URL
+            "uploader": int, // 上传者用户 ID
+            "tags": [string, string, …], // 标签
+            "rating": float, // 评分（1 对应评分 5.00）
+            "ratingCount": int, // 评分人数
+            "created": string, // 上传时间，格式为 ISO 8601 标准
+            "updated": string, // 更新时间，包括非谱面部分，格式为 ISO 8601 标准
+            "chartUpdated": string // 谱面更新时间，格式为 ISO 8601 标准
+        },
+        …
+    ]
+}
+</code></pre>
+
+<h3 >检索特定谱面</h3>
+
+<p><b>URL</b>: <code class="code-inline">/chart/{谱面 ID}</code></p>
+
+<h4>参数</h4>
+
+<p>无</p>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "id": int, // 谱面 ID
+    "name": string, // 曲名
+    "level": string, // 难度，格式为 XX Lv.XX
+    "difficulty": float, // 定数，会有浮点数误差，使用时注意四舍五入至十分位
+    "charter": string, // 谱师
+    "composer": string, // 曲师
+    "illustrator": string, // 画师
+    "description": string, // 简介
+    "ranked": boolean, // 是否计入 rks
+    "reviewed": boolean, // 是否通过审核
+    "stable": boolean, // 是否上架
+    "stableRequest": boolean, // 是否申请上架流程结束
+    "illustration": string, // 曲绘文件 URL
+    "preview": string, // 预览音频文件 URL
+    "file": string, // 谱面文件 URL
+    "uploader": int, // 上传者用户 ID
+    "tags": [string, string, …], // 标签
+    "rating": float, // 评分（1 对应评分 5.00）
+    "ratingCount": int, // 评分人数
+    "created": string, // 上传时间，格式为 ISO 8601 标准
+    "updated": string, // 更新时间，包括非谱面部分，格式为 ISO 8601 标准
+    "chartUpdated": string // 谱面更新时间，格式为 ISO 8601 标准
+}
+</code></pre>
+
+<h3 >检索多个特定谱面</h3>
+
+<p><b>URL</b>: <code class="code-inline">/chart/multi-get</code></p>
+
+<h4>参数</h4>
+
+<table class="table table-bordered">
+
+  <thead>
+    <th>参数</th>
+    <th>值</th>
+    <th>说明</th>
+  </thead>
+
+  <tbody>
+
+    <tr>
+      <td>ids</td>
+      <td>array[number]</td>
+      <td>谱面 ID</td>
+    </tr>
+
+  </tbody>
+
+</table>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">[
+    {
+        "id": int, // 谱面 ID
+        "name": string, // 曲名
+        "level": string, // 难度，格式为 XX Lv.XX
+        "difficulty": float, // 定数，会有浮点数误差，使用时注意四舍五入至十分位
+        "charter": string, // 谱师
+        "composer": string, // 曲师
+        "illustrator": string, // 画师
+        "description": string, // 简介
+        "ranked": boolean, // 是否计入 rks
+        "reviewed": boolean, // 是否通过审核
+        "stable": boolean, // 是否上架
+        "stableRequest": boolean, // 是否申请上架流程结束
+        "illustration": string, // 曲绘文件 URL
+        "preview": string, // 预览音频文件 URL
+        "file": string, // 谱面文件 URL
+        "uploader": int, // 上传者用户 ID
+        "tags": [string, string, …], // 标签
+        "rating": float, // 评分（1 对应评分 5.00）
+        "ratingCount": int, // 评分人数
+        "created": string, // 上传时间，格式为 ISO 8601 标准
+        "updated": string, // 更新时间，包括非谱面部分，格式为 ISO 8601 标准
+        "chartUpdated": string // 谱面更新时间，格式为 ISO 8601 标准
+    },
+    …
+]
+</code></pre>
+
+<h3 >检索特定谱面的评议情况</h3>
+
+<p><b>URL</b>: <code class="code-inline">/chart/{谱面 ID}/stabilize-status</code></p>
+
+<h4>参数</h4>
+
+<p>无</p>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "stable": boolean, // 是否上架
+    "stableRequest": boolean, // 是否申请上架流程结束
+    "approvements": [], //
+    "denies": [], //
+    "history": [ // 评议历史
+        {
+            "reviewer": int | null, // 评议员用户 ID，若为 null 则代表此对象为评议结果
+            "reviewerName": string | null, // 评议员用户名，若为 null 则代表此对象为评议结果
+            "reviewerAvatar": string | null, // 评议员头像 URL，若为 null 则代表此对象为评议结果
+            "chart": int, // 谱面 ID
+            "approve": boolean, // 是否通过了谱面
+            "comment": string | null, // 评议员留言
+            "time": string // 评议时间，格式为 ISO 8601 标准
+        },
+        …
+    ]
+}
+</code></pre>
+
+<h2 >活动</h2>
+
+<h3 >检索活动</h3>
+
+<p><b>URL</b>: <code class="code-inline">/event</code></p>
+
+<h4>参数</h4>
+
+<p>无</p>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "count": int, // 活动总数
+    "result": [
+        {
+            "id": int, // 活动数字 ID
+            "ids": string // 活动文字 ID
+            "creator": int, // 活动创建者用户 ID
+            "name": string, // 活动名
+            "illustration": string, // 活动封面 URL
+            "timeStart": string, // 开始时间，格式为 ISO 8601 标准
+            "timeEnd": string, // 结束时间，包括非谱面部分，格式为 ISO 8601 标准
+            "locked": boolean // 是否锁定
+        },
+        …
+    ]
+}
+</code></pre>
+
+<h3 >检索特定活动</h3>
+
+<p><b>URL</b>: <code class="code-inline">/event/{活动 ID}</code></p>
+
+<h4>参数</h4>
+
+<p>无</p>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "id": int, // 活动数字 ID
+    "ids": string // 活动文字 ID
+    "creator": int, // 活动创建者用户 ID
+    "name": string, // 活动名
+    "illustration": string, // 活动封面 URL
+    "timeStart": string, // 开始时间，格式为 ISO 8601 标准
+    "timeEnd": string, // 结束时间，包括非谱面部分修改，格式为 ISO 8601 标准
+    "locked": boolean // 是否锁定
+}
+</code></pre>
+
+<h2 >用户</h2>
+
+<h3 >检索用户</h3>
+
+<p><b>URL</b>: <code class="code-inline">/user</code></p>
+
+<h3 >检索特定用户</h3>
+
+<p><b>URL</b>: <code class="code-inline">/user/{用户 ID}</code></p>
+
+<h4>参数</h4>
+
+<p>无</p>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "id": int, // 用户 ID
+    "name": string, // 用户名
+    "avatar": string, // 头像 URL
+    "badges": [string, string, …], // 身份标签，对应网页端用户名颜色
+    "language": string, // 语言
+    "bio": string | null, // 简介
+    "exp": int, // 经验值
+    "rks": float, // rks
+    "joined": string, // 注册时间，格式为 ISO 8601 标准
+    "last_login": string, // 上次登录时间，格式为 ISO 8601 标准
+    "roles": int, // 身份组，值为用户所属的所有身份组的对应数字之和。各身份组对应数字如下：
+    USER = 0, (普通用户)
+    ADMIN = 1, (管理员)
+    REVIEWER = 2, (审核员)
+    SUPERVISOR = 4, (评议员)
+    HEAD_SUPERVISOR = 8, (评议组长)
+    HEAD_REVIEWER = 16, (审核组长)
+    PECJAM_REVIEWER = 32, (PecJam比赛审核员)
+    MODERATOR = 64, (含义未知)
+    "banned": boolean, // 是否被封禁
+    "login_banned": boolean, // 是否禁止登录
+    "follower_count": int, // 粉丝数
+    "following_count": int, // 关注数
+    "following": boolean // 是否关注
+}
+</code></pre>
+
+<h3 >检索特定用户状态</h3>
+
+<p><b>URL</b>: <code class="code-inline">/user/{id}/stats</code></p>
+
+<h4>参数</h4>
+
+<p>无</p>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "numRecords": int, // 总游玩次数
+    "avgAccuracy": float // 平均准确率
+}
+</code></pre>
+
+<h2 >游玩记录</h2>
+
+<h3 >检索特定用户的 Best 20</h3>
+
+<p><b>URL</b>: <code class="code-inline">/record/get-pool/{用户 ID}</code></p>
+
+<h4>参数</h4>
+
+<table class="table table-bordered">
+
+  <thead>
+    <th>参数</th>
+    <th>值</th>
+    <th>说明</th>
+  </thead>
+
+  <tbody>
+
+    <tr>
+      <td>player</td>
+      <td>integer</td>
+      <td>用户 ID</td>
+    </tr>
+
+  </tbody>
+
+</table>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "bestPool": [
+        {
+            "id": int, // 游玩记录 ID
+            "player": int, // 玩家 ID
+            "chart": int, // 谱面 ID
+            "score": int, // 分数
+            "accuracy": float, // 准确率
+            "perfect": int, // Perfect 数
+            "good": int, // Good 数
+            "bad": int, // Bad 数
+            "miss": int, // Miss 数
+            "speed": float, // 硫流速
+            "max_combo": int, // 最大连击数
+            "best": boolean, // 含义未知
+            "best_std": boolean, // 含义未知
+            "mods": int, // 含义未知
+            "full_combo": boolean, // 是否全连
+            "time": string, // 游玩时间，格式为 ISO 8601 标准
+            "std": float, // 无暇度（打击偏移），单位为秒
+            "std_score": float, // 无暇度（分数）
+        },
+        …
+    ]
+}
+</code></pre>
+
+<h3 >检索特定游玩记录</h3>
+
+<p><b>URL</b>: <code class="code-inline">/record/{id}</code></p>
+
+<h4>参数</h4>
+
+<p>无</p>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "id": int, // 游玩记录 ID
+    "player": int, // 玩家 ID
+    "chart": int, // 谱面 ID
+    "score": int, // 分数
+    "accuracy": float, // 准确率
+    "perfect": int, // Perfect 数
+    "good": int, // Good 数
+    "bad": int, // Bad 数
+    "miss": int, // Miss 数
+    "speed": float, // 硫流速
+    "max_combo": int, // 最大连击数
+    "best": boolean, // 含义未知
+    "best_std": boolean, // 含义未知
+    "mods": int, // 含义未知
+    "full_combo": boolean, // 是否全连
+    "time": string, // 游玩时间，格式为 ISO 8601 标准
+    "std": float, // 无暇度（打击偏移），单位为秒
+    "std_score": float // 无暇度（分数）
+}
+</code></pre>
+
+<h3 >检索多个特定游玩记录</h3>
+
+<p><b>URL</b>: <code class="code-inline">/record/multi-get</code></p>
+
+<h4>参数</h4>
+
+<table class="table table-bordered">
+
+  <thead>
+    <th>参数</th>
+    <th>值</th>
+    <th>说明</th>
+  </thead>
+
+  <tbody>
+
+    <tr>
+      <td>ids</td>
+      <td>array[number]</td>
+      <td>游玩记录 ID</td>
+    </tr>
+
+  </tbody>
+
+</table>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">[
+    {
+        "id": int, // 游玩记录 ID
+        "player": int, // 玩家 ID
+        "chart": int, // 谱面 ID
+        "score": int, // 分数
+        "accuracy": float, // 准确率
+        "perfect": int, // Perfect 数
+        "good": int, // Good 数
+        "bad": int, // Bad 数
+        "miss": int, // Miss 数
+        "speed": float, // 硫流速
+        "max_combo": int, // 最大连击数
+        "best": boolean, // 含义未知
+        "best_std": boolean, // 含义未知
+        "mods": int, // 含义未知
+        "full_combo": boolean, // 是否全连
+        "time": string, // 游玩时间，格式为 ISO 8601 标准
+        "std": float, // 无暇度（打击偏移），单位为秒
+        "std_score": float, // 无暇度（分数）
+        "playerName": null, // 用处未知
+        "playerAvatar": null, // 用处未知
+        "playerBadges": null // 用处未知
+    },
+    …
+]
+</code></pre>
+
+<h3 >检索特定谱面的游玩记录</h3>
+
+<p><b>URL</b>: <code class="code-inline">/record/query/{谱面 ID}</code></p>
+
+<h4>参数</h4>
+
+<table class="table table-bordered">
+
+  <thead>
+    <th>参数</th>
+    <th>值</th>
+    <th>说明</th>
+  </thead>
+
+  <tbody>
+
+    <tr>
+      <td>pageNum</td>
+      <td>integer (default: 30)</td>
+      <td>每页游玩记录数量减一的值，默认值为 30，最小值为 4，最大值为 30</td>
+    </tr>
+
+    <tr>
+      <td>page</td>
+      <td>integer (default: 1)</td>
+      <td>页码，默认值为 1</td>
+    </tr>
+
+  </tbody>
+
+</table>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "count": int, // 总游玩记录数
+    [
+        {
+            "id": int, // 游玩记录 ID
+            "player": int, // 玩家 ID
+            "chart": int, // 谱面 ID
+            "score": int, // 分数
+            "accuracy": float, // 准确率
+            "perfect": int, // Perfect 数
+            "good": int, // Good 数
+            "bad": int, // Bad 数
+            "miss": int, // Miss 数
+            "speed": float, // 硫流速
+            "max_combo": int, // 最大连击数
+            "best": boolean, // 含义未知
+            "best_std": boolean, // 含义未知
+            "mods": int, // 含义未知
+            "full_combo": boolean, // 是否全连
+            "time": string, // 游玩时间，格式为 ISO 8601 标准
+            "std": float, // 无暇度（打击偏移），单位为秒
+            "std_score": float, // 无暇度（分数）
+            "playerName": null, // 用处未知
+            "playerAvatar": null, // 用处未知
+            "playerBadges": null // 用处未知
+        },
+        …
+    ]
+}
+</code></pre>
+
+<h3 >检索特定用户的 Best 20</h3>
+
+<p><b>URL</b>: <code class="code-inline">/record/get-pool/{用户 ID}</code></p>
+
+<h4>参数</h4>
+
+无。
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "bestPool": [
+        {
+            "record": int, // 游玩记录 ID
+            "chart": int, // 谱面 ID
+            "rks": float, // 单曲 rks
+        },
+        …
+    ]
+}
+</code></pre>
+
+<h2 >其他</h2>
+
+<h3 >获取文件</h3>
+
+<p><b>URL</b>: <code class="code-inline">/file/{文件 ID}</code></p>
+
+<h4>参数</h4>
+
+<p>无</p>
+
+<h4>响应</h4>
+
+<p>文件</p>
+
+<h3 >成员列表</h3>
+
+<p><b>URL</b>: <code class="code-inline">/staff</code></p>
+
+<h4>参数</h4>
+
+<p>无</p>
+
+<h4>响应</h4>
+
+<pre><code class="language-json">{
+    "admin": [number, number, …], // 管理员
+    "headReviewers": [number, number, …], // 审核组长
+    "reviewers": [number, number, …], // 审核员
+    "headSupervisors": [number, number, …], // 评议组长
+    "supervisors": [number, number, …], // 评议员
+}
+</code></pre>
+
+{% endblock %}

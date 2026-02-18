@@ -7,6 +7,15 @@
 
 ## 更新日志
 
+## v3.0.0 (2026.02.17)
+
+- 界面大改
+- [Notanote 查分器](http://xuziyao.com/notanote/best/) 增加查分图生成功能
+- [编程](http://xuziyao.com/programming/) 被合并至 [帖子](http://xuziyao.com/posts/)
+- [帖子](http://xuziyao.com/posts/) 增加标签
+- 将部分代码从后端转移至前端
+- 其他优化
+
 ## v2.3.4 (2025.12.24)
 
 - [Notanote 查分器](http://xuziyao.com/notanote/best/) 同步 v2.8.0 更新

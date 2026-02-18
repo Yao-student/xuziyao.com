@@ -1,0 +1,90 @@
+{% extends 'pages/posts/template.html' %}
+
+{% block post %}
+
+<h1>Python 用正则表达式判断字符串是否为各类数</h1>
+
+<h2 >较为局限的 str.isdecimal、isdigit()、isnumeric()</h2>
+
+<p>Python 字符串有 isdecimal()、isdigit()、isnumeric() 三个跟判断字符串是否为数字有关的方法。</p>
+
+<ul>
+  <li><b>str.isdecimal()</b>：判断字符串是否仅含十进制数字，包括全半角阿拉伯数字、<a href="#numeral">其他数字符号系统</a>。</li>
+  <li><b>str.isdigit()</b>：判断字符串是否仅含数字，包括全半角阿拉伯数字、字节序列、阿拉伯数字序号、上标、下标、<a href="#numeral">其他数字符号系统</a>。</li>
+  <li><b>str.isnumeric</b>：判断字符串是否仅含数字，包括全半角阿拉伯、罗马、汉字（繁简、大小写）数字、苏州码子、阿拉伯数字序号、汉字序号、上标、<a href="#numeral">其他数字符号系统</a>。</li>
+</ul>
+
+<pre><code class="language-python">numbers = ['1024', '１０２４', '2.6', '100', '①', 'CXIV', 'one', '九百六十万', '玖佰陆拾万', '一萬億', '〩〦〇', b'30', '①', '❶', '⒈', '⑴', '㈠', '¹', '₁']
+
+decimal = [number for number in numbers[:-1] if number.isdecimal()]
+digit = [number for number in numbers if number.isdigit()]
+numeric = [number for number in numbers[:-1] if number.isnumeric()]
+
+print('isdecimal:', decimal)
+print('isdigit:', digit)
+print('isnumeric', numeric)
+</code></pre>
+
+<p>运行结果：</p>
+
+<pre><code class="language-python">isdecimal: ['1024', '１０２４', '100']
+isdigit: ['1024', '１０２４', '100', b'30', '①', '❶', '⒈', '⑴', '¹', '₁']
+isnumeric ['1024', '１０２４', '100', '九百六十万', '玖佰陆拾万', '一萬億', '〩〦〇', '①', '❶', '⒈', '⑴', '㈠', '¹']
+</code></pre>
+
+<p >上述三个方法支持的数字类型很广泛。经测试，汉字、罗马数字、苏州码子、古僧伽罗数字等只有用 isnumeric() 会返回 True；蒙古数字只有用 isdigit() 会返回 True；三个方法都支持的数字符号系统有：东阿拉伯、天城文、泰米尔、马拉雅拉姆、古吉拉特、古尔穆基、卡纳达、孟加拉、泰卢固、藏文、缅文、泰文、高棉文、老挝文、僧伽罗、爪哇数字等。</p>
+
+<pre><code class="language-python">numbers = ['٥', '۵', '५', '௫', '൫', '૫', '੫', '೫', '৫', '౫', '𑇥', '༥', '၅', '๕', '៥', '໕', '꧕', '᠕']
+
+decimal = [number for number in numbers[:-1] if number.isdecimal()]
+digit = [number for number in numbers if number.isdigit()]
+numeric = [number for number in numbers[:-1] if number.isnumeric()]
+
+print('isdecimal:', decimal)
+print('isdigit:', digit)
+print('isnumeric', numeric)
+</code></pre>
+
+<p>运行结果：</p>
+
+<pre><code class="language-python">isdecimal: ['٥', '۵', '५', '௫', '൫', '૫', '੫', '೫', '৫', '౫', '༥', '၅', '๕', '៥', '໕', '꧕']
+isdigit: ['٥', '۵', '५', '௫', '൫', '૫', '੫', '೫', '৫', '౫', '༥', '၅', '๕', '៥', '໕', '꧕', '᠕']
+isnumeric ['٥', '۵', '५', '௫', '൫', '૫', '੫', '೫', '৫', '౫', '𑇥', '༥', '၅', '๕', '៥', '໕', '꧕']
+</code></pre>
+
+<h2 >正则表达式</h2>
+
+<p>上述三个方法都只能在字符串只含数字时返回 True，而小数点、正负号等不是数字，因此对小数、负数、带正号的正数、虚数等会返回 False。我们可以利用正则表达式来解决这个问题。</p>
+
+<pre><code class="language-python">import re
+numbers = ['632', '16.00', '-100', '-50.50', '+2', '2+3j', '-1.8-2.3j']
+
+int = r'^\d+$' # 整数
+float = r'^-?\d+\.\d+$' # 浮点数
+real = r'^-?\d+(\.\d+)?$' # 实数
+positive = r'^\d+(\.\d+)?$' # 正实数
+plus_minus = r'^(\+|-)\d+(\.\d+)?$' # 带正负号实数
+complex = r'^-?\d+(\.\d+)?(\+|-)-?\d+(\.\d+)?j$' # 复数
+
+def match(pattern):
+    return [number for number in numbers if re.match(pattern, number)]
+
+print('int:', match(int))
+print('float:', match(float))
+print('real:', match(real))
+print('positive:', match(positive))
+print('plus_minus:', match(plus_minus))
+print('complex:', match(complex))
+</code></pre>
+
+<p>运行结果：</p>
+
+<pre><code class="language-python">int: ['632']
+float: ['16.00', '-50.50']
+real: ['632', '16.00', '-100', '-50.50']
+positive: ['632', '16.00']
+plus_minus: ['-100', '-50.50', '+2']
+complex: ['2+3j', '-1.8-2.3j']
+</code></pre>
+
+{% endblock %}

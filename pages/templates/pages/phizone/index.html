@@ -2,40 +2,40 @@
 
 {% block title %}PhiZone 工具{% endblock %}
 
+{% block res %}<link rel="stylesheet" href="{% static 'css/sections.css' %}" />{% endblock %}
+
 {% block header %}PhiZone 工具{% endblock %}
-
-{% block breadcrumb %}
-
-  <nav id="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
-      <li class="breadcrumb-item active">PhiZone 工具</li>
-    </ol>
-  </nav>
-
-  <hr />
-
-{% endblock %}
 
 {% block content %}
 
-  <div class="card section-link" style="margin-bottom: 1rem;background-image: url({% static 'phizone/ranking_card_bg.png' %});">
-    <div class="card-body">
-      <h3 class="card-title"><a href="{% url 'pages:phizone_ranking' %}" class="link-light">PhiZone 谱面评分排名</a></h3>
-    </div>
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+    <li class="breadcrumb-item active">PhiZone 工具</li>
+  </ol>
+</nav>
+
+<hr />
+
+<div class="link-card-container">
+
+  <div class="card link-card card-bg-phizone">
+    <a href="{% url 'pages:phizone_ranking' %}" class="link-light">
+      <div class="card-body">
+        <h3 class="card-title">PhiZone 谱面评分排名</h3>
+      </div>
+    </a>
   </div>
 
-  <div class="card section-link" style="margin-bottom: 1rem;background-image: url({% static 'phizone/vote_card_bg.png' %});">
-    <div class="card-body">
-      <h3 class="card-title"><a href="{% url 'pages:phizone_vote' %}" class="link-dark">PhiZone 谱面投票信息</a></h3>
-    </div>
+  <div class="card link-card card-bg-phizone">
+    <a href="{% url 'pages:phizone_vote' %}" class="link-light">
+      <div class="card-body">
+        <h3 class="card-title">PhiZone 谱面投票信息</h3>
+      </div>
+    </a>
   </div>
 
-  <div class="card section-link" style="background-image: url({% static 'phizone/best_card_bg.png' %});">
-    <div class="card-body">
-      <h3 class="card-title"><a href="{% url 'pages:phizone_best' %}" class="link-light">PhiZone 查分器</a></h3>
-    </div>
-  </div>
+</div>
 
 {% endblock %}
 

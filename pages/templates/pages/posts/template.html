@@ -1,0 +1,109 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block res %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/articles.css' %}" />
+{% endblock %}
+
+{% block header %}帖子{% endblock %}
+
+{% block content %}
+
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'pages:posts_index' %}">帖子</a></li>
+    <li class="breadcrumb-item active">{{ title }}</li>
+  </ol>
+</nav>
+
+<hr />
+
+<p class="text-center"><b>日期</b>：<time datetime="{{ date|date:'Y-m-d' }}" pubdate>{{ date|date:"Y-m-d" }}</time></p>
+
+{% if tags %}
+<ul id="tags">
+{% for tag in tags %}
+  <li><span class="fa-solid fa-tag"></span> {{ tag }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<article>
+  {% block post %}{% endblock %}
+</article>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+    // Create the contents
+    if (document.querySelector('article h3')) {
+        const contents = document.createElement('section');
+        contents.id = 'contents';
+        const details = document.createElement('details');
+        details.setAttribute('open', '');
+        details.appendChild(document.createElement('summary'));
+        const summary = document.createElement('div'); // Avoid the default animation of <summary> interfering with the transition
+        summary.id = 'summary';
+        summary.style.listStyle = 'none';
+        summary.style.fontSize = '1.2rem';
+        summary.style.fontWeight = 'bold';
+        summary.innerHTML = '目录<span class="fa-solid fa-chevron-right"></span>';
+        details.appendChild(summary);
+        var contentsListParent = document.createElement('div');
+        contentsListParent.id = 'detail-container';
+        details.appendChild(contentsListParent);
+        contents.appendChild(details);
+
+        // Generate the contents
+        var headerLevel;
+        var lastHeaderLevel = 0;
+        var headerIndex = [];
+        document.querySelectorAll('article h2, article h3').forEach((header) => {
+            headerLevel = header.tagName[1] - 1;
+            if (headerLevel < lastHeaderLevel) {
+                headerIndex = headerIndex.slice(0, headerLevel)
+                headerIndex[headerIndex.length - 1]++;
+                contentsListParent = details.querySelector(`ol${' > ol'.repeat(headerIndex.length - 1)}`);
+            } else if (headerLevel == lastHeaderLevel) {
+                headerIndex[headerIndex.length - 1]++;
+            } else if (headerLevel > lastHeaderLevel) {
+                headerIndex.push(1);
+                const contentsItem = document.createElement('ol');
+                contentsListParent.appendChild(contentsItem);
+                contentsListParent = contentsItem;
+            }
+
+            const headerIndexString = headerIndex.join('.');
+            header.id = headerIndexString;
+
+            // Create the anchor
+            const contentsItem = document.createElement('li');
+            const anchor = document.createElement('a');
+            anchor.href = `#${headerIndexString}`;
+            anchor.textContent = header.textContent;
+            contentsItem.textContent = headerIndexString + ' ';
+            contentsItem.appendChild(anchor);
+            contentsListParent.appendChild(contentsItem);
+
+            lastHeaderLevel = headerLevel;
+        });
+
+        document.querySelector('article > h1').after(contents); // Add the contents to the document
+
+        document.querySelector('#summary').onclick = () => {
+            const details = document.querySelector('#contents > details');
+            details.classList.toggle('open');
+        };
+    }
+
+</script>
+
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

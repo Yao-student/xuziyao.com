@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>Wiki | Notanote 文档</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://static.notanote.cn/images/GameIcon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+    <link rel="stylesheet" href="https://static.notanote.cn/css/atom-ui/atom-ui-docs-v1.0.css">
+    <link rel="stylesheet" href="https://static.notanote.cn/css/atom-ui/atom-ui-markdown-explore.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        const Page = "Main";
+    </script>
+</head>
+
+<body class="Atom-Markdown markdown-body Docs">
+    <div class="Header">
+        <img src="https://static.notanote.cn/images/GameIcon.png" class="TitlePng">
+        <div class="Title">
+            <a>Notanote 文档</a><span style="color: red;">（此为Wiki测试页面，正式页面请移步<a href="https://docs.notanote.cn/wiki?p=main">此处</a>）</span>
+        </div>
+    </div>
+    <div class="Loader" id="loader"></div>
+    <div class="List" id="List">
+    </div>
+    <a id="ListButton" href="/list?Tag=Main">前往文档列表</a>
+    <section class="Content">
+        <a id="ListButton" href="/list?Tag=Main">前往文档列表</a>
+
+        <div id="markdown-container"></div>
+
+        <div class="FootInfo">
+            <p>
+                <tag>文档由 AtomUnite Docs CSS & Markdown CSS 驱动</tag><br><a
+                    href="https://beian.miit.gov.cn">蜀ICP备2024087198号-1</a> |
+                Notanote
+            </p>
+        </div>
+    </section>
+</body>
+<script>
+
+    async function basefetch(URL) {
+        const response = await fetch(URL);
+        return await response.json();
+    }
+
+    function getFolderJsonPath(filePath) {
+        const directory = filePath.substring(0, filePath.lastIndexOf('/'));
+        const folderJsonPath = `/${directory}/Folder.json`;
+        return folderJsonPath;
+    }
+
+    document.onreadystatechange = function () {
+        if (document.readyState == "uninitalized") {
+            document.getElementById("loader").style.width = "10%"
+        }
+        if (document.readyState == "loading") {
+            document.getElementById("loader").style.width = "40%"
+        }
+        if (document.readyState == "interactive") {
+            document.getElementById("loader").style.width = "60%"
+        }
+        if (document.readyState == "complete") {
+            document.getElementById("loader").style.width = "100%"
+        }
+    }
+
+    const accelerate = "https://gh.llkk.cc/https://";
+
+    const params = new URLSearchParams(window.location.search);
+
+    const repo = 'Yao-student/Public-wikiDocs';
+    const filePath = `${params.get('p') || '404'}.md`;
+
+    const localesUrl = `${accelerate}raw.githubusercontent.com/${repo}/main/locales.json`;
+    const pre_locales = params.get("l");
+    let locales = "zh-CN";
+
+    basefetch(localesUrl)
+        .then(data => {
+            if (pre_locales in data["locales"]) {
+                locales = pre_locales;
+            } else {
+                window.location.href = `?p=${params.get('p')}&l=zh-CN`;
+            }
+        })
+        .then(data => {
+            const apiUrl = `${accelerate}raw.githubusercontent.com/${repo}/main/${locales}/${filePath}`;
+            const folderJsonPath = getFolderJsonPath(filePath);
+            const folderJsonUrl = `${accelerate}raw.githubusercontent.com/${repo}/main/${locales}${folderJsonPath}`;
+
+            // List 创建
+            basefetch(folderJsonUrl)
+                .then(data => {
+                    document.title = (data[filePath] ? data[filePath] + ' - ' : null) + 'Notanote 文档';
+                    var container = document.getElementById('List');
+                    container.innerHTML = '';
+                    if (data[Page]) {
+                        data[Page].forEach(function (item) {
+                            if (item.Class === 'ClassText') {
+                                var p = document.createElement('p');
+                                p.className = item.Class;
+                                p.textContent = item.Content;
+                                container.appendChild(p);
+                            } else if (item.Class === 'Object') {
+                                var a = document.createElement('a');
+                                a.className = item.Class;
+                                a.href = item.Href || '#';
+                                a.textContent = item.Content;
+
+                                if (item.SubObject) {
+                                    var tag = document.createElement('tag');
+                                    tag.className = item.Class + '-SubTitle';
+                                    tag.textContent = item.SubObject;
+                                    a.appendChild(tag);
+                                }
+
+                                container.appendChild(a);
+                            }
+                        });
+                    } else {
+                        console.error("未找到与Page常量对应的列表");
+                    }
+                })
+
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            window.location.href = '/404';
+                            throw new Error('404状态，已跳转');
+                        } else {
+                            throw new Error('网络错误');
+                        }
+                    }
+                    return response.text();
+                })
+                .then(content => {
+                    const htmlContent = marked.parse(content);
+                    document.getElementById('markdown-container').innerHTML = htmlContent;
+                    if (window.location.hash) { window.location.href = window.location.hash; } // 解决条目加载完成前无法跳转到对应锚点的问题
+                    window.history.pushState(null, document.title, window.location.href);
+                })
+                .catch(error => {
+                    window.location.href = '/404';
+                });
+        });
+
+</script>
+
+</html>

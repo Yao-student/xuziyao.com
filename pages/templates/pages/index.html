@@ -2,74 +2,108 @@
 
 {% block title %}首页{% endblock %}
 
+{% block res %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/articles.css' %}" />
+{% endblock %}
+
 {% block header %}大松的个人网站{% endblock %}
 
 {% block content %}
 
-  <p style="text-align: center;font-size: x-large;"><b>欢迎来到我的个人网站，这是我的 <a href="{% url 'pages:introduction' %}">自我介绍</a>。</b></h2>
+<p class="text-center font-size-x-large"><b>欢迎来到我的个人网站，这是我的 <a href="{% url 'pages:introduction' %}">自我介绍</a>。</b></h2>
 
-  <p style="text-align: center;font-size: large;"><a href="https://github.com/Yao-student/xuziyao.com">Github 仓库</a></p>
+<p class="text-center font-size-large"><span class="fa-brands fa-github"></span> <a href="https://github.com/Yao-student/xuziyao.com">Github 仓库</a></p>
 
-  <p style="text-align: center;font-size: large;"><a href="{% url 'pages:changelog' %}">更新日志</a></p>
+<p class="text-center font-size-large"><a href="{% url 'pages:changelog' %}">更新日志</a></p>
 
-  <hr />
+<hr />
 
-  <h2 id="tools-and-articles">工具与文章</h2>
+<nav id="nav-index">
 
-  <div id="mug" class="section">
+  <h2>导航</h2>
+
+  <section>
     <h3>音游</h3>
     <ul>
-      <li><a href="{% url 'pages:index' %}">开字母（开发中）</a></li>
       <li><a href="{% url 'pages:fanmade_charts' %}">自制谱</a></li>
       <li><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
       <li><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
       <li><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
     </ul>
-  </div>
+  </section>
 
-  <div id="learning" class="section">
-    <h3>学习</h3>
-    <ul>
-      <li><a href="{% url 'pages:programming_index' %}">编程</a></li>
-    </ul>
-  </div>
-
-  <div id="others" class="section">
+  <section>
     <h3>其他</h3>
     <ul>
-      <li><a href="{% url 'pages:randomnum' %}">随机数生成</a></li>
       <li><a href="{% url 'pages:posts_index' %}">帖子</a></li>
+      <li><a href="{% url 'pages:randomnum' %}">随机数生成</a></li>
     </ul>
-  </div>
+  </section>
 
-  <div id="friendly-links" class="section">
-    <h3>友情链接</h3>
-    <ul>
-      <li><a href="https://mkzi-nya.github.io">归梦的个人主页</a></li>
-      <li><a href="https://mhtlim.top">归梦的 Milthm 查分器</a></li>
-      <li><a href="https://carlsky.cn">Sky 的个人主页</a></li>
-      <li><a href="https://xs0.uk">Guf's Blog</a></li>
-      <li><a href="https://blog.xzadudu179.top">XME Notes Library</a></li>
-    </ul>
-  </div>
+</nav>
 
-  <div id="recommended-articles">
+<section id="friendly-links">
+  <h2>友情链接</h2>
+  <ul>
+    <li><a href="https://mhtlim.top"><img src="https://mhtlim.top/favicon.ico" /><div><p>Milthm 查分器</p><p>-</p></div></a></li>
+    <li><a href="https://carlsky.cn"><img src="https://carlsky.cn/static/images/icon.png" /><div><p>Sky 的个人主页</p><p>-</p></div></a></li>
+    <li><a href="https://xw.pw"><img src="https://xw.pw/img/tx.png" /><div><p>Guf's Blog</p><p>一个喜欢打666的小菜鸡</p></div></a></li>
+    <li><a href="https://blog.xzadudu179.top"><img src="https://image.179.life/images/avatar.png" /><div><p>XME Notes Library</p><p>xzadudu179 的小窝</p></div></a></li>
+    <li><a href="https://blog.xhsr.org.cn"><img src="https://blog.xhsr.org.cn/wp-content/uploads/2025/12/fy-head.jpg" /><div><p>星鸿的博客</p><p>享受获取新知带来的喜悦。</p></div></a></li>
+  </ul>
+</section>
 
-    <h2>文章推荐</h2>
+<section>
 
-    <div class="card article-link">
-      <div class="card-body">
-        <h3 class="card-title"><a class="link-dark" href="{% url 'pages:programming' id=1 %}">Python bezier 库超详细教程</a></h3>
-        <p class="card-text">2024年10月2日</p>
-      </div>
+  <h2>文章推荐</h2>
+
+  <div class="article-card-container">
+
+    <div class="card article-card">
+      <a class="link-dark" href="{% url 'pages:posts' id=5 %}">
+        <div class="card-body">
+          <h3 class="card-title">Python bezier 库超详细教程</h3>
+          <p class="card-text"><time datetime="2024-10-02">2024年10月2日</time></p>
+        </div>
+      </a>
     </div>
 
-    <div class="card article-link">
-      <div class="card-body">
-        <h3 class="card-title"><a class="link-dark" href="{% url 'pages:programming' id=2 %}">Python 用正则表达式判断字符串是否为数</a></h3>
-        <p class="card-text">2025年3月25日</p>
-      </div>
+    <div class="card article-card">
+      <a class="link-dark" href="{% url 'pages:posts' id=9 %}">
+        <div class="card-body">
+          <h3 class="card-title">Phira API 非官方文档</h3>
+          <p class="card-text"><time datetime="2026-01-21">2026年1月21日</time></p>
+        </div>
+      </a>
     </div>
+
+  </div>
+
+</section>
+
+<section>
+
+  <h2>最新帖子</h2>
+
+  <div class="article-card-container">
+
+  {% for post in latest_posts %}
+    <div class="card article-card">
+      <a class="link-dark" href="{% url 'pages:posts' id=post.id %}">
+        <div class="card-body">
+          <h3 class="card-title">{{ post.title }}</h3>
+          <p class="card-text"><time datetime="{{ post.date|date:'Y-m-d' }}">{{ post.date }}</time></p>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+
+    <p class="text-center font-size-large"><a href="{% url 'pages:posts_index' %}">查看所有帖子</a></p>
+
+  </div>
+
+</section>
 
 {% endblock %}
 

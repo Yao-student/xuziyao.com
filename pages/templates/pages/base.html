@@ -14,27 +14,124 @@
 
     <title>{% block title %}{% endblock %} - 大松的个人网站</title>
 
-    <base target="_blank" />
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"></script>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/js/all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css" />
 
     <script defer src="https://vercount.one/js"></script>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NF4X7Z6N5L"></script>
 
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+
+    {% block res %}{% endblock %}
+
+  </head>
+
+  <body>
+
+    <div id="container">
+
+      <header><h1 class="text-light">{% block header %}{% endblock %}</h1></header>
+
+      <nav id="navbar1">
+        <ul>
+          <li><a href="{% url 'pages:index' %}">首页</a></li>
+          <li><a href="{% url 'pages:fanmade_charts' %}">自制谱</a></li>
+          <li><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
+          <li><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
+          <li><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
+          <li><a href="{% url 'pages:posts_index' %}">帖子</a></li>
+        </ul>
+        <ul>
+          <li><a href="{% url 'pages:special_thanks' %}">特别感谢</a></li>
+          <li><strong><a href="{% url 'pages:introduction' %}">联系 & 反馈</a></strong></li>
+        </ul>
+      </nav>
+
+      <nav id="navbar2">
+        <ul>
+          <li><a href="{% url 'pages:index' %}">首页</a></li>
+          <li><a>音游<span class="fa-solid fa-chevron-right"></span></a>
+            <ul>
+              <li><a href="{% url 'pages:fanmade_charts' %}">自制谱</a></li>
+              <li><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
+              <li><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
+              <li><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
+            </ul>
+          </li>
+          <li><a href="{% url 'pages:posts_index' %}">帖子</a></li>
+        </ul>
+        <ul>
+          <li><a href="{% url 'pages:special_thanks' %}">特别感谢</a></li>
+          <li><strong><a href="{% url 'pages:introduction' %}">联系 & 反馈</a></strong></li>
+        </ul>
+      </nav>
+
+      <nav id="navbar3">
+        <ul>
+          <li><a id="menu-button"><span class="fa-solid fa-bars"></span></a></li>
+          <li><a href="{% url 'pages:index' %}">首页</a></li>
+          <li><a href="{% url 'pages:posts_index' %}">帖子</a></li>
+        </ul>
+        <ul>
+          <li><strong><a href="{% url 'pages:introduction' %}">联系 & 反馈</a></strong></li>
+        </ul>
+      </nav>
+
+      <nav id="nav-side">
+        <h2>菜单</h2>
+        <div id="quit-menu-button"><span class="fa-solid fa-xmark"></span></div>
+        <ul>
+          <li><h3>音游</h3></li>
+          <li><a href="{% url 'pages:fanmade_charts' %}">自制谱<span class="fa-solid fa-chevron-right"></span></a></li>
+          <li><a href="{% url 'pages:phira' %}">Phira 工具<span class="fa-solid fa-chevron-right"></span></a></li>
+          <li><a href="{% url 'pages:phizone' %}">PhiZone 工具<span class="fa-solid fa-chevron-right"></span></a></li>
+          <li><a href="{% url 'pages:notanote' %}">Notanote 工具<span class="fa-solid fa-chevron-right"></span></a></li>
+          <li><h3>其他</h3></li>
+          <li><a href="{% url 'pages:posts_index' %}">帖子<span class="fa-solid fa-chevron-right"></span></a></li>
+          <li><a href="{% url 'pages:special_thanks' %}">特别感谢<span class="fa-solid fa-chevron-right"></span></a></li>
+          <li><strong><a href="{% url 'pages:introduction' %}">联系 & 反馈<span class="fa-solid fa-chevron-right"></span></a></strong></li>
+        </ul>
+      </nav>
+
+      <section id="pinned">
+        <p class="margin-0 font-size-x-large"><span class="fa-brands fa-qq"></span> <a href="https://qm.qq.com/q/s03NyJX1x6">加入 QQ 交流群</a>（音游 / 编程）</p>
+        <p class="margin-0 font-size-x-large">喜欢本站？<a href="https://afdian.com/a/dason">打赏作者</a></p>
+        <p class="text-muted margin-0"><b>宣传</b>：<a href="https://milracle.xhsr.org.cn">Milracle</a> 是一个由 <a href="https://xhsr.org.cn">星鸿</a> 开发的 Milthm 二创社区，给玩家提供了在网页上游玩 Milthm 自制谱的渠道，谱面列表中也可以游玩在 <a href="https://www.phizone.cn">PhiZone</a> 上传 Milthm 的自制谱。</p>
+        <p class="text-muted margin-0"><b>宣传</b>：<a href="https://notaanote.cn">Notanote</a> 二周年版本已于 2 月 14 日更新！本次更新包含 5 首新曲，其中有 4 首独占，还有全新的谱面分类方式，详细内容请看 <a href="https://www.bilibili.com/video/BV1PgF4zhEND/">官方视频</a>。</p>
+      </section>
+
+      <main class="bg-light">
+        {% block content %}{% endblock %}
+      </main>
+
+      <footer class="text-light">
+
+        <div id="counter">
+          <p id="vercount_container_site_pv">本站总访问量 <span id="vercount_value_site_pv"></span> 次</p>
+          <p id="vercount_container_site_uv">本站总访客量 <span id="vercount_value_site_uv"></span> 人</p>
+          <p id="vercount_container_page_pv">本页总访问量 {% block page_pv %}{% endblock %} 次</p>
+        </div>
+
+        <p id="runtime"></p>
+
+        <div class="text-center">
+          <img src="{% static 'mps.png' %}" class="margin-0" alt="公安部" />
+          <a href="http://beian.miit.gov.cn/" class="link-light">沪ICP备2024097620号</a>
+        </div>
+
+      </footer>
+
+    </div>
+
     <script>
+
         // Highlight all codes
         hljs.highlightAll();
 
@@ -44,65 +141,36 @@
         gtag('js', new Date());
         gtag('config', 'G-NF4X7Z6N5L');
 
-        // Show the website runtime
-        window.onload = function() {
-            var now = new Date();
-            var startTime = new Date(2025, 2, 15);
-            var diff = now - startTime;
-            var runtime = Math.floor(diff / 86400000);
-            $('#runtime').text = '本网站已运行 ${runtime} 天';
+        // Fetch JSON data
+        async function fetchJson(url) {
+            const response = await fetch(url);
+            return await response.json();
         }
+
+        // Show the website runtime
+        const runtime = Math.floor((new Date() - new Date(2025, 2, 15)) / 86400000);
+        document.getElementById('runtime').textContent = `本网站已运行 ${runtime} 天`;
+
+        //
+
+        document.querySelectorAll('#navbar2 li:has(.fa-chevron-right)').forEach((item) => {
+            item.onclick = () => { item.classList.toggle('open'); };
+        });
+
+        // Side navigation
+        document.getElementById('menu-button').onclick = () => {
+            document.getElementById('nav-side').style.right = '0';
+            document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+        };
+
+        document.getElementById('quit-menu-button').onclick = () => {
+            document.getElementById('nav-side').style.right = '-100%';
+            delete document.getElementsByTagName('body')[0].style.removeProperty('overflow');
+        };
+
     </script>
 
-  </head>
-
-  <body style="background-color: lightblue;">
-
-    <div id="container bg-light" class="container">
-
-      <div id="header" style="padding: 2.5rem;border-top-left-radius: 1.5rem;border-top-right-radius: 1.5rem;background-color: navy;">
-        <h1 class="text-light" style="text-align: center;"><b>{% block header %}{% endblock %}</b></h1>
-      </div>
-
-      <div id="nav" class="nav ul" style="background-color: royalblue;">
-        <ul>
-          <li><a href="{% url 'pages:index' %}">首页</a></li>
-          <li><a href="{% url 'pages:fanmade_charts' %}">自制谱</a></li>
-          <li><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
-          <li><a href="{% url 'pages:phizone' %}">PhiZone 工具</a></li>
-          <li><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
-          <li><a href="{% url 'pages:programming_index' %}">编程</a></li>
-          <li><a href="{% url 'pages:posts_index' %}">帖子</a></li>
-          <li><a href="{% url 'pages:special_thanks' %}">特别感谢</a></li>
-          <li><strong><a href="{% url 'pages:introduction' %}">联系 & 反馈</a></strong></li>
-        </ul>
-      </div>
-
-      <div id="pinned" style="padding: .6rem;background-color: lightgrey;text-align: center;">
-        <p style="margin: 0;font-size: x-large;"><a href="https://qm.qq.com/q/s03NyJX1x6">加入 QQ 交流群</a></p>
-        <p style="margin: 0;font-size: x-large;">喜欢本站？<a href="https://afdian.com/a/dason">打赏作者</a></p>
-        <p id="ad" class="text-muted"><b>宣传</b>：奇谱发生器（Kipphi Apparatus）是由 Zes M Young 开发的一款电脑端网页制谱器，目前正在逐步完善中，详细介绍可查看 <a href="https://pgrfm.miraheze.org/wiki/%E5%A5%87%E8%B0%B1%E5%8F%91%E7%94%9F%E5%99%A8">官方 Wiki</a>，欢迎加入 QQ 群：478824121。</p>
-      </div>
-
-      <div id="content" style="padding: 1.5rem;border-bottom-left-radius: 1.5rem;border-bottom-right-radius: 1.5rem;background-color: whitesmoke;overflow: hidden;">
-        {% block breadcrumb %}{% endblock %}
-        {% block content %}{% endblock %}
-      </div>
-
-    </div>
-
-    <div id="counter" style="margin: 1rem;text-align: center;font-size: larger;">
-      <p id="vercount_container_site_pv" class="counter">本站总访问量 <span id="vercount_value_site_pv"></span> 次</p>
-      <p id="vercount_container_site_uv" class="counter">本站总访客量 <span id="vercount_value_site_uv"></span> 人</p>
-      <p id="vercount_container_page_pv" class="vercount">本页总访问量 {% block page_pv %}{% endblock %} 次</p>
-    </div>
-
-    <p id="runtime" style="text-align: center;font-size: larger;"></p>
-
-    <div style="text-align: center;">
-      <img src="{% static 'mps.png' %}" style="margin: 0;" alt="公安部" />
-      <a href="http://beian.miit.gov.cn/" class="link-dark">沪ICP备2024097620号</a>
-    </div>
+    {% block script %}{% endblock %}
 
   </body>
 

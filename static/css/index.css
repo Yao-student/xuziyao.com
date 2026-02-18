@@ -1,0 +1,90 @@
+#nav-index section {
+    clear: both;
+}
+
+#nav-index section ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#nav-index section li {
+    margin: .3rem;
+    border-radius: .3rem;
+    background-color: steelblue;
+    box-shadow: inset 0 0 15px #0003;
+    transition: background-color 0.3s;
+}
+
+@media (hover: hover) {
+    #nav-index section li:hover {
+        background-color: #295D8A;
+    }
+}
+
+#nav-index section a {
+    padding: .6rem;
+    display: block;
+    text-decoration: none;
+    color: white;
+}
+
+#friendly-links ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#friendly-links li {
+    margin: .3rem;
+    border-radius: .3rem;
+    background-color: steelblue;
+    box-shadow: inset 0 0 15px #0003;
+    transition: background-color 0.3s;
+}
+
+@media (hover: hover) {
+    #friendly-links li:hover {
+        background-color: #295D8A;
+    }
+}
+
+#friendly-links a {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    color: white;
+}
+
+#friendly-links img {
+    width: 4.5rem;
+    aspect-ratio: 1 / 1;
+    border-radius: .3rem 0 0 .3rem;
+}
+
+#friendly-links a div {
+    padding: .6rem;
+}
+
+#friendly-links p {
+    margin: 0;
+}
+
+#friendly-links p {
+    margin: 0;
+}
+
+#friendly-links p:first-child {
+    font-size: 1.2rem;
+}
+
+#friendly-links p:last-child {
+    font-size: 1rem;
+    color: lightgray;
+}

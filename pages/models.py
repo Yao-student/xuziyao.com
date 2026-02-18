@@ -11,26 +11,18 @@ class PhigrosFanmadeChart(models.Model):
     bpm = models.FloatField()
     offset = models.FloatField()
     notenum = models.IntegerField()
-    bilibili_bv = models.CharField(max_length=10)
-    phira_id = models.IntegerField()
-    phizone_id = models.IntegerField()
-
+    bilibili_bv = models.CharField(max_length=10, blank=True)
+    phira_id = models.IntegerField(blank=True, null=True)
+    phizone_id = models.CharField(max_length=36, blank=True)
 
     def __str__(self):
         return f'{self.title} [{self.difficulty}]'
-
-# Programming
-class Programming(models.Model):
-    title = models.CharField(max_length=80)
-    date = models.DateField()
-
-    def __str__(self):
-        return self.title
 
 # Posts
 class Post(models.Model):
     title = models.CharField(max_length=80)
     date = models.DateField()
+    tags = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.title

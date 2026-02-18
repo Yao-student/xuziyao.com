@@ -2,108 +2,525 @@
 
 {% block title %}Notanote 查分器{% endblock %}
 
-{% block header %}Notanote 查分器{% endblock %}
+{% block res %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.5/js.cookie.min.js"></script>
 
-{% block breadcrumb %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
 
-  <nav id="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
-      <li class="breadcrumb-item active">Notanote 查分器</li>
-    </ol>
-  </nav>
-
-  <hr />
-
+    <link rel="stylesheet" href="{% static 'css/sections.css' %}" />
 {% endblock %}
+
+{% block header %}Notanote 查分器{% endblock %}
 
 {% block content %}
 
-  <p><a href="{% url 'pages:notanote_rank' %}">Notanote Rank 计算</a></p>
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
+    <li class="breadcrumb-item active">Notanote 查分器</li>
+  </ol>
+</nav>
 
-  <p><b>友情链接</b>：<a href="https://mkzi-nya.github.io">归梦的个人主页</a> | <a href="https://mhtlim.top">Milthm 查分器</a></p>
+<hr />
 
-  <p><b>QQ 交流群</b>：<a href="https://qm.qq.com/q/s03NyJX1x6">大松的小窝</a></p>
+<p><a href="{% url 'pages:notanote_rank' %}">Notanote Rank 计算</a></p>
 
-  <hr />
+<p><b>友情链接</b>：<a href="https://mhtlim.top">Milthm 查分器</a></p>
 
-  <p style="font-size: xx-large;color: red;"><strong>请先阅读 <a href="{% url 'pages:notanote_best_instruction' %}">使用说明</a>！！！</strong></p>
+<p><b>QQ 交流群</b>：<a href="https://qm.qq.com/q/s03NyJX1x6">大松的小窝</a></p>
 
-  <p style="font-size: xx-large;color: red;"><strong>由于分数计算的修正，本查分器已不支持 v2.5 之前的版本。</strong></p>
+<hr />
 
-  <p style="font-size: large;color: red;"><strong>若上传最新版本的成绩文件后出错，可能是查分器未更新，请等待作者更新。</strong></p>
+<p class="font-size-xx-large color-red"><strong>请先阅读 <a href="{% url 'pages:notanote_best_instruction' %}">使用说明</a>！！！</strong></p>
 
-  <form action="" method="post" enctype="multipart/form-data" target="_self" class="form" style="overflow-x: auto;">
-    {% csrf_token %}
-    <p>
-      <label for="save" class="form-label">成绩文件:</label>
-      <input type="file" class="form-control" name="score-file" id="score-file" required>
-    </p>
-    <p>
-      <label for="overflow" class="form-label">显示记录总数:</label>
-      <input type="number" class="form-control" name="overflow" id="overflow" value="41" min="41" required>
-    </p>
-    <button type="submit" class="btn btn-primary">查分</button>
-  </form>
+<p class="font-size-xx-large color-red"><strong>由于分数计算的修正，本查分器已不支持 v2.5 之前的版本。</strong></p>
 
-  {% if b31 %}
+<form id="form" class="form">
+  {% csrf_token %}
+  <p>
+    <label for="scoreFile" class="form-label">成绩文件:</label>
+    <input type="file" id="score-file" class="form-control" required>
+  </p>
+  <p>
+    <label for="overflowAmount" class="form-label">溢出记录数:</label>
+    <input type="number" id="overflow-amount" class="form-control" value="6" min="3" max="12" step="1" required>
+  </p>
+  <p>
+    <label for="avatar" class="form-label">头像:</label>
+    <select id="avatar" class="form-control" value="nota-2" required>
+    <option value="nota1">诺塔 1</option>
+    <option value="note1">诺特 1</option>
+    <option value="nota2">诺塔 2</option>
+    <option value="note2">诺特 2</option>
+    <option value="nota3">诺塔 3</option>
+    <option value="note3">诺特 3</option>
+    <option value="ozcuridad">ΩZСÜRIDΛD</option>
+    <option value="threefold-recital-triratna">三相奇谈（净饭）</option>
+    <option value="threefold-recital-taiqing">三相奇谈（三宝）</option>
+    <option value="threefold-recital-transia">三相奇谈（皮月羞）</option>
+    <option value="cybernetic-blazar">cybernetic blazar</option>
+    <option value="innocent-white-nota">Innocent white（诺塔）</option>
+    <option value="innocent-white-note">Innocent white（诺特）</option>
+    <option value="meltovt-necrosys">Meltovt Necrosys</option>
+    <option value="broken-conviction">Broken Conviction</option>
+    <option value="aether-ingita">Aether Ingita!</option>
+    <option value="kaze">Kaze</option>
+    </select>
+  </p>
+  <p>
+    <label for="username" class="form-label">用户名:</label>
+    <input type="text" class="form-control" name="username" id="username" value="Username" required>
+  </p>
+  <p>
+    <label for="character" class="form-label">角色:</label>
+    <select class="form-control" name="character" id="character" required>
+    <option value="nota">诺塔</option>
+    <option value="nota-twin-axolotls">诺塔 - 蝾螈双子</option>
+    <option value="note">诺特</option>
+    <option value="note-futoko">诺特 - 不登校</option>
+    <option value="note-twin-axolotls">诺特 - 蝾螈双子</option>
+    <option value="nota-radiant-negative">诺塔 - 绚烂底片</option>
+    <option value="lan">幽澜</option>
+    <option value="kino">奇诺</option>
+    <option value="luvia">露薇娅</option>
+    <option value="threefold-triratna">三相 - 净饭</option>
+    <option value="threefold-taiqing">三相 - 三宝</option>
+    <option value="threefold-transia">三相 - 皮月羞</option>
+    </select>
+  </p>
+  <button type="submit" class="btn btn-primary">查分</button>
+</form>
 
-    <p class="h2">Nrk：{{ nrk }}</p>
+<hr />
 
-    <h2>B31</h2>
-      <div class="card notanote-best">
-        <div class="card-body" style="padding: .2rem !important;">
-          {% for record in b31 %}
-            <div class="card record-{{ record.level_id }}">
-              <div class="card-body" style="padding: .2rem !important;">
-                <p class="card-text" style="font-size: x-small;">#{{ record.index }}</p>
-                <p class="card-title" style="font-size: small;"><b>{{ record.song }}</b></p>
-                <p class="card-text" style="font-size: x-small;"><b>{{ record.level }} {{ record.diff }}</b></p>
-                <p class="card-text" style="font-size: small;"><b>{{ record.score }}</b></p>
-                <p class="card-text" style="font-size: x-small;"><b>P</b>: {{ record.perfect }} <b>G</b>: {{ record.good }} <b>B</b>: {{ record.bad }} <b>M</b>: {{ record.miss }}</p>
-                <p class="card-text" style="font-size: x-small;">{{ record.acc|stringformat:'.3f%%' }} → <b>{{ record.rank|stringformat:'.3f' }}</b></p>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
+<h2>感谢</h2>
 
-    {% if overflow %}
-      <h2>溢出部分</h2>
-      <div class="card notanote-best">
-        <div class="card-body" style="padding: .2rem !important;">
-          {% for record in overflow %}
-            <div class="card record-{{ record.level_id }}">
-              <div class="card-body" style="padding: .2rem !important;">
-                <p class="card-text" style="font-size: x-small;">#{{ record.index }}</p>
-                <p class="card-title" style="font-size: small;"><b>{{ record.song }}</b></p>
-                <p class="card-text" style="font-size: x-small;"><b>{{ record.level }} {{ record.diff }}</b></p>
-                <p class="card-text" style="font-size: small;"><b>{{ record.score }}</b></p>
-                <p class="card-text" style="font-size: x-small;"><b>P</b>: {{ record.perfect }} <b>G</b>: {{ record.good }} <b>B</b>: {{ record.bad }} <b>M</b>: {{ record.miss }}</p>
-                <p class="card-text" style="font-size: x-small;">{{ record.acc|stringformat:'.3f%%' }} → <b>{{ record.rank|stringformat:'.3f' }}</b></p>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-    {% endif %}
+<ul>
+  <li><a href="https://space.bilibili.com/439775291">qm</a>（Notanote 主策划）</li>
+  <li><a href="https://space.bilibili.com/289100515">羽毛球awa</a>（Notanote 主程序）</li>
+</ul>
 
-  {% endif %}
+{% endblock %}
 
-  {% if errors %}
-    {% for error in errors %}
-      <p style="color: red;">{{ error }}</p>
-    {% endfor %}
-  {% endif %}
+{% block script %}
 
-  <hr />
+<script>
 
-  <h2>感谢</h2>
-  <ul>
-    <li><a href="https://space.bilibili.com/439775291">qm</a>（Notanote 主策划）</li>
-    <li><a href="https://space.bilibili.com/289100515">羽毛球awa</a>（Notanote 主程序）</li>
-  </ul>
+    const form = document.forms['form'];
+
+    // Read the score file
+    var ciphertext;
+    form['score-file'].onchange = () => {
+        const reader = new FileReader();
+        reader.readAsText(form['score-file'].files[0]);
+        reader.onload = () =>  { ciphertext = reader.result; }
+    };
+
+    // Store the user info settings
+    document.querySelectorAll('#overflow-amount, #avatar, #username, #character').forEach(formControl => {
+        formControl.value = Cookies.get(formControl.id) || formControl.value;
+        formControl.onchange = () => {
+            Cookies.set(formControl.id, formControl.value, {expires: 60});
+        }
+    });
+
+    form.onsubmit = async e => {
+        e.preventDefault();
+
+        // Record class
+        class Record {
+            constructor(index, song, songId, level, diff, score, scoreRank, perfect, good, bad, miss, acc, rank) {
+                this.index = index;
+                this.song = song;
+                this.songId = songId;
+                this.level = level;
+                this.diff = diff;
+                this.score = score;
+                this.scoreRank = scoreRank;
+                this.perfect = perfect;
+                this.good = good;
+                this.bad = bad;
+                this.miss = miss;
+                this.acc = acc;
+                this.rank = rank;
+
+                // Set the level ID used in the CSS
+                if (level == 'EZ+') { this.level_id = 'ez-plus'; }
+                else if (level == 'SY+') { this.level_id = 'sy-plus'; }
+                else { this.level_id = level.toLowerCase(); }
+            }
+        }
+
+        // Show the canvas after all images are loaded
+        function showCanvas(loadProgress) {
+            fullProgress = 4 + (b31.length + overflow.length) * 2;
+            document.getElementById('loading-tip').textContent = `生成图片中… (${loadProgress}/${fullProgress})`;
+            if (loadProgress == fullProgress) {
+                document.getElementById('loading-tip').remove();
+                form.after(canvas);
+            }
+        }
+
+        // Ellipsis the text if it is too long
+        function textEllipsis(text, maxWidth) {
+            const ellipsis = '…';
+            const ellipsisWidth = ctx.measureText(ellipsis).width;
+
+            if (ctx.measureText(text + ellipsis).width <= maxWidth) { return text; }
+
+            let left = 0;
+            let right = text.length;
+            let mid = Math.floor((left + right) / 2);
+            while (left <= right) {
+                const width = ctx.measureText(text.slice(0, mid)).width;
+                if (width + ellipsisWidth <= maxWidth) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+                mid = Math.floor((left + right) / 2);
+            }
+            return text.slice(0, right) + ellipsis;
+        }
+
+        // Draw a rounded rectangle
+        function roundedRect(left, top, width, height, radius) {
+            const right = left + width;
+            const bottom = top + height;
+            ctx.beginPath();
+            ctx.moveTo(left + width / 2, top);
+            ctx.arcTo(right, top, right, bottom, radius);
+            ctx.arcTo(right, bottom, left, bottom, radius);
+            ctx.arcTo(left, bottom, left, top, radius);
+            ctx.arcTo(left, top, right, top, radius);
+        }
+
+        // Draw a record card
+        function drawRecord(record, overflow) {
+
+            // Calculate the top-left position of the record card
+            const baseIndex = overflow ? (record.index - 32) : (record.index - 1);
+            const baseRecordY = overflow ? 1830 : 380;
+            const recordX = [50, 460, 870][baseIndex % 3];
+            const recordY = baseRecordY + Math.floor(baseIndex / 3) * 130;
+
+            // Calculate the top, left, right, bottom positions of the record card
+            const left = recordX;
+            const top = recordY;
+            const right = left + 400;
+            const bottom = top + 110;
+
+            // Set the record card shadow
+            ctx.shadowColor = ['#0000007F', '#00FFFF7F', '#FFD7007F'][+(record.acc == 100) + (record.score == 1000000)]; // Set the special shadow color of FC and AP
+            ctx.shadowOffsetX = ctx.shadowOffsetY = 7.5;
+            ctx.shadowBlur = 2.5;
+
+            // Draw the record card background
+            roundedRect(recordX, recordY, 400, 110, 10);
+            ctx.fillStyle = {'SY': 'pink', 'SY+': 'salmon', 'EZ': 'mediumaquamarine', 'EZ+': 'lightseagreen', 'TL': 'orange', 'NT': 'crimson'}[record.level]; // Set different background color for different level
+            ctx.fill();
+
+            // Clear the shadow
+            ctx.shadowOffsetX = ctx.shadowOffsetY = 0;
+            ctx.shadowBlur = 0;
+            ctx.shadowColor = 'transparent';
+
+            // Add a gradient to the background
+            const gradient = ctx.createLinearGradient(left, 0, right, 0);
+            gradient.addColorStop(0, '#FFFFFFC8');
+            gradient.addColorStop(1, '#FFF0');
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // Draw the illustration
+            const illustration = new Image();
+            illustration.src = `/static/notanote/illustrations/${record.songId}.png`;
+            illustration.onload = () =>  {
+                ctx.save();
+                roundedRect(left + 7.5, top + 7.5, 95, 95, 10);
+                ctx.clip();
+                ctx.drawImage(illustration, left + 7.5, top + 7.5, 95, 95);
+                ctx.restore();
+                loadProgress++;
+                showCanvas(loadProgress);
+            };
+
+            // Set the unified text style
+            const fontFamily = '"MaoKenTangYuan"'
+            ctx.fillStyle = '#000000';
+
+            // Draw the index
+            ctx.font = '20px ' + fontFamily;
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText('#' + record.index, right - 7.5, bottom - 7.5);
+
+            // Draw the song name, level, the difficulty, the accuracy and the rank
+            ctx.font = '16.5px ' + fontFamily;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText(textEllipsis(record.song, 282.5), left + 110, top + 7.5);
+            ctx.fillText(`${record.level} ${record.diff.toFixed(1)}    ${record.acc.toFixed(3)}% → ${record.rank.toFixed(3)}`, left + 110, top + 31.5);
+
+            // Draw the score and the judgment counts
+            ctx.font = '23px ' + fontFamily;
+            ctx.fillText(String(record.score).padStart(7, "0"), left + 110, top + 55.5);
+            ctx.font = '16.5px ' + fontFamily;
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(`${record.perfect} - ${record.good} - ${record.bad} - ${record.miss}`, left + 110, bottom - 7.5);
+
+            // Draw the score rank icon
+            const scoreRankIcon = new Image();
+            scoreRankIcon.src = `/static/notanote/score_ranks/${record.scoreRank}.png`;
+            scoreRankIcon.onload = () =>  {
+                ctx.drawImage(scoreRankIcon, right - 120, bottom - 60, 60, 60);
+                loadProgress++;
+                showCanvas(loadProgress);
+            };
+        }
+
+        var b31, overflow, canvas, ctx, loadProgress;
+
+        var response = await fetch('{% url "pages:notanote_best" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': form['csrfmiddlewaretoken'].value
+            }
+        });
+        
+        var {secretKey, iv} = await response.json();
+
+        // Decrypt the score file
+        try {
+            secretKey = CryptoJS.enc.Utf8.parse(secretKey);
+            iv = CryptoJS.enc.Utf8.parse(iv);
+            const plaintext = CryptoJS.enc.Utf8.stringify(
+                CryptoJS.AES.decrypt(ciphertext, secretKey, {iv: iv})
+            );
+            var scoreData = JSON.parse(plaintext);
+        } catch (error) {
+            alert('存档文件解密失败');
+            return;
+        }
+
+        // Read the song ID dict
+        var response = await fetch('/static/notanote/song_id.json');
+        var songIdDict = await response.json();
+
+        // Parse the score file
+        try {
+
+            // Traverse each record
+            var records = {};
+            var fcAmount = {'SY': 0, 'SY+': 0, 'EZ': 0, 'EZ+': 0, 'TL': 0, 'NT': 0};
+            var apAmount = {'SY': 0, 'SY+': 0, 'EZ': 0, 'EZ+': 0, 'TL': 0, 'NT': 0};
+            for (let chartId in scoreData) {
+
+                // Read and calculate the record info
+                const info = scoreData[chartId];
+                let [songId, level] = chartId.split('_', 2);
+                const song = songIdDict[songId]; 
+                const diff = info['Rate'];
+                const score = info['HighestScore'];
+                const goodOffsetList = info['GoodOffsetList'];
+                const perfect = info['PerfectNum'];
+                const good = info['GoodNum'];
+                const bad = info['BadNum'];
+                const miss = info['MissNum'];
+                const noteNum = perfect + good + bad + miss;
+                const sum = goodOffsetList.reduce((sum, offset) => sum + 0.4 + (120 - Math.abs(offset)) / 100, 0);
+                const acc = (perfect + sum) / noteNum;
+                const rank = (Math.E ** (acc - 0.5) -1 ) / (Math.E ** 0.5 - 1) * (diff + 5);
+
+                // Change the level ID into the level name
+                if (level == 'EX-NT') { level = 'NT'; }
+                else if (level.slice(0, 2) == 'EX') { level = 'TL'; }
+                else if (level == 'SY_Plus') { level = 'SY+'; }
+                else if (level == 'EZ_Plus') { level = 'EZ+'; }
+
+                // Count the FC and AP amount
+                if (acc == 1) {
+                    apAmount[level]++;
+                } else if (score == 1000000) {
+                    fcAmount[level]++;
+                }
+
+                // Find the records matched the condition
+                if ((acc >= 0.5) && !(songId in records) || (rank > records[songId].rank)) {
+
+                    // Calculate the score rank
+                    if (acc == 1) { scoreRank = 'X'; }
+                    else if (score == 1000000) { scoreRank = 'S_FC'; }
+                    else if (score >= 990000) { scoreRank = 'S'; }
+                    else if (score >= 975000) { scoreRank = 'A_plus'; }
+                    else if (score >= 955000) { scoreRank = 'A'; }
+                    else if (score >= 940000) { scoreRank = 'A_minus'; }
+                    else if (score >= 920000) { scoreRank = 'B'; }
+                    else if (score >= 900000) { scoreRank = 'C'; }
+                    else { scoreRank = 'F'; }
+
+                    // Append the record  
+                    records[songId] = new Record(0, song, songId, level, diff, score, scoreRank, perfect, good, bad, miss, acc * 100, rank);
+                }
+            }
+
+            // Sort the records
+            records = Object.values(records);
+            records.sort((a, b) => b.rank - a.rank);
+            for (let i = 0; i < records.length; i++) {
+                records[i].index = i + 1;
+            }
+            b31 = records.slice(0, 31);
+            overflow = records.slice(31, 31 + Number(form['overflow-amount'].value));
+
+            // Calculate the Nrk
+            var rankTimesWeightSum = 0
+            for (let i in b31) {
+                rankTimesWeightSum += b31[i].rank * (1 - 0.02 * i);
+            }
+            var nrk = (rankTimesWeightSum / 22).toFixed(3);
+        } catch (error) {
+            alert('存档文件解析失败');
+            return;
+        }
+
+        // Show the loading tip
+        document.getElementById('canvas')?.remove();
+        const loadingTip = document.createElement('p');
+        loadingTip.id = 'loading-tip';
+        loadingTip.textContent = '生成图片中…';
+        form.after(loadingTip);
+
+        try {
+            // Generate the image
+            canvas = document.createElement('canvas');
+            canvas.id = 'canvas';
+            canvas.width = 1320;
+            canvas.height = 1960 + (Math.floor((overflow.at(-1).index - 32) / 3) + 1) * 130;
+            canvas.style.width = 'min(100%, 600px)';
+            ctx = canvas.getContext('2d');
+
+            loadProgress = 0;
+
+            // Draw the background image
+            const font = new FontFace('MaoKenTangYuan', 'url("/static/fonts/MaoKenTangYuan.ttf")');
+            font.load().then(loadedFont => {
+                document.fonts.add(loadedFont);
+
+                const bg = new Image();
+                bg.src = '/static/notanote/best_image_bg.png';
+                bg.onload = () => {
+                    const bgHeight = 1320 / bg.width * bg.height;
+                    const bgWidth = canvas.height / bg.height * bg.width;
+                    if (bgHeight > canvas.height) {
+                        ctx.drawImage(bg, 0, 0, 1320, bgHeight);
+                    } else {
+                        ctx.drawImage(bg, 0, 0, bgWidth, canvas.height);
+                    }
+
+                    // Draw the notanote logo
+                    const logo = new Image();
+                    logo.src = '/static/notanote/logo.png';
+                    logo.onload = () =>  {
+                        ctx.drawImage(logo, 50, 50, 45 / logo.height * logo.width, 45);
+                        loadProgress++;
+                        showCanvas(loadProgress);
+                    };
+
+                    // Draw the left line of the user info
+                    ctx.strokeStyle = 'white';
+                    ctx.lineWidth = 10;
+                    ctx.beginPath();
+                    ctx.moveTo(65, 125);
+                    ctx.lineTo(65, 345);
+                    ctx.stroke();
+
+                    // Draw the avatar
+                    const avatar = new Image();
+                    avatar.src = `/static/notanote/avatars/${form['avatar'].value}.png`;
+                    avatar.onload = () => {
+                        ctx.drawImage(avatar, 100, 125, 100, 100);
+                        loadProgress++;
+                        showCanvas(loadProgress);
+                    };
+
+                    // Draw the username
+                    const fontFamily = '"MaoKenTangYuan"';
+                    ctx.font = '50px ' + fontFamily;
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'top';
+                    ctx.fillStyle = 'white';
+                    ctx.fillText(form['username'].value, 250, 125);
+
+                    // Draw the Nrk
+                    ctx.font = '40px ' + fontFamily;
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillStyle = 'white';
+                    ctx.fillText('Nrk: ' + nrk, 250, 225);
+
+                    // Draw the FC and AP amount
+                    ctx.font = '25px ' + fontFamily;
+                    ctx.textBaseline = 'top';
+                    ctx.fillText('FC', 100, 285);
+                    ctx.fillText('AP', 100, 320);
+                    ctx.textAlign = 'center';
+                    let borderX = 150;
+                    for (let difficulty of ['SY', 'SY+', 'EZ', 'EZ+', 'TL', 'NT']) {
+                        ctx.fillText('|', borderX, 250);
+                        ctx.fillText('|', borderX, 285);
+                        ctx.fillText('|', borderX, 320);
+                        ctx.fillText(difficulty, borderX + 40, 250);
+                        ctx.fillText(fcAmount[difficulty], borderX + 40, 285);
+                        ctx.fillText(apAmount[difficulty], borderX + 40, 320);
+                        borderX += 80;
+                    }
+
+                    // Draw the character
+                    const character = new Image();
+                    character.src = `/static/notanote/characters/${form['character'].value}.png`;
+                    character.onload = function() {
+                        const characterWidth = 500 / character.height * character.width;
+                        ctx.drawImage(character, 1000 - characterWidth / 2, 25, characterWidth, 500);
+
+                        // Draw the B31 records
+                        for (let record of b31) { drawRecord(record); }
+
+                        loadProgress++;
+                        showCanvas(loadProgress);
+                    };
+
+                    // Draw the dividing line
+                    ctx.strokeStyle = 'white';
+                    ctx.lineWidth = 5;
+                    ctx.beginPath();
+                    ctx.moveTo(50, 1810);
+                    ctx.lineTo(1270, 1810);
+                    ctx.stroke();
+
+                    // Draw the overflow records
+                    for (let record of overflow) { drawRecord(record, true); }
+
+                    // Draw the website watermark
+                    ctx.font = '40px ' + fontFamily;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = 'white';
+                    ctx.fillText('xuziyao.com/notanote/best/', 660, canvas.height - 75);
+
+                    loadProgress++;
+                    showCanvas(loadProgress);
+                }
+            });
+        } catch {
+            alert('生成图片时发生错误');
+            document.getElementById('loading-tip')?.remove();
+        }
+    };
+
+</script>
 
 {% endblock %}
 

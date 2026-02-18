@@ -4,50 +4,64 @@
 
 {% block header %}Notanote Rank 计算{% endblock %}
 
-{% block breadcrumb %}
+{% block content %}
 
-  <nav id="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
-      <li class="breadcrumb-item active">Notanote Rank 计算</li>
-    </ol>
-  </nav>
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'pages:notanote' %}">Notanote 工具</a></li>
+    <li class="breadcrumb-item active">Notanote Rank 计算</li>
+  </ol>
+</nav>
 
-  <hr />
+<hr />
+
+<p><a href="{% url 'pages:notanote_best' %}">Notanote 查分器</a></p>
+
+<hr />
+
+<form id="form" class="form">
+  {% csrf_token %}
+  <p>
+    <label for="difficulty" class="form-label">定数:</label>
+    <input type="number" name="diff" class="form-control" id="diff" min="1.0" step="0.1" required>
+  </p>
+  <p>
+    <label for="acc" class="form-label">准确率:</label>
+    <input type="number" name="acc" class="form-control" id="acc" min="0" max="100" step="0.01" required>
+    <span>注：不带百分号</span>
+  </p>
+  <button type="submit" class="btn btn-primary">计算</button>
+</form>
 
 {% endblock %}
 
-{% block content %}
+{% block script %}
 
-  <p><a href="{% url 'pages:notanote_best' %}">Notanote 查分器</a></p>
+<script>
 
-  <hr />
+    // Process the form data
+    const form = document.forms['form'];
 
-  <p><strong>准确率不带百分号。</strong></p>
+    form.onsubmit = e => {
+        e.preventDefault();
 
-  <form action="" method="post" target="_self" class="form">
-    {% csrf_token %}
-    <p>
-      <label for="difficulty" class="form-label">定数:</label>
-      <input type="number" name="diff" class="form-control" id="diff" min="1.0" step="0.1" required>
-    </p>
-    <p>
-      <label for="acc" class="form-label">准确率:</label>
-      <input type="number" name="acc" class="form-control" id="acc" min="50.00" max="100.00" step="0.01" required>
-    </p>
-    <button type="submit" class="btn btn-primary">计算</button>
-  </form>
-
-  {% if rank %}
-    <p>Rank：{{ rank }}</p>
-  {% endif %}
-
-  {% if errors %}
-    {% for error in errors %}
-      <p style="color: red;">{{ error }}</p>
-    {% endfor %}
-  {% endif %}
+        const diff = +form['diff'].value;
+        const acc = +form['acc'].value / 100;
+        document.getElementById('result')?.remove();
+        if (acc >= 0.5) {
+            const rank = ((Math.E ** (acc - 0.5) - 1) / (Math.E ** 0.5 - 1) * (diff + 5)).toFixed(3);
+            document.getElementById('result')?.remove();
+            const result = document.createElement('p');
+            result.id = 'result';
+            result.textContent = `Rank: ${rank}`;
+            form.after(result);
+        } else {
+            alert('准确率低于50%时无Rank');
+        }
+    };
+    
+</script>
 
 {% endblock %}
 

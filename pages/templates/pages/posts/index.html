@@ -1,0 +1,71 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}帖子{% endblock %}
+
+{% block res %}<link rel="stylesheet" href="{% static 'css/articles.css' %}" />{% endblock %}
+
+{% block header %}帖子{% endblock %}
+
+{% block content %}
+
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+    <li class="breadcrumb-item active">帖子</li>
+  </ol>
+</nav>
+
+<hr />
+
+<section>
+
+  <h2>置顶帖子</h2>
+
+  <div class="article-card-container">
+
+    <div class="card article-card">
+      <a class="link-dark" href="{% url 'pages:posts' id=9 %}">
+        <div class="card-body">
+          <h3 class="card-title">Phira API 非官方文档</h3>
+          <p class="card-text"><time datetime="2026-01-21">2026年1月21日</time></p>
+        </div>
+      </a>
+    </div>
+
+    <div class="card article-card">
+      <a class="link-dark" href="{% url 'pages:posts' id=5 %}">
+        <div class="card-body">
+          <h3 class="card-title">Python bezier 库超详细教程</h3>
+          <p class="card-text"><time datetime="2024-10-02">2024年10月2日</time></p>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+</section>
+
+<hr />
+
+<section>
+
+  <h2>所有帖子</h2>
+
+  <div class="article-card-container">
+  {% for post in posts %}
+    <div class="card article-card">
+      <a class="link-dark" href="{% url 'pages:posts' id=post.id %}">
+        <div class="card-body">
+          <h3 class="card-title">{{ post.title }}</h3>
+          <p class="card-text"><time datetime="{{ post.date|date:'Y-m-d' }}">{{ post.date }}</time></p>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+  </div>
+
+</section>
+
+{% endblock %}
+
+{% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}

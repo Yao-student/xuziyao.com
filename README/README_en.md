@@ -7,6 +7,15 @@ Confidential content has already been hidden. The files are added into [.gitigno
 
 ## Changelog
 
+## v3.0.0 (2026.02.17)
+
+- Major changes of the interface
+- Added the function of generating B31 image to [Notanote B31 Calculator](http://xuziyao.com/notanote/best/)
+- [Programming](http://xuziyao.com/programming/) was merged to [Posts](http://xuziyao.com/posts/)
+- Added tags in [Posts](http://xuziyao.com/posts/)
+- Moved some code from the backend to the frontend
+- Other optimizations
+
 ## v2.3.4 (2025.12.24)
 
 - [Notanote B31 Calculator](http://xuziyao.com/notanote/best/) synced v2.8.0 update

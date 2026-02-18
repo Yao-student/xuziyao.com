@@ -2,33 +2,40 @@
 
 {% block title %}Phira 工具{% endblock %}
 
+{% block res %}<link rel="stylesheet" href="{% static 'css/sections.css' %}" />{% endblock %}
+
 {% block header %}Phira 工具{% endblock %}
-
-{% block breadcrumb %}
-
-  <nav>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
-      <li class="breadcrumb-item active">Phira 工具</li>
-    </ol>
-
-  <hr />
-
-{% endblock %}
 
 {% block content %}
 
-  <div class="card section-link" style="margin-bottom: 1rem;background-image: url({% static 'phira/ranking_card_bg.png' %});">
-    <div class="card-body">
-      <h3 class="card-title"><a href="{% url 'pages:phira_ranking' %}" class="link-light">Phira 谱面评分排名</a></h3>
-    </div>
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+    <li class="breadcrumb-item active">Phira 工具</li>
+  </ol>
+</nav>
+
+<hr />
+
+<div class="link-card-container">
+
+  <div class="card link-card card-bg-phira">
+    <a href="{% url 'pages:phira_ranking' %}" class="link-light">
+      <div class="card-body">
+        <h3 class="card-title">Phira 谱面评分排名</h3>
+      </div>
+    </a>
   </div>
 
-  <div class="card section-link" style="background-image: url({% static 'phira/download_card_bg.png' %});">
-    <div class="card-body">
-      <h3 class="card-title"><a href="{% url 'pages:phira_download' %}" class="link-light">Phira 谱面文件下载</a></h3>
-    </div>
+  <div class="card link-card card-bg-phira">
+    <a href="{% url 'pages:phira_download' %}" class="link-light">
+      <div class="card-body">
+        <h3 class="card-title">Phira 谱面文件下载</h3>
+      </div>
+    </a>
   </div>
+
+</div>
 
 {% endblock %}
 

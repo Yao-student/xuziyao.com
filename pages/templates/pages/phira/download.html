@@ -4,40 +4,71 @@
 
 {% block header %}Phira 谱面文件下载{% endblock %}
 
-{% block breadcrumb %}
+{% block content %}
 
-  <nav id="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
-      <li class="breadcrumb-item active">Phira 谱面文件下载</li>
-    </ol>
-  </nav>
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'pages:phira' %}">Phira 工具</a></li>
+    <li class="breadcrumb-item active">Phira 谱面文件下载</li>
+  </ol>
+</nav>
 
-  <hr />
+<hr />
+
+<p>谱面页面链接最后的那串数字即为谱面 ID，比如这张 <a href="https://phira.moe/chart/10176">Super Nova Project</a> 的谱面 ID 就是 10176。</p>
+
+<p class="color-red">若你使用此工具出现报错，可前往 <code class="code-inline">api.phira.cn/chart/谱面ID</code>，在页面内容里找到 <code class="code-inline">"file":"谱面文件链接"</code> 这串文字，复制并前往该链接即可下载到谱面。下载下来的文件后缀名直接改成 pez 或者 zip 即可。</p>
+
+<form id="form" class="form">
+  {% csrf_token %}
+  <p>
+    <label for="chart-id" class="form-label">谱面 ID:</label>
+    <input type="text" id="chart-id" class="form-control" required>
+  </p>
+  <button type="submit" class="btn btn-primary">下载</button>
+</form>
 
 {% endblock %}
 
-{% block content %}
+{% block script %}
 
-  <p>谱面页面链接最后的那串数字即为谱面 ID，比如这张 <a href="https://phira.moe/chart/10176">Super Nova Project</a> 的谱面 ID 就是 10176。</p>
+<script>
 
-  <p style="color: red;">若你使用此工具出现报错，可前往 <span><code class="code-inline">api.phira.cn/chart/谱面ID</code></span>，在页面内容里找到 <span><code class="code-inline">"file":"谱面文件链接"</code></span> 这串文字，复制并前往该链接即可下载到谱面。下载下来的文件后缀名直接改成 pez 或者 zip 即可。</p>
+    const form = document.forms['form'];
+    form.onsubmit = async e => {
+        e.preventDefault();
+        const chartId = form['chart-id'].value;
+        var response = await fetch(`https://api.phira.cn/chart/${chartId}`);
+        if (response.ok) {
+            var data = await response.json();
+            if ('error' in data) {
+                alert('谱面不存在');
+                return;
+            }
+            response = await fetch('{% url "pages:phira_download" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': form['csrfmiddlewaretoken'].value
+                },
+                body: JSON.stringify({
+                    'csrfmiddlewaretoken': form['csrfmiddlewaretoken'].value,
+                    'file-url': data['file'],
+                })
+            });
+            const blob = await response.blob();
+            const chartLink = document.createElement('a');
+            chartLink.href = URL.createObjectURL(blob);
+            chartLink.download = `${data['name']} [${data['level']}].pez`;
+            chartLink.click();
+            URL.revokeObjectURL(chartLink.href);
+        } else {
+            alert('谱面 ID 不合法');
+        }
+    };
 
-  <form action="" method="post" target="_self" class="form">
-    {% csrf_token %}
-    <p>
-      <label for="chart-id" class="form-label">谱面 ID:</label>
-      <input type="text" name="chart-id" class="form-control" id="chart-id" required>
-    </p>
-    <button type="submit" class="btn btn-primary">下载</button>
-  </form>
-
-  {% if errors %}
-    {% for error in errors %}
-      <p style="color: red;">{{ error }}</p>
-    {% endfor %}
-  {% endif %}
+</script>
 
 {% endblock %}
 

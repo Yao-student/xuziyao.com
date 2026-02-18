@@ -1,0 +1,86 @@
+.link-card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    max-width: 40rem;
+    margin: auto;
+}
+
+.link-card {
+    padding: 1rem;
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px #0003;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s;
+}
+
+.link-card a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 0 50px #000;
+}
+
+@media (hover: hover) {
+    .link-card:hover {
+        transform: scale(1.1);
+    }
+}
+
+.card-bg-phigros {
+    background-image: url('/static/fanmade_charts/phigros_card_bg.png');
+}
+
+.card-bg-phira {
+    background-image: url('/static/phira/card_bg.png');
+}
+
+.card-bg-phizone {
+    background-image: url('/static/phizone/card_bg.png');
+}
+
+.card-bg-notanote {
+    background-image: url('/static/notanote/card_bg.png');
+}
+
+@keyframes loading-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loading-tip {
+    text-align: center;
+    font-size: xx-large;
+    position: relative;
+}
+
+#loading-tip::after {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: .2rem solid black;
+    border-top-color: transparent;
+    animation: loading-spin 2s linear infinite;
+}
+
+.chart-card {
+    margin: .6rem;
+    width: 19rem;
+    box-shadow: 0 0 15px #0003;
+}
+
+.chart-card div:has(.card-img-top) {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+}
+
+.chart-card p {
+    margin: 0;
+}

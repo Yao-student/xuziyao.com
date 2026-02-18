@@ -4,47 +4,65 @@
 
 {% block header %}随机数生成{% endblock %}
 
-{% block breadcrumb %}
+{% block content %}
 
-  <nav id="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
-      <li class="breadcrumb-item active">随机数生成</li>
-    </ol>
-  </nav>
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+    <li class="breadcrumb-item active">随机数生成</li>
+  </ol>
+</nav>
 
-  <hr />
+<hr />
+
+<form id="form" class="form">
+  {% csrf_token %}
+  <p>
+    <label for="min" class="form-label">最小值:</label>
+    <input type="number" name="min" class="form-control" id="min" value="0" step="any" required>
+  </p>
+  <p>
+    <label for="max" class="form-label">最大值:</label>
+    <input type="number" name="max" class="form-control" id="max" value="10" step="any" required>
+  </p>
+  <p>
+    <label for="decimal_places" class="form-label">小数位数:</label>
+    <input type="number" name="decimal-places" class="form-control" id="decimal-places" value="1" min="0" required>
+  </p>
+  <button type="submit" class="btn btn-primary">生成</button>
+</form>
 
 {% endblock %}
 
-{% block content %}
+{% block script %}
 
-  <form action="{% url 'pages:randomnum' %}" method="post" class="form" target="_self">
-    {% csrf_token %}
-    <p>
-      <label for="min" class="form-label">最小值:</label>
-      <input type="number" name="min" class="form-control" id="min" value="0" step="any" required>
-    </p>
-    <p>
-      <label for="max" class="form-label">最大值:</label>
-      <input type="number" name="max" class="form-control" id="max" value="10" step="any" required>
-    </p>
-    <p>
-      <label for="decimal_places" class="form-label">小数位数:</label>
-      <input type="number" name="decimal-places" class="form-control" id="decimal-places" value="1" min="0" required>
-    </p>
-    <button type="submit" class="btn btn-primary">生成</button>
-  </form>
+<script>
 
-  {% if result %}
-    <p>结果：{{ result }}</p>
-  {% endif %}
+    const form = document.forms['form'];
 
-  {% if errors %}
-    {% for error in errors %}
-      <p style="color: red;">{{ error }}</p>
-    {% endfor %}
-  {% endif %}
+    form.onsubmit = e => {
+        e.preventDefault();
+
+        const min = +form['min'].value;
+        const max = +form['max'].value;
+        const decimalPlaces = +form['decimal-places'].value;
+
+        if (min >= max) {
+            alert('最小值必须小于最大值');
+            return;
+        }
+
+        const randomNum = Math.random() * (max - min) + min;
+        const roundedNum = Number(randomNum.toFixed(decimalPlaces));
+
+        document.getElementById('result')?.remove();
+        const result = document.createElement('p');
+        result.id = 'result';
+        result.textContent = `结果: ${roundedNum}`;
+        form.after(result);
+    }
+
+</script>
 
 {% endblock %}
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from .models import *
 from django.conf import settings
 
@@ -10,17 +10,14 @@ import base64
 from matplotlib import pyplot as plt
 plt.switch_backend('agg')
 from datetime import datetime
-import os
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import unpad
 import json
-import hashlib
-import math
 import random
 
 # Index
 def index(request):
-    return render(request, 'pages/index.html')
+    latest_posts = Post.objects.all().order_by('-date')[:5]
+    context = {'latest_posts': latest_posts}
+    return render(request, 'pages/index.html', context)
 
 # Changelog
 def changelog(request):
@@ -134,20 +131,14 @@ def phira_ranking(request):
 
 # Phira Chart File Download
 def phira_download(request):
-    errors = []
     if request.method == 'POST':
-        chart_id = request.POST.get('chart-id')
-        req = requests.get(f'https://api.phira.cn/chart/{chart_id}')
-        if (req.status_code != 400) and ('errors' not in req.json()):
-            file = requests.get(req.json()['file']).content
-            response = HttpResponse(content_type='application/octet-stream')
-            response['Content-Disposition'] = f'attachment; filename="{chart_id}.zip"'
-            response.write(file)
-            return response
-        else:
-            errors.append('谱面不存在')
-    context = {'errors': errors}
-    return render(request, 'pages/phira/download.html', context)
+        data = json.loads(request.body)
+        file_url = data['file-url']
+        file = requests.get(file_url).content
+        response = HttpResponse(content_type='application/octet-stream')
+        response.write(file)
+        return response
+    return render(request, 'pages/phira/download.html')
 
 # PhiZone Tools
 def phizone(request):
@@ -242,116 +233,7 @@ def phizone_ranking(request):
 
 # Phizone Chart Vote Info
 def phizone_vote(request):
-    # Phizone vote class
-    class Vote:
-        def __init__(self, owner, owner_id, multiplier, arrangement, gameplay, visual_effects, creativity, concord, impression):
-            self.owner = owner
-            self.owner_id = owner_id
-            self.multiplier = multiplier
-            self.arrangement = arrangement
-            self.gameplay = gameplay
-            self.visual_effects = visual_effects
-            self.creativity = creativity
-            self.concord = concord
-            self.impression = impression
-            self.total = round(multiplier * arrangement + gameplay + visual_effects + creativity + concord + impression, 3)
-
-    chart_info = None
-    votes = None
-    total = None
-    errors = []
-    if request.method == 'POST':
-        chart_id = request.POST.get('chart-id')
-        # Get chart info
-        req = requests.get(f'https://api.phizone.cn/charts/{chart_id}')
-        if req.status_code != 404 and req.json()['code'] != 'ResourceNotFound':
-            data = req.json()['data']
-            chart_info = (
-                f'曲名：{data['song']['title']}',
-                f'谱师：{re.sub(r'\[PZUser:(\d+):([^\s]+?):PZRT]', r'<a href="https://www.phizone.cn/users/\1">\2</a>', data['authorName'])}',
-                f'难度：{data['level']} {data['difficulty']}',
-                f'评分：{data['rating']:.3f}'
-            )
-            total = Vote(
-                '总计', '', 1,
-                round(data['ratingOnArrangement'], 3),
-                round(data['ratingOnGameplay'], 3),
-                round(data['ratingOnVisualEffects'], 3),
-                round(data['ratingOnCreativity'], 3),
-                round(data['ratingOnConcord'], 3),
-                round(data['ratingOnImpression'], 3)
-            )
-            # Get chart vote info
-            req = requests.get(f'https://api.phizone.cn/charts/{chart_id}/votes')
-            data = req.json()['data']
-            votes = []
-            for vote in data:
-                req = requests.get(f'https://api.phizone.cn/users/{vote['ownerId']}')
-                owner = req.json()['data']['userName']
-                votes.append(Vote(owner, vote['ownerId'], vote['multiplier'], vote['arrangement'], vote['gameplay'], vote['visualEffects'], vote['creativity'], vote['concord'], vote['impression']))
-        else:
-            errors.append('谱面不存在')
-    context = {'chart_info': chart_info, 'votes': votes, 'total': total, 'errors': errors}
-    return render(request, 'pages/phizone/vote.html', context)
-
-# PhiZone B27 Info
-def phizone_best(request):
-    # Record class
-    class Record():
-        def __init__(self, index, song, level_type, level, diff, chart_id, score, acc, perfect, early, late, bad, miss, rks):
-            self.index = index
-            self.song = song
-            self.level_type = level_type
-            self.level = level
-            self.diff = diff
-            self.chart_id = chart_id
-            self.score = score
-            self.acc = acc
-            self.perfect = perfect
-            self.good = early + late
-            self.early = early
-            self.late = late
-            self.bad = bad
-            self.miss = miss
-            self.rks = rks
-            self.level_id = {0: 'ez', 1: 'hd', 2: 'in', 3: 'at', 4: 'sp'}[level_type]
-
-    # Get record info
-    def get_record_info(index, record):
-        song = record['chart']['song']['title']
-        level_type = record['chart']['levelType']
-        level = record['chart']['level']
-        diff = record['chart']['difficulty']
-        chart_id = record['chart']['id']
-        score = record['score']
-        acc = round(record['accuracy'] * 100, 3)
-        perfect = record['perfect']
-        early = record['goodEarly']
-        late = record['goodLate']
-        bad = record['bad']
-        miss = record['miss']
-        rks = round(record['rks'], 3)
-        return Record(index, song, level_type, level, diff, chart_id, score, acc, perfect, early, late, bad, miss, rks)
-
-    rks = None
-    phi3 = []
-    b27 = []
-    errors = []
-    if request.method == 'POST':
-        # Get the B27
-        user_id = request.POST.get('user-id')
-        rks = round(requests.get(f'https://api.phizone.cn/users/{user_id}').json()['data']['rks'], 3)
-        req = requests.get(f'https://api.phizone.cn/users/{user_id}/personalBests')
-        if req.status_code != 404 and req.json()['code'] != 'UserNotFound':
-            data = req.json()['data']
-            if data['phi3']:
-                phi3 = [get_record_info(i + 1, record) for i, record in enumerate(data['phi3'])]
-            if data['best27']:
-                b27 = [get_record_info(i + 1, record) for i, record in enumerate(data['best27'])]
-        else:
-            errors.append('用户不存在')
-    context = {'rks': rks, 'phi3': phi3, 'b27': b27, 'errors': errors}
-    return render(request, 'pages/phizone/best.html', context)
+    return render(request, 'pages/phizone/vote.html')
 
 # Notanote Tools
 def notanote(request):
@@ -359,95 +241,10 @@ def notanote(request):
 
 # Notanote B31 calculator
 def notanote_best(request):
-    # Record class
-    class Record():
-        def __init__(self, index, song, level, diff, score, perfect, good, bad, miss, acc, rank):
-            self.index = index
-            self.song = song
-            self.level = level
-            self.diff = diff
-            self.score = score
-            self.perfect = perfect
-            self.good = good
-            self.bad = bad
-            self.miss = miss
-            self.acc = acc
-            self.rank = rank
-            if self.level == 'EZ+':
-                self.level_id = 'ez-plus'
-            elif self.level == 'SY+':
-                self.level_id = 'sy-plus'
-            else:
-                self.level_id = self.level.lower()
-
-    nrk = None
-    b31 = []
-    overflow = []
-    errors = []
     if request.method == 'POST':
-        # Read the save file
-        file = request.FILES['score-file']
-        with open(os.path.join(settings.MEDIA_ROOT, 'notanote', 'best', file.name), 'wb') as destination:
-            for chunk in file.chunks():
-                destination.write(chunk)
-        # Decrypt the save file
-        try:
-            with open(os.path.join(settings.MEDIA_ROOT, 'notanote', 'best', file.name), 'r') as file:
-                ciphertext = base64.b64decode(file.read())
-            key = '1JZEIU9@Fq#bUXoZ'.encode('utf-8')
-            iv = 'Wi#PiITR4p*&e&ns'.encode('utf-8')
-            cipher = AES.new(key, AES.MODE_CBC, iv=iv)
-            plaintext = unpad(cipher.decrypt(ciphertext), 16)
-            scores = json.loads(plaintext)
-        except:
-            errors.append('存档文件解密失败')
-
-        records = {}
-        if not errors:
-            try:
-                with open(os.path.join(settings.STATIC_ROOT, 'notanote/song_id.json'), encoding='utf-8') as file:
-                    id_dict = json.loads(file.read())
-                # Traverse the data
-                i = 0
-                for chart, result in scores.items():
-                    song_id, level = chart.split('_', maxsplit=1)
-                    good_offset_list = result['GoodOffsetList']
-                    perfect = result['PerfectNum']
-                    good = result['GoodNum']
-                    bad = result['BadNum']
-                    miss = result['MissNum']
-                    note_num = perfect + good + bad + miss
-                    acc = (perfect + sum([0.4 + (120 - abs(offset)) / 100 for offset in good_offset_list])) / note_num
-                    diff = result['Rate']
-                    rank = (math.e ** (acc - 0.5) - 1) / (math.e ** 0.5 - 1) * (diff + 5)
-                    if (song_id not in records) or (rank > records[song_id].rank) and (acc >= 0.5):
-                        if level == 'EX-NT':
-                            level = 'NT'
-                        elif level[:2] == 'EX':
-                            level = 'TL'
-                        elif level == 'EZ_Plus':
-                            level = 'EZ+'
-                        elif level == 'SY_Plus':
-                            level = 'SY+'
-                        song = id_dict[song_id]
-                        score = result['HighestScore']
-                        records[song_id] = Record(0, song, level, diff, score, perfect, good, bad, miss, acc * 100, rank)
-                # Sort the records
-                records = list(records.values())
-                records.sort(key=lambda record: record.rank, reverse=True)
-                for record in records:
-                    record.index = records.index(record) + 1
-                b31 = records[:31]
-                overflow = records[31:int(request.POST.get('overflow'))]
-                # Calculate the Nrk
-                rank_times_weight_sum = 0
-                for i, record in enumerate(b31):
-                    rank_times_weight_sum = rank_times_weight_sum + record.rank * (1 - 0.02 * i)
-                nrk = round(rank_times_weight_sum / 22, 3)
-            except:
-                errors.append('查分时出现错误')
-    context = {'nrk': nrk, 'b31': b31, 'overflow': overflow, 'errors': errors}
-    return render(request, 'pages/notanote/best.html', context)
+        return JsonResponse({'secretKey': 'secret', 'iv': 'secret'})
+    else:
+        return render(request, 'pages/notanote/best.html')
 
 # Notanote B26 Calculator instruction
 def notanote_best_instruction(request):
@@ -455,17 +252,7 @@ def notanote_best_instruction(request):
 
 # Notanote Rank Calculator
 def notanote_rank(request):
-    rank = []
-    errors = []
-    if request.method == 'POST':
-        diff = float(request.POST.get('diff'))
-        acc = float(request.POST.get('acc'))
-        if 0 <= acc <= 100:
-            rank = round((math.e ** (acc - 0.5) - 1) / (math.e ** 0.5 - 1) * (diff + 5), 3)
-        else:
-            errors.append('准确率不在0~100之间')
-    context = {'rank': rank, 'errors': errors}
-    return render(request, 'pages/notanote/rank.html', context)
+    return render(request, 'pages/notanote/rank.html')
 
 # Notanote PC Download
 def notanote_pcdownload(request):
@@ -475,35 +262,9 @@ def notanote_pcdownload(request):
 def notanote_wikitest(request):
     return render(request, 'pages/notanote/wikitest.html')
 
-# Programming
-def programming_index(request):
-    articles = Programming.objects.all().order_by('-date')
-    context = {'articles': articles}
-    return render(request, 'pages/programming/index.html', context)
-
-# Programming single article
-def programming(request, id):
-    article = Programming.objects.get(id=id)
-    id = article.id
-    title = article.title
-    date = article.date
-    context = {id: 'id', 'title': title, 'date': date}
-    return render(request, f'pages/programming/{id}.html', context)
-
 # Random Number Generator
 def randomnum(request):
-    result = None
-    errors = []
-    if request.method == 'POST':
-        min = float(request.POST.get('min'))
-        max = float(request.POST.get('max'))
-        decimal_places = int(request.POST.get('decimal_places'))
-        if min < max:
-            result = round(random.uniform(min, max), decimal_places)
-        else:
-            errors.append('最小值必须小于最大值')
-    context = {'errors': errors, 'result': result}
-    return render(request, 'pages/randomnum.html', context)
+    return render(request, 'pages/randomnum.html')
 
 # Posts
 def posts_index(request):
@@ -517,7 +278,8 @@ def posts(request, id):
     id = post.id
     title = post.title
     date = post.date
-    context = {id: 'id', 'title': title, 'date': date}
+    tags = post.tags.split(',') if post.tags else []
+    context = {'id': id, 'title': title, 'date': date, 'tags': tags}
     return render(request, f'pages/posts/{id}.html', context)
 
 # 400

@@ -2,61 +2,64 @@
 
 {% block title %}Phigros 自制谱{% endblock %}
 
+{% block res %}<link rel="stylesheet" href="{% static 'css/sections.css' %}" />{% endblock %}
+
 {% block header %}Phigros 自制谱{% endblock %}
 
-{% block breadcrumb %}
-
-  <nav id="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'pages:fanmade_charts' %}">自制谱</a></li>
-      <li class="breadcrumb-item active">Phigros 自制谱</li>
-  </nav>
-
-  <hr />
-
-{% endblock %}
-
 {% block content %}
-  {% for chart in charts %}
-    <div class="card chart-link">
-      <div style="aspect-ratio: 3 / 2;overflow: hidden;">
-        {% with forloop.counter|stringformat:'s' as id %}
-          <img class="card-img-top" src="{% static 'fanmade_charts/phigros/illustration/'|add:id|add:'.png' %}" alt="{{ chart.title }} 曲绘" />
-        {% endwith %}
-      </div>
-      <div class="card-body">
-        {% with forloop.counter|stringformat:'s' as id %}
-          <h3 class="card-title"><a class="link-dark" href="{% static 'fanmade_charts/phigros/chart/'|add:id|add:'.pez' %}">{{ chart.title }}</a></h3>
-        {% endwith %}
-        <p class="card-text" style="margin: 0"><b>{{ chart.difficulty }}</b></p>
-        <p class="card-text" style="margin: 0"><b>日期</b>：{{ chart.date }}</p>
-        <p class="card-text" style="margin: 0"><b>曲师</b>：{{ chart.composer }}</p>
-        <p class="card-text" style="margin: 0"><b>曲绘画师</b>：{{ chart.illustrator }}</p>
-        <p class="card-text" style="margin: 0"><b>谱师</b>：{{ chart.charter }}</p>
-        <p class="card-text" style="margin: 0"><b>BPM</b>：{{ chart.bpm }}</p>
-        <p class="card-text" style="margin: 0"><b>偏移</b>：{{ chart.offset }}</p>
-        <p class="card-text" style="margin: 0"><b>物量</b>：{{ chart.notenum }}</p>
-        <p class="card-text" style="margin: 0"><b>链接</b>：
-          <a href="https://www.bilibili.com/video/BV{{ chart.bilibili_bv }}/" style="text-decoration: none;">
-            <img src="{% static 'bilibili.ico' %}" style="margin: 0;" alt="哔哩哔哩" />
-          </a>
-          {% if chart.phira_id %}
-             | 
-            <a href="https://phira.moe/chart/{{ chart.phira_id }}" style="text-decoration: none;">
-              <img src="{% static 'phira.ico' %}" style="margin: 0;" alt="Phira" />
-            </a>
-          {% endif %}
-          {% if chart.phizone_id %}
-             | 
-            <a href="https://www.phizone.cn/charts/{{ chart.phizone_id }}" style="text-decoration: none;">
-              <img src="{% static 'phizone.ico' %}" style="margin: 0;" alt="PhiZone" />
-            </a>
-          {% endif %}
-        </p>
-      </div>
+
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'pages:index' %}">首页</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'pages:fanmade_charts' %}">自制谱</a></li>
+    <li class="breadcrumb-item active">Phigros 自制谱</li>
+  </ol>
+</nav>
+
+<hr />
+
+<div class="d-flex flex-wrap justify-content-around">
+{% for chart in charts %}
+  <div class="card chart-card">
+    <div>
+    {% with forloop.counter|stringformat:'s' as id %}
+      <img class="card-img-top" src="{% static 'fanmade_charts/phigros/illustration/'|add:id|add:'.png' %}" alt="{{ chart.title }} 曲绘" />
+    {% endwith %}
     </div>
-  {% endfor %}
+    <div class="card-body">
+    {% with forloop.counter|stringformat:'s' as id %}
+      <h3 class="card-title"><a class="link-dark" href="{% static 'fanmade_charts/phigros/chart/'|add:id|add:'.pez' %}">{{ chart.title }}</a></h3>
+    {% endwith %}
+      <p class="card-text"><b>{{ chart.difficulty }}</b></p>
+      <p class="card-text"><b>日期</b>：{{ chart.date }}</p>
+      <p class="card-text"><b>曲师</b>：{{ chart.composer }}</p>
+      <p class="card-text"><b>曲绘画师</b>：{{ chart.illustrator }}</p>
+      <p class="card-text"><b>谱师</b>：{{ chart.charter }}</p>
+      <p class="card-text"><b>BPM</b>：{{ chart.bpm }}</p>
+      <p class="card-text"><b>偏移</b>：{{ chart.offset }}</p>
+      <p class="card-text"><b>物量</b>：{{ chart.notenum }}</p>
+      <p class="card-text"><b>链接</b>：
+        <a href="https://www.bilibili.com/video/BV{{ chart.bilibili_bv }}/" class="text-decoration-none">
+          <img src="{% static 'bilibili.ico' %}" class="margin-0;" alt="哔哩哔哩" />
+        </a>
+      {% if chart.phira_id %}
+         | 
+        <a href="https://phira.moe/chart/{{ chart.phira_id }}" class="text-decoration-none">
+          <img src="{% static 'phira.ico' %}" class="margin-0;" alt="Phira" />
+        </a>
+      {% endif %}
+      {% if chart.phizone_id != "0" %}
+         | 
+        <a href="https://www.phizone.cn/charts/{{ chart.phizone_id }}" class="text-decoration-none;">
+          <img src="{% static 'phizone.ico' %}" class="margin-0;" alt="PhiZone" />
+        </a>
+      {% endif %}
+      </p>
+    </div>
+  </div>
+{% endfor %}
+</div>
+
 {% endblock %}
 
 {% block page_pv %}<span id="vercount_value_page_pv"></span>{% endblock %}
