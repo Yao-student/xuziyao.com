@@ -289,12 +289,20 @@ footer {
 
 /* Style */
 
+.width-50-pct {
+    width: 50%;
+}
+
 .margin-0 {
     margin: 0;
 }
 
 .margin-3 {
     margin: 3rem;
+}
+
+.margin-bottom-1-5 {
+    margin-bottom: 1.5rem;
 }
 
 .padding-2 {

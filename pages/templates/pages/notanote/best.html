@@ -82,11 +82,13 @@
     <option value="note-twin-axolotls">诺特 - 蝾螈双子</option>
     <option value="nota-radiant-negative">诺塔 - 绚烂底片</option>
     <option value="lan">幽澜</option>
+    <option value="lan-new-year">幽澜 - 新春</option>
     <option value="kino">奇诺</option>
     <option value="luvia">露薇娅</option>
     <option value="threefold-triratna">三相 - 净饭</option>
     <option value="threefold-taiqing">三相 - 三宝</option>
     <option value="threefold-transia">三相 - 皮月羞</option>
+    <option value="candellia-xia">夏烛焰</option>
     </select>
   </p>
   <button type="submit" class="btn btn-primary">查分</button>
@@ -114,7 +116,7 @@
     form['score-file'].onchange = () => {
         const reader = new FileReader();
         reader.readAsText(form['score-file'].files[0]);
-        reader.onload = () =>  { ciphertext = reader.result; }
+        reader.onload = () => { ciphertext = reader.result; }
     };
 
     // Store the user info settings
@@ -158,7 +160,17 @@
             document.getElementById('loading-tip').textContent = `生成图片中… (${loadProgress}/${fullProgress})`;
             if (loadProgress == fullProgress) {
                 document.getElementById('loading-tip').remove();
-                form.after(canvas);
+                canvas.toBlob((blob) => {
+                    const img = document.createElement("img");
+                    img.id = 'best-image';
+                    img.style.width = 'min(100%, 600px)';
+                    const url = URL.createObjectURL(blob);
+                    img.onload = () => {
+                        URL.revokeObjectURL(url);
+                    };
+                    img.src = url;
+                    form.after(img);
+                });
             }
         }
 
@@ -320,7 +332,7 @@
 
                 // Read and calculate the record info
                 const info = scoreData[chartId];
-                let [songId, level] = chartId.split('_', 2);
+                let [songId, level] = [chartId.split('_')[0], chartId.split('_').slice(1).join('_')];
                 const song = songIdDict[songId]; 
                 const diff = info['Rate'];
                 const score = info['HighestScore'];
@@ -382,12 +394,12 @@
             }
             var nrk = (rankTimesWeightSum / 22).toFixed(3);
         } catch (error) {
-            alert('存档文件解析失败');
+            alert('存档文件解析失败：' + error.message);
             return;
         }
 
         // Show the loading tip
-        document.getElementById('canvas')?.remove();
+        document.getElementById('best-image')?.remove();
         const loadingTip = document.createElement('p');
         loadingTip.id = 'loading-tip';
         loadingTip.textContent = '生成图片中…';
@@ -398,8 +410,7 @@
             canvas = document.createElement('canvas');
             canvas.id = 'canvas';
             canvas.width = 1320;
-            canvas.height = 1960 + (Math.floor((overflow.at(-1).index - 32) / 3) + 1) * 130;
-            canvas.style.width = 'min(100%, 600px)';
+            canvas.height = overflow.length ? 1960 + (Math.floor((overflow.at(-1).index - 32) / 3) + 1) * 130 : 1960;
             ctx = canvas.getContext('2d');
 
             loadProgress = 0;
@@ -514,8 +525,8 @@
                     showCanvas(loadProgress);
                 }
             });
-        } catch {
-            alert('生成图片时发生错误');
+        } catch (error) {
+            alert('生成图片时发生错误：' + error.message);
             document.getElementById('loading-tip')?.remove();
         }
     };

@@ -1,3 +1,7 @@
+article h1 {
+    text-align: center;
+}
+
 article img {
     margin-bottom: 1rem;
     max-width: 100%;
@@ -78,6 +82,8 @@ article img {
 .code-inline {
     padding: .2rem;
     border-radius: .3rem;
+    background: lightgray;
+    color: #444;
 }
 
 .item {
