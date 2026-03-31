@@ -360,7 +360,7 @@
                 }
 
                 // Find the records matched the condition
-                if ((acc >= 0.5) && !(songId in records) || (rank > records[songId].rank)) {
+                if ((acc >= 0.5) && (!(songId in records) || (rank > records[songId].rank))) {
 
                     // Calculate the score rank
                     if (acc == 1) { scoreRank = 'X'; }
@@ -400,6 +400,7 @@
 
         // Show the loading tip
         document.getElementById('best-image')?.remove();
+        document.getElementById('loading-tip')?.remove();
         const loadingTip = document.createElement('p');
         loadingTip.id = 'loading-tip';
         loadingTip.textContent = '生成图片中…';

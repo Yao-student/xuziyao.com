@@ -7,6 +7,10 @@ Confidential content has already been hidden. The files are added into [.gitigno
 
 ## Changelog
 
+## v3.1.1 (2026.03.14)
+
+- Fixed known problems
+
 ## v3.1.0 (2026.03.01)
 
 - Deployed SSL certificate
