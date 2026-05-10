@@ -2,153 +2,250 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="utf-8">
-    <title>Wiki | Notanote 文档</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://static.notanote.cn/images/GameIcon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
-    <link rel="stylesheet" href="https://static.notanote.cn/css/atom-ui/atom-ui-docs-v1.0.css">
-    <link rel="stylesheet" href="https://static.notanote.cn/css/atom-ui/atom-ui-markdown-explore.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        const Page = "Main";
-    </script>
+    <meta charset="utf-8" />
+    <title>Wiki - Notanote</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="//static.notanote.cn/images/GameIcon.png" />
+    <link rel="stylesheet" href="//static.notanote.cn/css/atom-ui/atom-ui-markdown-explore.css" />
+    <link rel="stylesheet" href="//static.notanote.cn/css/litepress.css" />
+    <script src="//static.notanote.cn/js/marked.js"></script>
 </head>
 
-<body class="Atom-Markdown markdown-body Docs">
-    <div class="Header">
-        <img src="https://static.notanote.cn/images/GameIcon.png" class="TitlePng">
-        <div class="Title">
-            <a>Notanote 文档</a><span style="color: red;">（此为Wiki测试页面，正式页面请移步<a href="https://docs.notanote.cn/wiki?p=main">此处</a>）</span>
+<style>
+    .Header {
+        height: 70px;
+    }
+
+    .Layout {
+        padding-top: 40px !important;
+    }
+
+    .Sidebar {
+        top: 70px;
+    }
+
+    .SidebarBackdrop {
+        top: 70px;
+    }
+
+    .vidimgicon {
+        border-radius: 0px !important;
+        display: inline-block !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+    }
+</style>
+
+<body>
+    <header class="Header">
+        <a href="/">
+            <img class="TitlePNG" src="//static.notanote.cn/images/Notanote.png" alt="Notanote" />
+        </a>
+        <button type="button" class="SidebarMenuButton" aria-label="打开目录" aria-controls="sidebar-container"
+            aria-expanded="false"><span class="SidebarMenuIcon" aria-hidden="true"><span></span></span></button>
+        <p class="BigTitle">Wiki</p>
+        <div class="Right-Links" id="HeaderLinks"></div>
+    </header>
+
+    <div class="Layout">
+        <aside class="Sidebar" id="sidebar-container"></aside>
+
+        <div class="Content-Wrapper">
+            <section class="ContentIntro markdown-body Atom-Markdown" id="main-content">
+                <div id="markdown-container"></div>
+                <p style="text-align: right;">梦游制作组 团队</p>
+            </section>
+
+            <section class="Footer">
+                <img class="Logo" src="//static.notanote.cn/images/Notanote.png" alt="Logo" /><br />
+                <p style="font-size: 120%; margin: 0;">在故事中感受音乐的律动，在游戏中见证她们的故事！</p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px;">
+                    <div class="Left">
+                        <div>B站官号：<a href="//space.bilibili.com/701972652">点击访问</a></div>
+                        <div>联系我们：<a href="mailto:contact@notanote.cn">contact@notanote.cn</a></div>
+                    </div>
+                    <div class="Right">
+                        <div style="margin-bottom: 8px;"><b>相关链接</b></div>
+                        <a href="/tos" style="margin-right: 12px;">服务条款</a>
+                        <a href="/privacy">隐私政策</a>
+                        <div style="margin-top: 12px; font-size: 12px; color: #888;">
+                            <a href="//beian.miit.gov.cn"
+                                style="color: #888; text-decoration: none;">蜀ICP备2024087198号-1</a><br /><br />
+                            除非另有说明，本网站上的所有内容均为 梦游制作组
+                            的财产，并受中华人民共和国及国际版权法的保护。<br />
+                            版权所有 &copy; 2023-2026 梦游制作组 Notanote，保留所有权利
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
-    <div class="Loader" id="loader"></div>
-    <div class="List" id="List">
-    </div>
-    <a id="ListButton" href="/list?Tag=Main">前往文档列表</a>
-    <section class="Content">
-        <a id="ListButton" href="/list?Tag=Main">前往文档列表</a>
 
-        <div id="markdown-container"></div>
+    <div class="SidebarBackdrop"></div>
 
-        <div class="FootInfo">
-            <p>
-                <tag>文档由 AtomUnite Docs CSS & Markdown CSS 驱动</tag><br><a
-                    href="https://beian.miit.gov.cn">蜀ICP备2024087198号-1</a> |
-                Notanote
-            </p>
-        </div>
-    </section>
-</body>
-<script>
+    <script src="//static.notanote.cn/js/header.js"></script>
+    <script src="//static.notanote.cn/js/sidebar.js"></script>
 
-    async function basefetch(URL) {
-        const response = await fetch(URL);
-        return await response.json();
-    }
+    <script>
+        const ACCELERATE = "https://v6.gh-proxy.org/https://raw.githubusercontent.com/";
+        const REPO = "Notanote-Program/Public-wikiDocs";
+        const BRANCH = "main";
+        const DEFAULT_PAGE = "main";
+        const DEFAULT_LOCALE = "zh-CN";
 
-    function getFolderJsonPath(filePath) {
-        const directory = filePath.substring(0, filePath.lastIndexOf('/'));
-        const folderJsonPath = `/${directory}/Folder.json`;
-        return folderJsonPath;
-    }
+        const params = new URLSearchParams(window.location.search);
 
-    document.onreadystatechange = function () {
-        if (document.readyState == "uninitalized") {
-            document.getElementById("loader").style.width = "10%"
+        function sanitizePageName(input) {
+            const raw = (input || "").trim();
+            const safe = raw.replace(/[^a-zA-Z0-9_\-\/\u4e00-\u9fa5\u3000-\u303f\uff00-\uffef\u0021-\u002f]/g, "");
+            const normalized = safe
+                .replace(/^\/+/, "")
+                .split("/")
+                .filter((seg) => seg && seg !== "." && seg !== "..")
+                .join("/");
+            return normalized || DEFAULT_PAGE;
         }
-        if (document.readyState == "loading") {
-            document.getElementById("loader").style.width = "40%"
+
+        const page = sanitizePageName(params.get("p"));
+        const preLocale = (params.get("l") || "").trim();
+        let locale = DEFAULT_LOCALE;
+
+        function jumpToList() {
+            window.location.href = `/wikiList?p=${encodeURIComponent(page)}&l=${encodeURIComponent(locale)}`;
         }
-        if (document.readyState == "interactive") {
-            document.getElementById("loader").style.width = "60%"
+
+        function jump(newPage) {
+            const safeNewPage = sanitizePageName(newPage);
+            window.location.href = `/wiki?p=${encodeURIComponent(safeNewPage)}&l=${encodeURIComponent(locale)}`;
         }
-        if (document.readyState == "complete") {
-            document.getElementById("loader").style.width = "100%"
-        }
-    }
 
-    const accelerate = "https://gh.llkk.cc/https://";
+        async function fetchText(url, { timeoutMs = 15000 } = {}) {
+            const controller = new AbortController();
+            const t = setTimeout(() => controller.abort(), timeoutMs);
 
-    const params = new URLSearchParams(window.location.search);
-
-    const repo = 'Yao-student/Public-wikiDocs';
-    const filePath = `${params.get('p') || '404'}.md`;
-
-    const localesUrl = `${accelerate}raw.githubusercontent.com/${repo}/main/locales.json`;
-    const pre_locales = params.get("l");
-    let locales = "zh-CN";
-
-    basefetch(localesUrl)
-        .then(data => {
-            if (pre_locales in data["locales"]) {
-                locales = pre_locales;
-            } else {
-                window.location.href = `?p=${params.get('p')}&l=zh-CN`;
+            try {
+                const res = await fetch(url, { signal: controller.signal });
+                if (!res.ok) {
+                    const hint = `${res.status} ${res.statusText}`.trim();
+                    throw new Error(`HTTP ${hint} for ${url}`);
+                }
+                return await res.text();
+            } finally {
+                clearTimeout(t);
             }
-        })
-        .then(data => {
-            const apiUrl = `${accelerate}raw.githubusercontent.com/${repo}/main/${locales}/${filePath}`;
-            const folderJsonPath = getFolderJsonPath(filePath);
-            const folderJsonUrl = `${accelerate}raw.githubusercontent.com/${repo}/main/${locales}${folderJsonPath}`;
+        }
 
-            // List 创建
-            basefetch(folderJsonUrl)
-                .then(data => {
-                    document.title = (data[filePath] ? data[filePath] + ' - ' : null) + 'Notanote 文档';
-                    var container = document.getElementById('List');
-                    container.innerHTML = '';
-                    if (data[Page]) {
-                        data[Page].forEach(function (item) {
-                            if (item.Class === 'ClassText') {
-                                var p = document.createElement('p');
-                                p.className = item.Class;
-                                p.textContent = item.Content;
-                                container.appendChild(p);
-                            } else if (item.Class === 'Object') {
-                                var a = document.createElement('a');
-                                a.className = item.Class;
-                                a.href = item.Href || '#';
-                                a.textContent = item.Content;
+        async function fetchJson(url, opts) {
+            const text = await fetchText(url, opts);
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                throw new Error(`Invalid JSON from ${url}`);
+            }
+        }
 
-                                if (item.SubObject) {
-                                    var tag = document.createElement('tag');
-                                    tag.className = item.Class + '-SubTitle';
-                                    tag.textContent = item.SubObject;
-                                    a.appendChild(tag);
-                                }
+        function getFolderJsonPath(mdFilePath) {
+            const idx = mdFilePath.lastIndexOf("/");
+            if (idx === -1) return "/Folder.json";
+            return `/${mdFilePath.slice(0, idx)}/Folder.json`;
+        }
 
-                                container.appendChild(a);
-                            }
-                        });
-                    } else {
-                        console.error("未找到与Page常量对应的列表");
+        function buildRawUrl(path) {
+            const clean = String(path).replace(/^\/+/, "");
+            return `${ACCELERATE}${REPO}/refs/heads/${BRANCH}/${clean}`;
+        }
+
+        function renderSidebar(folderJson) {
+            const container = document.getElementById("sidebar-container");
+            if (!container) throw new Error("sidebar-container not found");
+            container.innerHTML = "";
+
+            const items = folderJson?.[page] || folderJson?.["Main"];
+            if (!Array.isArray(items)) {
+                console.error("未找到可用的侧边栏列表。page:", page, "Folder.json keys:", Object.keys(folderJson || {}));
+                return;
+            }
+
+            for (const item of items) {
+                if (item?.Class === "ClassText") {
+                    const p = document.createElement("p");
+                    p.className = "Sidebar-Title";
+                    p.textContent = item.Content ?? "";
+                    container.appendChild(p);
+                    continue;
+                }
+
+                if (item?.Class === "Object") {
+                    const a = document.createElement("a");
+                    a.className = "Sidebar-Link";
+                    a.href = item.Href || "#";
+                    a.textContent = item.Content ?? "";
+
+                    if (item.SubObject) {
+                        const tag = document.createElement("span");
+                        tag.className = item.Class + "-SubTitle";
+                        tag.textContent = item.SubObject;
+                        a.appendChild(tag);
                     }
-                })
 
-            fetch(apiUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        if (response.status === 404) {
-                            window.location.href = '/404';
-                            throw new Error('404状态，已跳转');
-                        } else {
-                            throw new Error('网络错误');
-                        }
-                    }
-                    return response.text();
-                })
-                .then(content => {
-                    const htmlContent = marked.parse(content);
-                    document.getElementById('markdown-container').innerHTML = htmlContent;
-                    if (window.location.hash) { window.location.href = window.location.hash; } // 解决条目加载完成前无法跳转到对应锚点的问题
-                    window.history.pushState(null, document.title, window.location.href);
-                })
-                .catch(error => {
-                    window.location.href = '/404';
-                });
+                    container.appendChild(a);
+                }
+            }
+        }
+
+        function renderMarkdownFromText(markdownText) {
+            const container = document.getElementById("markdown-container");
+            if (!container) throw new Error("markdown-container not found");
+
+            if (typeof marked === "undefined") {
+                container.textContent = markdownText;
+                console.error("marked 未加载");
+                return;
+            }
+
+            const html = marked.parse(markdownText);
+
+            container.innerHTML = html;
+
+            if (window.location.hash) { window.location.href = window.location.hash; }
+            window.history.pushState(null, document.title, window.location.href);
+        }
+
+        (async function main() {
+            try {
+                const localesUrl = buildRawUrl("locales.json");
+                const localesJson = await fetchJson(localesUrl);
+
+                if (preLocale && localesJson?.locales && Object.prototype.hasOwnProperty.call(localesJson.locales, preLocale)) {
+                    locale = preLocale;
+                } else {
+                    window.location.href = `/wiki?p=${encodeURIComponent(page)}&l=${encodeURIComponent(DEFAULT_LOCALE)}`;
+                    return;
+                }
+
+                const mdFilePath = `${page}.md`;
+                const folderJsonUrl = buildRawUrl(`${locale}${getFolderJsonPath(mdFilePath)}`);
+                const markdownUrl = buildRawUrl(`${locale}/${mdFilePath}`);
+
+                const [folderJson, markdownText] = await Promise.all([fetchJson(folderJsonUrl), fetchText(markdownUrl)]);
+
+                const mappedTitle = folderJson?.[mdFilePath];
+                document.title = `${mappedTitle || page} | Notanote 文档`;
+
+                renderSidebar(folderJson);
+                renderMarkdownFromText(markdownText);
+            } catch (err) {
+                console.error("页面加载失败：", err);
+                window.location.href = `/wiki?p=404&l=${encodeURIComponent(locale)}`;
+            }
+        })();
+
+        // Sidebar toggle
+        document.querySelector('.SidebarMenuButton').addEventListener('click', () => {
+            document.documentElement.classList.toggle('SidebarOpen');
         });
-
-</script>
+    </script>
+</body>
 
 </html>

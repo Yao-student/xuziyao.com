@@ -75,20 +75,23 @@
   <p>
     <label for="character" class="form-label">角色:</label>
     <select class="form-control" name="character" id="character" required>
-    <option value="nota">诺塔</option>
-    <option value="nota-twin-axolotls">诺塔 - 蝾螈双子</option>
-    <option value="note">诺特</option>
-    <option value="note-futoko">诺特 - 不登校</option>
-    <option value="note-twin-axolotls">诺特 - 蝾螈双子</option>
-    <option value="nota-radiant-negative">诺塔 - 绚烂底片</option>
-    <option value="lan">幽澜</option>
-    <option value="lan-new-year">幽澜 - 新春</option>
-    <option value="kino">奇诺</option>
-    <option value="luvia">露薇娅</option>
-    <option value="threefold-triratna">三相 - 净饭</option>
-    <option value="threefold-taiqing">三相 - 三宝</option>
-    <option value="threefold-transia">三相 - 皮月羞</option>
-    <option value="candellia-xia">夏烛焰</option>
+      <option value="nota">诺塔</option>
+      <option value="nota-twin-axolotls">诺塔 - 蝾螈双子</option>
+      <option value="nota-initial-heart">诺塔 - 初心</option>
+      <option value="note">诺特</option>
+      <option value="note-futoko">诺特 - 不登校</option>
+      <option value="note-twin-axolotls">诺特 - 蝾螈双子</option>
+      <option value="nota-radiant-negative">诺塔 - 绚烂底片</option>
+      <option value="lan">幽澜</option>
+      <option value="lan-new-year">幽澜 - 新春</option>
+      <option value="kino">奇诺</option>
+      <option value="luvia">露薇娅</option>
+      <option value="threefold-triratna">三相 - 净饭</option>
+      <option value="threefold-taiqing">三相 - 三宝</option>
+      <option value="threefold-transia">三相 - 皮月羞</option>
+      <option value="candellia-xia">夏烛焰</option>
+      <option value="izumi">泉</option>
+      <option value="anlevi">安列维</option>
     </select>
   </p>
   <button type="submit" class="btn btn-primary">查分</button>
@@ -100,7 +103,7 @@
 
 <ul>
   <li><a href="https://space.bilibili.com/439775291">qm</a>（Notanote 主策划）</li>
-  <li><a href="https://space.bilibili.com/289100515">羽毛球awa</a>（Notanote 主程序）</li>
+  <li><a href="https://space.bilibili.com/289100515">羽毛球awa</a>（Notanote 前程序组成员）</li>
 </ul>
 
 {% endblock %}
@@ -123,7 +126,7 @@
     document.querySelectorAll('#overflow-amount, #avatar, #username, #character').forEach(formControl => {
         formControl.value = Cookies.get(formControl.id) || formControl.value;
         formControl.onchange = () => {
-            Cookies.set(formControl.id, formControl.value, {expires: 60});
+            Cookies.set(formControl.id, formControl.value, {expires: 180});
         }
     });
 
